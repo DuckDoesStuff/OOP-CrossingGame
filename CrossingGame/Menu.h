@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Common.h"
-//#include "Game.h"
+#include "Game.h"
 #include <fstream>
 #include <string>
 #include <iostream>

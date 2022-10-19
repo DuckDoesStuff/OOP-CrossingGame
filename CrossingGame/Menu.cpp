@@ -2,7 +2,6 @@
 
 
 Menu::Menu() {
-
 }
 
 Menu::~Menu() {
@@ -13,7 +12,7 @@ void Menu::renderMainScreen()
 {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
-	//printTitle();
+	printTitle();
 	renderOptionsBox();
 	renderOptionsText();
 	renderCurOpt();
@@ -21,11 +20,11 @@ void Menu::renderMainScreen()
 
 void Menu::printTitle()
 {
-	std::ifstream in("Titles\\Minesweeper.txt");
+	std::ifstream in("ASCII\\CrossRoad.txt");
 
-	Common().setConsoleColor(BLACK, RED);
+	Common().setConsoleColor(BRIGHT_WHITE, LIGHT_BLUE);
 
-	int left = 10, top = 2;
+	int left = 37, top = 4;
 	int i = 0;
 	while (!in.eof())
 	{
@@ -147,13 +146,12 @@ void Menu::renderCurOpt()
 	}
 
 	switch (slt) {
-	case 0://Play easy
-		//Game().playGame(10);
+	case 0:
+		Game().playGame();
 		break;
-	case 1://Play hard
-		//Game().playGame(15);
+	case 1:
 		break;
-	case 3://Leaderboard
+	case 3:
 		break;
 	case 4:exit(0);
 	}

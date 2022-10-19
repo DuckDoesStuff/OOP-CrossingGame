@@ -5,6 +5,9 @@
 #include <vector>
 #include <conio.h>
 #include <fstream>
+#include <thread>
+
+using namespace std;
 
 #pragma comment(lib, "Winmm.lib")
 
