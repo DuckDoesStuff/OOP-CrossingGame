@@ -19,6 +19,7 @@ public:
 
 	void playGame();
 	void initGameData();
+	void drawBoardGame();
 
 	void setLevel(int);
 	int getLevel();
