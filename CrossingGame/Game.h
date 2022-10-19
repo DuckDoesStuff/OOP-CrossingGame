@@ -1,6 +1,7 @@
 #pragma once
-#include "Truck.h"
+#include "Lane.h"
 #include "Common.h"
+#include "Vehicle.h"
 #include <iostream>
 #include <string>
 
@@ -10,9 +11,9 @@ int const RIGHT = 10;
 class Game {
 private:
 	int _level;
+	vector<Lane> _lane;
 	int _numOfLane;
-	Truck* _trucks;
-	int _numOfTrucks = 2;
+	Truck temp;
 public:
 	Game();
 	~Game();

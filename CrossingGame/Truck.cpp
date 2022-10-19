@@ -2,9 +2,12 @@
 
 Truck::Truck() {
 	loadImage(1);
+	mX = mY = 1;
 }
 
 Truck::Truck(int type, int x, int y) {
+	mX = x;
+	mY = y;
 	loadImage(type);
 }
 

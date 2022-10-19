@@ -5,34 +5,38 @@ Game::Game()
 	srand(time(NULL));
 	Common::clearConsole();
 	_level = 1;
-	_numOfLane = 5;
-	_trucks = new Truck[_numOfTrucks];
+	_numOfLane = 2;
+	initGameData();
 }
 
 Game::~Game()
 {
-	delete _trucks;
 }
 
 void Game::playGame()
 {
-	//_trucks[0].drawToScreen();
-
-	//while (true) {
-	//	_trucks[0].move();
-	//	Sleep(500);
-	//}
 	drawBoardGame();
+	for (int i = 0; i < _lane.size(); i++)
+		_lane[i].printLane();
+
+	while (true) {
+		for (int i = 0; i < _lane.size(); i++)
+			for (int j = 0; j < _lane[i].getNumOfTrucks(); j++)
+				_lane[i].moveLane();
+	}
 }
 
 void Game::initGameData()
 {
+	for (int i = 0; i < _numOfLane; i++) {
+		_lane.push_back(Lane(3, i));
+	}
 }
 
 void Game::drawBoardGame()
 {
 	int left = 0, top = 0;
-	int boxW = 40, boxH = 2;
+	int boxW = 80, boxH = 5;
 
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 
