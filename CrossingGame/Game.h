@@ -11,12 +11,14 @@ class Game {
 private:
 	int _level;
 	int _numOfLane;
-	Truck* tr;
+	Truck* _trucks;
+	int _numOfTrucks = 2;
 public:
 	Game();
 	~Game();
 
 	void playGame();
+	void initGameData();
 
 	void setLevel(int);
 	int getLevel();

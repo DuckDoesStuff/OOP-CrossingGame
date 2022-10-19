@@ -2,20 +2,24 @@
 
 Game::Game()
 {
+	srand(time(NULL));
 	Common::clearConsole();
 	_level = 1;
 	_numOfLane = 1;
-	tr = new Truck();
+	_trucks = new Truck[_numOfTrucks];
 }
 
 Game::~Game()
 {
-	delete tr;
+	delete _trucks;
 }
 
 void Game::playGame()
 {
-	tr->drawToScreen();
+}
+
+void Game::initGameData()
+{
 }
 
 void Game::setLevel(int level)
