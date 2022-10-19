@@ -1,7 +1,7 @@
 ﻿#include "Truck.h"
 
 Truck::Truck() {
-
+	loadImage(1);
 }
 
 Truck::Truck(int type, int x, int y) {

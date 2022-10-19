@@ -16,6 +16,12 @@ Game::~Game()
 
 void Game::playGame()
 {
+	_trucks[0].drawToScreen();
+
+	while (true) {
+		_trucks[0].move();
+		Sleep(500);
+	}
 }
 
 void Game::initGameData()
