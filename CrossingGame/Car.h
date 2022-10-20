@@ -1,10 +1,11 @@
-﻿#include "Vehicle.h"
 #pragma once
+#include "Vehicle.h"
 
-class Truck:public Vehicle {
+class Car:public Vehicle {
 public:
-	Truck();
-	Truck(int, int, int);
+	Car();
+	Car(int, int, int);
+
 	void drawToScreen();
 	void eraseFromScreen();
 	void move();

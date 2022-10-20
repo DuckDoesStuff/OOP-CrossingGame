@@ -8,7 +8,7 @@ Lane::Lane(int num, int lane)
 
 	setNumOfTrucks(num);
 	for (int i = 0; i < _numOfTrucks; i++) {
-		addTruck(Truck(1, 1 + i * (19 + rowSpacing), 1 + _laneNum*laneSpacing));
+		addTruck(Car(1, 1 + i * (19 + rowSpacing), 1 + _laneNum*laneSpacing));
 	}
 }
 
@@ -22,18 +22,18 @@ void Lane::printLane()
 void Lane::moveLane()
 {
 	for (int i = 0; i < _numOfTrucks; i++)
-		_trucks[i].eraseFromScreen();
+		_cars[i].eraseFromScreen();
 	
 	for (int i = 0; i < _numOfTrucks; i++)
-		_trucks[i].updatePos();
+		_cars[i].updatePos();
 
 	for (int i = 0; i < _numOfTrucks; i++)
-		_trucks[i].drawToScreen();
+		_cars[i].drawToScreen();
 }
 
-void Lane::addTruck(Truck truck)
+void Lane::addTruck(Car truck)
 {
-	_trucks.push_back(truck);
+	_cars.push_back(truck);
 }
 
 void Lane::setNumOfTrucks(int num)

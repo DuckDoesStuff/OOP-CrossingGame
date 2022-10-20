@@ -5,7 +5,7 @@ Game::Game()
 	srand(time(NULL));
 	Common::clearConsole();
 	_level = 1;
-	_numOfLane = 2;
+	_numOfLane = 4;
 	initGameData();
 }
 

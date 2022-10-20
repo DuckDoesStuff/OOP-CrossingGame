@@ -7,6 +7,7 @@ protected:
 	int mX, mY;				//Tọa độ của obj trong game frame
 	int mSpeed = 1;			//Tốc độ của obj
 	vector<string> image;	//Lưu hình ảnh của obj
+	int _height, _width;
 public:
 	Vehicle();						//Khởi tạo obj tại 0,0
 	~Vehicle();
