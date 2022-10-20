@@ -3,7 +3,7 @@
 Lane::Lane(int num, int lane)
 {
 	_laneNum = lane;
-	int rowSpacing = 4;
+	int rowSpacing = 7;
 	int laneSpacing = 5;
 
 	setNumOfTrucks(num);
@@ -21,10 +21,14 @@ void Lane::printLane()
 
 void Lane::moveLane()
 {
-	for (int i = 0; i < _numOfTrucks; i++) {
-		_trucks[i].move();
-		Sleep(50);
-	}
+	for (int i = 0; i < _numOfTrucks; i++)
+		_trucks[i].eraseFromScreen();
+	
+	for (int i = 0; i < _numOfTrucks; i++)
+		_trucks[i].updatePos();
+
+	for (int i = 0; i < _numOfTrucks; i++)
+		_trucks[i].drawToScreen();
 }
 
 void Lane::addTruck(Truck truck)

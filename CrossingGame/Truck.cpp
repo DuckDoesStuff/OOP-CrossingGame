@@ -18,13 +18,17 @@ void Truck::drawToScreen() {
 	}
 }
 
-void Truck::move()
+void Truck::eraseFromScreen()
 {
 	for (int i = 0; i < image.size(); i++) {
 		Common::gotoXY(mX, mY + i);
 		for (int j = 0; j < image[i].length(); j++)
 			putchar(' ');
 	}
+}
+
+void Truck::move()
+{
 	mX += mSpeed;
 	drawToScreen();
 }
@@ -56,4 +60,9 @@ void Truck::loadImage(int type)
 		image.push_back(s);
 	}
 	in.close();
+}
+
+void Truck::updatePos()
+{
+	mX += mSpeed;
 }

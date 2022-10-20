@@ -21,8 +21,8 @@ void Game::playGame()
 
 	while (true) {
 		for (int i = 0; i < _lane.size(); i++)
-			for (int j = 0; j < _lane[i].getNumOfTrucks(); j++)
-				_lane[i].moveLane();
+			_lane[i].moveLane();
+		Sleep(100);
 	}
 }
 

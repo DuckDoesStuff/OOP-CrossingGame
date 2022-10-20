@@ -32,3 +32,11 @@ void Vehicle::move()
 void Vehicle::loadImage(int)
 {
 }
+
+void Vehicle::updatePos()
+{
+}
+
+void Vehicle::eraseFromScreen()
+{
+}

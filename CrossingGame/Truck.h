@@ -9,6 +9,8 @@ public:
 	Truck();
 	Truck(int, int, int);
 	void drawToScreen();
+	void eraseFromScreen();
 	void move();
 	void loadImage(int);
+	void updatePos();
 };
