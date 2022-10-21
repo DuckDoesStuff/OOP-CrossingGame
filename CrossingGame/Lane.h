@@ -2,22 +2,18 @@
 #include "Common.h"
 #include "Truck.h"
 #include "Car.h"
+#include "Vehicle.h"
 
 class Lane {
 private:
 	short _laneNum = 0;
-	bool _vehicle_lane;
-	vector<Truck> _trucks;//change later
-	int _numOfTrucks;
-
-	vector<Car> _cars;
-	int _numOfCars;
+	bool _vehicleLane = false;
+	int _numOfObj = 0;
+	vector<Vehicle*> _vh;
 public:
-	Lane(int, int);
+	Lane(Vehicle**, int, int);
+	//~Lane();
 
 	void printLane();
 	void moveLane();
-	void addTruck(Car);
-	void setNumOfTrucks(int);
-	int getNumOfTrucks();
 };

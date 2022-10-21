@@ -1,7 +1,8 @@
 #pragma once
-#include "Lane.h"
 #include "Common.h"
-#include "Vehicle.h"
+#include "Lane.h"
+//#include "Vehicle.h"
+#include "Truck.h"
 #include <iostream>
 #include <string>
 
@@ -13,7 +14,6 @@ private:
 	int _level;
 	vector<Lane> _lane;
 	int _numOfLane;
-	Truck temp;
 public:
 	Game();
 	~Game();

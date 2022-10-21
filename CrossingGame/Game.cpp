@@ -22,14 +22,16 @@ void Game::playGame()
 	while (true) {
 		for (int i = 0; i < _lane.size(); i++)
 			_lane[i].moveLane();
-		Sleep(100);
+		Sleep(200);
 	}
 }
 
 void Game::initGameData()
 {
+	int _numOfObj = 2;
 	for (int i = 0; i < _numOfLane; i++) {
-		_lane.push_back(Lane(3, i));
+		Vehicle** obj = new Vehicle*[_numOfObj];
+		_lane.push_back(Lane(obj, _numOfObj, i));
 	}
 }
 

@@ -1,5 +1,5 @@
 #include "Vehicle.h"
-#include "Truck.h"
+
 
 Vehicle::Vehicle()
 {

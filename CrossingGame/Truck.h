@@ -3,7 +3,7 @@
 
 class Truck:public Vehicle {
 public:
-	Truck();
+	Truck(int);
 	Truck(int, int, int);
 	void drawToScreen();
 	void eraseFromScreen();

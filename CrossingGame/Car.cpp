@@ -2,7 +2,7 @@
 
 Car::Car()
 {
-	loadImage(1);
+	loadImage(0);
 }
 
 Car::Car(int type, int x, int y)
@@ -40,7 +40,7 @@ void Car::loadImage(int type)
 {
 	string file;
 	switch (type){
-	case 1:
+	case 0:
 		file = "ASCII\\car1.txt";
 		_height = 4;
 		_width = 19;

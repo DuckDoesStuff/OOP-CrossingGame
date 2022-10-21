@@ -1,7 +1,7 @@
 ﻿#include "Truck.h"
 
-Truck::Truck() {
-	loadImage(1);
+Truck::Truck(int type) {
+	loadImage(type);
 	mX = mY = 1;
 }
 
@@ -39,12 +39,12 @@ void Truck::loadImage(int type)
 	string file;
 	switch (type)
 	{
-	case 1:
+	case 0:
 		file = "ASCII\\truck1.txt";
 		_height = 4;
 		_width = 19;
 		break;
-	case 2:
+	case 1:
 		file = "ASCII\\truck2.txt";
 		_height = 4;
 		_width = 13;
