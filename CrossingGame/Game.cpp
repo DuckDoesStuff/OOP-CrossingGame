@@ -29,7 +29,7 @@ void Game::playGame()
 void Game::initGameData()
 {
 	for (int i = 0; i < _numOfLane; i++) {
-		_lane.push_back(Lane(3, i));
+		_lane.push_back(Lane(3, i, rand()%2));
 	}
 }
 

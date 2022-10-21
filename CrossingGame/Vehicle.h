@@ -9,11 +9,12 @@ protected:
 	vector<string> image;	//Lưu hình ảnh của obj
 	int _height, _width;
 public:
-	Vehicle();						//Khởi tạo obj tại 0,0
+	Vehicle(); //Khởi tạo obj tại 0,0
 	~Vehicle();
 
 	void setCoords(int, int);
 	pair<int, int> getCoords(int, int);
+	//virtual void Car();
 	virtual void drawToScreen();
 	virtual void eraseFromScreen();
 	virtual void move();

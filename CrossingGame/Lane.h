@@ -7,17 +7,15 @@ class Lane {
 private:
 	short _laneNum = 0;
 	bool _vehicle_lane;
-	vector<Truck> _trucks;//change later
-	int _numOfTrucks;
+	vector<Vehicle*> _Obj;//change later
+	int _numOfObjs;
 
-	vector<Car> _cars;
-	int _numOfCars;
 public:
-	Lane(int, int);
+	Lane(int, int, int);
 
 	void printLane();
 	void moveLane();
-	void addTruck(Car);
+	void addObj(Vehicle*);
 	void setNumOfTrucks(int);
 	int getNumOfTrucks();
 };

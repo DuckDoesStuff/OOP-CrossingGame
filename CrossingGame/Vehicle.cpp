@@ -1,5 +1,6 @@
 #include "Vehicle.h"
 #include "Truck.h"
+#include "Car.h"
 
 Vehicle::Vehicle()
 {
