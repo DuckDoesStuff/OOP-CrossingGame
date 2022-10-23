@@ -8,8 +8,8 @@ Car::Car()
 Car::Car(int type, int x, int y)
 {
 	loadImage(type);
-	mX = x;
-	mY = y;
+	mX = x + LEFT_GAMEBOARD;
+	mY = y + TOP_GAMEBOARD;
 }
 
 void Car::drawToScreen()
@@ -32,8 +32,6 @@ void Car::eraseFromScreen()
 
 void Car::move()
 {
-	mX += mSpeed;
-	drawToScreen();
 }
 
 void Car::loadImage(int type)
@@ -43,7 +41,7 @@ void Car::loadImage(int type)
 	case 1:
 		file = "ASCII\\car1.txt";
 		_height = 4;
-		_width = 19;
+		_width = 15;
 	}
 
 	ifstream fin(file);
@@ -58,5 +56,8 @@ void Car::loadImage(int type)
 
 void Car::updatePos()
 {
-	mX += mSpeed;
+	if (checkPos())
+		mX += mSpeed;
+	else
+		mX = LEFT_GAMEBOARD + 1;
 }

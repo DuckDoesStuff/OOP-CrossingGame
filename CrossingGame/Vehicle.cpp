@@ -22,6 +22,24 @@ pair<int, int> Vehicle::getCoords(int, int)
 	return pair<int, int>(mX, mY);
 }
 
+bool Vehicle::checkPos()
+{
+	if (mX < GAMEBOARD_WIDTH - _width) return true;
+	return false;
+}
+
+bool Vehicle::checkmX()
+{
+	if (mX ==LEFT_GAMEBOARD+1) return true;
+	return false;
+}
+
+bool Vehicle::checkmX1()
+{
+	if (mX > 19) return true;
+	return false;
+}
+
 void Vehicle::drawToScreen()
 {
 }

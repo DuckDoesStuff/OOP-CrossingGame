@@ -15,6 +15,9 @@ public:
 	void setCoords(int, int);
 	pair<int, int> getCoords(int, int);
 	//virtual void Car();
+	virtual bool checkPos();
+	virtual bool checkmX();
+	virtual bool checkmX1();
 	virtual void drawToScreen();
 	virtual void eraseFromScreen();
 	virtual void move();

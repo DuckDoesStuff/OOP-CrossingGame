@@ -6,8 +6,8 @@ Truck::Truck() {
 }
 
 Truck::Truck(int type, int x, int y) {
-	mX = x;
-	mY = y;
+	mX = x + LEFT_GAMEBOARD;
+	mY = y + TOP_GAMEBOARD;
 	loadImage(type);
 }
 
