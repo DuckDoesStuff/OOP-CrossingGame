@@ -130,6 +130,7 @@
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Lane.cpp" />
+    <ClCompile Include="People.cpp" />
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="Vehicle.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Lane.h" />
+    <ClInclude Include="People.h" />
     <ClInclude Include="Truck.h" />
     <ClInclude Include="Vehicle.h" />
     <ClInclude Include="Game.h" />
