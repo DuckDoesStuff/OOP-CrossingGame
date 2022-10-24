@@ -3,27 +3,28 @@
 
 
 
-Lane::Lane(int num, int lane, int type)
+Lane::Lane(int num, int lane)
 {
 	_laneNum = lane;
-	int rowSpacing;
+	_vhLane = true;
+	int rowSpacing = 0;
 	int laneSpacing = 5;
 
-	setNumOfObjs(num);
+	int type = rand() % 2;
+	int model = rand() % 2;
+
+	_numOfObjs = num;
 	for (int i = 0; i < _numOfObjs; i++) {
-		Vehicle* Obj;
-		switch (type) {
-		case 0:
-			rowSpacing = (GAMEBOARD_WIDTH - _numOfObjs * 15) / _numOfObjs;
-			Obj = new Car(1, 1 + i * (15 + rowSpacing), 1 + _laneNum * laneSpacing);
-			addObj(Obj);
-			break;
-		case 1:
-			rowSpacing = (GAMEBOARD_WIDTH - _numOfObjs * 19) / _numOfObjs;
-			Obj = new Truck(1, 1 + i * (19 + rowSpacing), 1 + _laneNum * laneSpacing);
-			addObj(Obj);
-			break;
-		}
+		Vehicle* obj;
+
+		if (type)
+			obj = new Car(0);
+		else 
+			obj = new Truck(0);
+
+		rowSpacing = (GAMEBOARD_WIDTH - _numOfObjs * obj->getWidth()) / _numOfObjs;
+		obj->setCoords(LEFT_GAMEBOARD + 1 + i * (obj->getWidth() + rowSpacing), TOP_GAMEBOARD + 1 + _laneNum * laneSpacing);
+		_Obj.push_back(obj);
 	}
 }
 
@@ -46,11 +47,6 @@ void Lane::moveLane()
 	for (int i = 0; i < _numOfObjs; i++) {
 		_Obj[i]->drawToScreen();
 	}
-}
-
-void Lane::addObj(Vehicle* Obj)
-{
-	_Obj.push_back(Obj);
 }
 
 void Lane::setNumOfObjs(int num)

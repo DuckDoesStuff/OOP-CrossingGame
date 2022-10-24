@@ -1,8 +1,8 @@
 #include "Car.h"
 
-Car::Car()
+Car::Car(int type)
 {
-	loadImage(0);
+	loadImage(type);
 }
 
 Car::Car(int type, int x, int y)

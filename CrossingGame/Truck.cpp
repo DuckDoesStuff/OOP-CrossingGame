@@ -29,8 +29,6 @@ void Truck::eraseFromScreen()
 
 void Truck::move()
 {
-	mX += mSpeed;
-	drawToScreen();
 }
 
 void Truck::loadImage(int type)
@@ -64,5 +62,8 @@ void Truck::loadImage(int type)
 
 void Truck::updatePos()
 {
-	mX += mSpeed;
+	if (checkPos())
+		mX += mSpeed;
+	else
+		mX = LEFT_GAMEBOARD + 1;
 }

@@ -28,18 +28,6 @@ bool Vehicle::checkPos()
 	return false;
 }
 
-bool Vehicle::checkmX()
-{
-	if (mX ==LEFT_GAMEBOARD+1) return true;
-	return false;
-}
-
-bool Vehicle::checkmX1()
-{
-	if (mX > 19) return true;
-	return false;
-}
-
 void Vehicle::drawToScreen()
 {
 }
