@@ -6,7 +6,7 @@
 Lane::Lane(int num, int lane, int type)
 {
 	_laneNum = lane;
-	int rowSpacing = 7;
+	int rowSpacing;
 	int laneSpacing = 5;
 
 	setNumOfObjs(num);
@@ -14,10 +14,12 @@ Lane::Lane(int num, int lane, int type)
 		Vehicle* Obj;
 		switch (type) {
 		case 0:
+			rowSpacing = (GAMEBOARD_WIDTH - _numOfObjs * 15) / _numOfObjs;
 			Obj = new Car(1, 1 + i * (15 + rowSpacing), 1 + _laneNum * laneSpacing);
 			addObj(Obj);
 			break;
 		case 1:
+			rowSpacing = (GAMEBOARD_WIDTH - _numOfObjs * 19) / _numOfObjs;
 			Obj = new Truck(1, 1 + i * (19 + rowSpacing), 1 + _laneNum * laneSpacing);
 			addObj(Obj);
 			break;
