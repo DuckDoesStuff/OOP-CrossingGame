@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <fstream>
 #include <thread>
+#include <queue>
 
 using namespace std;
 
@@ -27,6 +28,11 @@ using namespace std;
 #define LIGHT_PURPLE 13
 #define LIGHT_YELLOW 14
 #define BRIGHT_WHITE 15
+
+#define LEFT_GAMEBOARD 0
+#define TOP_GAMEBOARD 4
+
+#define GAMEBOARD_WIDTH 100
 
 class Common {
 private:
