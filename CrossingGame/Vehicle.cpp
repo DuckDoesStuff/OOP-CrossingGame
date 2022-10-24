@@ -24,8 +24,7 @@ pair<int, int> Vehicle::getCoords(int, int)
 
 bool Vehicle::checkPos()
 {
-	if (mX < GAMEBOARD_WIDTH - _width) return true;
-	return false;
+	return true;
 }
 
 void Vehicle::drawToScreen()

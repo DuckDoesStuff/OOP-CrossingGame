@@ -11,4 +11,5 @@ public:
 	void move();
 	void loadImage(int);
 	void updatePos();
+	bool checkPos();
 };

@@ -22,7 +22,7 @@ void Game::playGame()
 	while (true) {
 		for (int i = 0; i < _lane.size(); i++)
 			_lane[i].moveLane();
-		Sleep(100);
+		Sleep(10);
 	}
 }
 

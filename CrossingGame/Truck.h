@@ -9,5 +9,6 @@ public:
 	void eraseFromScreen();
 	void move();
 	void loadImage(int);
+	bool checkPos();
 	void updatePos();
 };

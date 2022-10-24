@@ -54,10 +54,17 @@ void Car::loadImage(int type)
 	fin.close();
 }
 
+bool Car::checkPos()
+{
+	if ((mX + mSpeed) < GAMEBOARD_WIDTH - _width) return true;
+	return false;
+}
+
 void Car::updatePos()
 {
 	if (checkPos())
 		mX += mSpeed;
 	else
-		mX = LEFT_GAMEBOARD + 1;
+		//mX = LEFT_GAMEBOARD + 1;
+		mX = -_width;
 }

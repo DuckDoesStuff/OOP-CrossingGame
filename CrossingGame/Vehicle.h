@@ -14,6 +14,8 @@ public:
 
 	void setCoords(int, int);
 	pair<int, int> getCoords(int, int);
+	int getX() { return mX; }
+	int getY() { return mY; }
 	virtual bool checkPos();		
 
 	virtual void drawToScreen();
