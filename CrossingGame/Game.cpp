@@ -23,6 +23,10 @@ void Game::playGame()
 		for (int i = 0; i < _lane.size(); i++)
 			_lane[i].moveLane();
 		Sleep(10);
+		human.loadImage(1);
+		human.drawToScreen();
+		human.move();
+		human.eraseFromScreen();
 	}
 }
 
