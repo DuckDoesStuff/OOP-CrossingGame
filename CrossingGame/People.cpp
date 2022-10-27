@@ -1,5 +1,10 @@
 #include "People.h"
 
+People::People(){
+	mX = LEFT_GAMEBOARD;
+	mY = TOP_GAMEBOARD;
+}
+
 void People::setCoords(int x, int y) {
 	mX = x;
 	mY = y;
