@@ -3,6 +3,7 @@
 #include "Lane.h"
 //#include "Vehicle.h"
 #include "Truck.h"
+#include "People.h"
 #include <iostream>
 #include <string>
 
@@ -14,6 +15,7 @@ private:
 	int _level;
 	vector<Lane> _lane;
 	int _numOfLane;
+	People human;
 public:
 	Game();
 	~Game();
