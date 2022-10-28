@@ -9,10 +9,6 @@ People::People()
 	_width = 0;
 }
 
-People::~People()
-{
-}
-
 void People::setCoords(int x, int y) {
 	mX = x;
 	mY = y;
