@@ -16,17 +16,19 @@ Game::~Game()
 void Game::playGame()
 {
 	drawBoardGame();
-	for (int i = 0; i < _lane.size(); i++)
-		_lane[i].printLane();
+	/*for (int i = 0; i < _lane.size(); i++)
+		_lane[i].printLane();*/
+	human.drawToScreen();
 
 	while (true) {
-		for (int i = 0; i < _lane.size(); i++)
-			_lane[i].moveLane();
-		Sleep(10);
-		human.loadImage(1);
-		human.drawToScreen();
 		human.move();
-		human.eraseFromScreen();
+		//for (int i = 0; i < _lane.size(); i++)
+		//	_lane[i].moveLane();
+		//Sleep(10);
+		//human.loadImage(1);
+		//human.drawToScreen();
+		//human.move();
+		//human.eraseFromScreen();
 	}
 }
 

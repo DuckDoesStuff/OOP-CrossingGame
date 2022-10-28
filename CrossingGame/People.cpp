@@ -2,8 +2,11 @@
 
 People::People()
 {
+	loadImage(1);
 	mX = LEFT_GAMEBOARD;
 	mY = TOP_GAMEBOARD;
+	_height = 0;
+	_width = 0;
 }
 
 People::~People()
@@ -34,30 +37,57 @@ void People::eraseFromScreen() {
 
 
 void People::Up() {
-	Common::gotoXY(mX, mY - 2);
+	mY--;
 }
 void People::Down() {
-	Common::gotoXY(mX, mY + 2);
+	mY++;
 }
 void People::Left() {
-	Common::gotoXY(mX - 4, mY);
+	mX--;
 }
 void People::Right() {
-	Common::gotoXY(mX + 4, mY);
+	mX++;
 }
 void People::move() {
-    if ((GetAsyncKeyState('W') != 0) ) {
-        Up();
-    }
-    if ((GetAsyncKeyState('A') != 0) ) {
-        Left();
-    }
-    if ((GetAsyncKeyState('S') != 0) ) {
-        Down();
-    }
-    if ((GetAsyncKeyState('D') != 0) ) {
-        Right();
-    }
+    //if ((GetAsyncKeyState('W') != 0) ) {
+    //    Up();
+    //}
+    //if ((GetAsyncKeyState('A') != 0) ) {
+    //    Left();
+    //}
+    //if ((GetAsyncKeyState('S') != 0) ) {
+    //    Down();
+    //}
+    //if ((GetAsyncKeyState('D') != 0) ) {
+    //    Right();
+    //}
+
+	int t = Common::getConsoleInput();
+	switch (t)
+	{
+	case 2:
+		eraseFromScreen();
+		Up();
+		drawToScreen();
+		break;
+	case 3:
+		eraseFromScreen();
+		Left();
+		drawToScreen();
+		break;
+	case 4:
+		eraseFromScreen();
+		Right();
+		drawToScreen();
+		break;
+	case 5:
+		eraseFromScreen();
+		Down();
+		drawToScreen();
+		break;
+	default:
+		break;
+	}
 }
 void People::loadImage(int type) {
 	string file;
