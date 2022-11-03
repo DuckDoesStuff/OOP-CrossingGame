@@ -23,4 +23,5 @@ public:
 	virtual void Left();
 	virtual void Right();
 
+	void playerHandle();
 };

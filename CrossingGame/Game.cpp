@@ -16,20 +16,17 @@ Game::~Game()
 void Game::playGame()
 {
 	drawBoardGame();
-	/*for (int i = 0; i < _lane.size(); i++)
-		_lane[i].printLane();*/
-	human.drawToScreen();
+	for (int i = 0; i < _lane.size(); i++)
+		_lane[i].printLane();
+	thread t1(&People::playerHandle, human);
 
 	while (true) {
-		human.move();
-		//for (int i = 0; i < _lane.size(); i++)
-		//	_lane[i].moveLane();
-		//Sleep(10);
-		//human.loadImage(1);
-		//human.drawToScreen();
-		//human.move();
-		//human.eraseFromScreen();
+		for (int i = 0; i < _lane.size(); i++) {
+			_lane[i].moveLane();
+		}
+		Sleep(100);
 	}
+	t1.join();
 }
 
 void Game::initGameData()
@@ -48,19 +45,19 @@ void Game::drawBoardGame()
 
 	int box;
 	for (int j = 0; j < boxW; j++) {
-		Common::gotoXY(left + j, top - 3);
+		Common::gotoXY(left + j, top - 4);
 		putchar(205);
 	}
 	for (int j = 0; j < boxH; j++) {
-		Common::gotoXY(left, top - 3 + j);
+		Common::gotoXY(left, top - 4 + j);
 		putchar(186);
-		Common::gotoXY(left + boxW, top - 3 + j);
+		Common::gotoXY(left + boxW, top - 4 + j);
 		putchar(186);
 	}
 
-	Common::gotoXY(left, top - 3);
+	Common::gotoXY(left, top - 4);
 	putchar(201);
-	Common::gotoXY(left + boxW, top - 3);
+	Common::gotoXY(left + boxW, top - 4);
 	putchar(187);
 
 	for (int i = 0; i < _numOfLane; i++) {

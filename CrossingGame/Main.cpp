@@ -9,8 +9,7 @@ int main() {
 	//Menu test;
 	//test.renderMainScreen();
 	
-	std::thread th1(Menu::renderMainScreen);
-	th1.join();
+	Menu::renderMainScreen();
 
 	//Common::clearConsole();
 	system("pause");

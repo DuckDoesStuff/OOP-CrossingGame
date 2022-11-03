@@ -1,5 +1,7 @@
 #include "People.h"
 
+mutex mtx;
+
 People::People()
 {
 	loadImage(1);
@@ -7,6 +9,11 @@ People::People()
 	mY = TOP_GAMEBOARD;
 	_height = 0;
 	_width = 0;
+	drawToScreen();
+}
+
+People::~People()
+{
 }
 
 void People::setCoords(int x, int y) {
@@ -44,7 +51,16 @@ void People::Left() {
 void People::Right() {
 	mX++;
 }
+void People::playerHandle(){
+	mtx.lock();
+	while (true) {
+		move();
+	}
+	mtx.unlock();
+}
+
 void People::move() {
+
     //if ((GetAsyncKeyState('W') != 0) ) {
     //    Up();
     //}
