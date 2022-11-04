@@ -1,7 +1,5 @@
 #include "People.h"
 
-mutex mtx;
-
 People::People()
 {
 	loadImage(1);
@@ -52,54 +50,53 @@ void People::Right() {
 	mX++;
 }
 void People::playerHandle(){
-	mtx.lock();
 	while (true) {
-		move();
+		drawToScreen();
+		Sleep(20);
 	}
-	mtx.unlock();
 }
 
 void People::move() {
 
-    //if ((GetAsyncKeyState('W') != 0) ) {
-    //    Up();
-    //}
-    //if ((GetAsyncKeyState('A') != 0) ) {
-    //    Left();
-    //}
-    //if ((GetAsyncKeyState('S') != 0) ) {
-    //    Down();
-    //}
-    //if ((GetAsyncKeyState('D') != 0) ) {
-    //    Right();
-    //}
-
-	int t = Common::getConsoleInput();
-	switch (t)
-	{
-	case 2:
+    if ((GetAsyncKeyState(W) != 0)) {
 		eraseFromScreen();
-		Up();
+        Up();
 		drawToScreen();
-		break;
-	case 3:
+    }
+    if ((GetAsyncKeyState(A) != 0) ) {
 		eraseFromScreen();
 		Left();
 		drawToScreen();
-		break;
-	case 4:
-		eraseFromScreen();
-		Right();
-		drawToScreen();
-		break;
-	case 5:
+    }
+    if ((GetAsyncKeyState(S) != 0) ) {
 		eraseFromScreen();
 		Down();
 		drawToScreen();
-		break;
-	default:
-		break;
-	}
+    }
+    if ((GetAsyncKeyState(D) != 0) ) {
+		eraseFromScreen();
+		Right();
+		drawToScreen();
+    }
+
+	//int t = Common::getConsoleInput();
+	//switch (t)
+	//{
+	//case 2:
+	//	Up();
+	//	break;
+	//case 3:
+	//	Left();
+	//	break;
+	//case 4:
+	//	Right();
+	//	break;
+	//case 5:
+	//	Down();
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 void People::loadImage(int type) {
 	string file;

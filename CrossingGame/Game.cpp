@@ -18,15 +18,14 @@ void Game::playGame()
 	drawBoardGame();
 	for (int i = 0; i < _lane.size(); i++)
 		_lane[i].printLane();
-	thread t1(&People::playerHandle, human);
 
 	while (true) {
+		human.move();
 		for (int i = 0; i < _lane.size(); i++) {
 			_lane[i].moveLane();
 		}
-		Sleep(100);
+		Sleep(45);
 	}
-	t1.join();
 }
 
 void Game::initGameData()

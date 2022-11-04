@@ -35,6 +35,11 @@ using namespace std;
 
 #define GAMEBOARD_WIDTH 100
 
+#define A 0x41
+#define D 0x44
+#define S 0x53
+#define W 0x57
+
 class Common {
 private:
 	static HWND consoleWindow;
