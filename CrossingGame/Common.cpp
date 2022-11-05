@@ -108,6 +108,11 @@ void Common::clearConsole()
 	system("cls");
 }
 
+bool Common::pressedKey(int n)
+{
+	return GetAsyncKeyState(n);
+}
+
 int Common::getConsoleInput()
 {
 	int c = _getch();

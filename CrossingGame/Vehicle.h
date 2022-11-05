@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include "Common.h"
-#include <iostream>
+#include "Common.h"'
+#include <vector>
+#include <string>
 
 class Vehicle {
 protected:
@@ -12,20 +13,26 @@ public:
 	Vehicle(); //Khởi tạo obj tại 0,0
 	~Vehicle();
 
+	//******************************************//
+
 	void setCoords(int, int);
 	pair<int, int> getCoords(int, int);
+
+	//******************************************//
+
 	int getX() { return mX; }
 	int getY() { return mY; }
-	virtual bool checkPos();		
+	int getWidth() { return _width; }
+	int getHeight() { return _height; }
 
-	virtual void drawToScreen();
-	virtual void eraseFromScreen();
-	virtual void move();
+	//******************************************//
 
 	virtual void loadImage(int);
+	void drawToScreen();
+	void eraseFromScreen();
 
+	//******************************************//
+
+	virtual bool checkPos();
 	virtual void updatePos();
-
-	virtual int getWidth() { return _width; }
-	virtual int getHeight() { return _height; }
 };

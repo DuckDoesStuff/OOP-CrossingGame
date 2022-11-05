@@ -4,32 +4,83 @@ Game::Game()
 {
 	srand(time(NULL));
 	Common::clearConsole();
-	_level = 1;
-	_numOfLane = 4;
-	initGameData();
 }
 
 Game::~Game()
 {
 }
 
-void Game::playGame()
+//******************************************//
+
+void Game::playGame(int level)
 {
+	initGameData(level);
 	drawBoardGame();
-	for (int i = 0; i < _lane.size(); i++)
-		_lane[i].printLane();
+
+	for (int i = 0; i < vh.size(); i++) {
+		vh[i]->drawToScreen();
+	}
 
 	while (true) {
-		for (int i = 0; i < _lane.size(); i++)
-			_lane[i].moveLane();
-		Sleep(10);
+		human.move();
+		updateVehicle();
+		Sleep(100);
 	}
 }
 
-void Game::initGameData()
+void Game::initGameData(int level)
 {
-	for (int i = 0; i < _numOfLane; i++) {
-		_lane.push_back(Lane(3, i));
+	_level = level;
+
+	int numOfObjs = 0;
+	switch (_level)
+	{
+	case 1:
+		numOfObjs = 2;
+		break;
+	case 2:
+		numOfObjs = 3;
+		break;
+	case 3:
+		numOfObjs = 3;
+		break;
+	default:
+		break;
+	}
+
+	int rowSpacing = 0;
+	int laneSpacing = 0;
+
+	//Lane 1
+	for (int i = 0; i < numOfObjs; i++) {
+		Car* obj = new Car(0);
+		rowSpacing = (GAMEBOARD_WIDTH - numOfObjs * obj->getWidth()) / numOfObjs;
+		obj->setCoords(LEFT_GAMEBOARD + 1 + i * (obj->getWidth() + rowSpacing), TOP_GAMEBOARD + 1 + laneSpacing);
+		vh.push_back(obj);
+	}
+	laneSpacing += 5;
+	//Lane 2
+	for (int i = 0; i < numOfObjs; i++) {
+		Truck* obj = new Truck(0);
+		rowSpacing = (GAMEBOARD_WIDTH - numOfObjs * obj->getWidth()) / numOfObjs;
+		obj->setCoords(LEFT_GAMEBOARD + 1 + i * (obj->getWidth() + rowSpacing), TOP_GAMEBOARD + 1 + laneSpacing);
+		vh.push_back(obj);
+	}
+	laneSpacing += 5;
+	//Lane 3
+	for (int i = 0; i < numOfObjs; i++) {
+		Truck* obj = new Truck(0);
+		rowSpacing = (GAMEBOARD_WIDTH - numOfObjs * obj->getWidth()) / numOfObjs;
+		obj->setCoords(LEFT_GAMEBOARD + 1 + i * (obj->getWidth() + rowSpacing), TOP_GAMEBOARD + 1 + laneSpacing);
+		vh.push_back(obj);
+	}
+	laneSpacing += 5;
+	//Lane 4
+	for (int i = 0; i < numOfObjs; i++) {
+		Car* obj = new Car(0);
+		rowSpacing = (GAMEBOARD_WIDTH - numOfObjs * obj->getWidth()) / numOfObjs;
+		obj->setCoords(LEFT_GAMEBOARD + 1 + i * (obj->getWidth() + rowSpacing), TOP_GAMEBOARD + 1 + laneSpacing);
+		vh.push_back(obj);
 	}
 }
 
@@ -109,12 +160,10 @@ void Game::drawBoardGame()
 	putchar(185);
 }
 
-void Game::setLevel(int level)
-{
-	_level = level;
-}
+//******************************************//
 
-int Game::getLevel()
-{
-	return _level;
+void Game::updateVehicle() {
+	for (int i = 0; i < vh.size(); i++) {
+		vh[i]->updatePos();
+	}
 }

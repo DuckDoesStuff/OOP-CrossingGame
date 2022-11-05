@@ -1,27 +1,33 @@
 #pragma once
+#include <thread>
 #include "Common.h"
-#include "Lane.h"
-//#include "Vehicle.h"
+#include "People.h"
+#include "Car.h"
 #include "Truck.h"
-#include <iostream>
-#include <string>
 
-int const LEFT = 0;
-int const RIGHT = 10;
+#define _numOfLane 4
 
 class Game {
 private:
-	int _level;
-	vector<Lane> _lane;
-	int _numOfLane;
+	int _level = 0;
+	People human;
+	vector<Vehicle*> vh;
 public:
 	Game();
 	~Game();
 
-	void playGame();
-	void initGameData();
+	//******************************************//
+
+	void playGame(int);
+	void initGameData(int);
 	void drawBoardGame();
 
-	void setLevel(int);
-	int getLevel();
+	//******************************************//
+
+	void updateVehicle();
+
+	//******************************************//
+
+	void setLevel(int n) { _level = n; }
+	int getLevel() { return _level; }
 };

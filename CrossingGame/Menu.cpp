@@ -147,7 +147,7 @@ void Menu::renderCurOpt()
 
 	switch (slt) {
 	case 0:
-		Game().playGame();
+		Game().playGame(1);
 		break;
 	case 1:
 		break;
