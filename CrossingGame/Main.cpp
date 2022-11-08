@@ -9,7 +9,8 @@ int main() {
 	//Menu test;
 	//test.renderMainScreen();
 	
-	Menu::renderMainScreen();
+	Menu test;
+	test.renderMainScreen();
 
 	//Common::clearConsole();
 	system("pause");

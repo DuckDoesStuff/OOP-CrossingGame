@@ -108,12 +108,17 @@ void Common::clearConsole()
 	system("cls");
 }
 
+bool Common::pressedKey(int n)
+{
+	return GetAsyncKeyState(n);
+}
+
 int Common::getConsoleInput()
 {
 	int c = _getch();
 	if (c == 0 || c == 224)
 	{
-		switch (_getch())
+		switch (c)
 		{
 		case 72:				//lên
 			return 2;

@@ -1,14 +1,17 @@
-﻿#include "Vehicle.h"
-#pragma once
+﻿#pragma once
+#include "Vehicle.h"
 
 class Truck:public Vehicle {
 public:
 	Truck(int);
 	Truck(int, int, int);
-	void drawToScreen();
-	void eraseFromScreen();
-	void move();
+
+	//******************************************//
+
 	void loadImage(int);
+
+	//******************************************//
+
 	bool checkPos();
 	void updatePos();
 };

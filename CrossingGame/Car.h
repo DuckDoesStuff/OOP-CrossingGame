@@ -6,10 +6,12 @@ public:
 	Car(int);
 	Car(int, int, int);
 
-	void drawToScreen();
-	void eraseFromScreen();
-	void move();
+	//******************************************//
+
 	void loadImage(int);
-	void updatePos();
+
+	//******************************************//
+
 	bool checkPos();
+	void updatePos();
 };

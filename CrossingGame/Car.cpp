@@ -3,6 +3,8 @@
 Car::Car(int type)
 {
 	loadImage(type);
+	mX = mY = 0;
+	mSpeed = 1;
 }
 
 Car::Car(int type, int x, int y)
@@ -10,29 +12,10 @@ Car::Car(int type, int x, int y)
 	loadImage(type);
 	mX = x + LEFT_GAMEBOARD;
 	mY = y + TOP_GAMEBOARD;
+	mSpeed = 1;
 }
 
-void Car::drawToScreen()
-{
-	for (int i = 0; i < image.size(); i++) {
-		Common::gotoXY(mX, mY + i);
-		cout << image[i] << endl;
-	}
-}
-
-void Car::eraseFromScreen()
-{
-	for (int i = 0; i < image.size(); i++) {
-		Common::gotoXY(mX, mY + i);
-		for (int j = 0; j < image[i].length(); j++) {
-			putchar(' ');
-		}
-	}
-}
-
-void Car::move()
-{
-}
+//******************************************//
 
 void Car::loadImage(int type)
 {
@@ -41,7 +24,7 @@ void Car::loadImage(int type)
 	case 0:
 		file = "ASCII\\car1.txt";
 		_height = 4;
-		_width = 15;
+		_width = 14;
 	}
 
 	ifstream fin(file);
@@ -54,17 +37,24 @@ void Car::loadImage(int type)
 	fin.close();
 }
 
+//******************************************//
+
 bool Car::checkPos()
 {
-	if ((mX + mSpeed) < GAMEBOARD_WIDTH - _width) return true;
+	if ((mX + mSpeed) < WIDTH_GAMEBOARD - _width) return true;
 	return false;
 }
 
 void Car::updatePos()
 {
+	if (mX > LEFT_GAMEBOARD)
+		eraseFromScreen();
+
 	if (checkPos())
 		mX += mSpeed;
 	else
-		//mX = LEFT_GAMEBOARD + 1;
 		mX = -_width;
+
+	if (mX > LEFT_GAMEBOARD)
+		drawToScreen();
 }

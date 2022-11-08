@@ -2,34 +2,18 @@
 
 Truck::Truck(int type) {
 	loadImage(type);
-	mX = mY = 1;
+	mX = mY = 0;
+	mSpeed = -1;
 }
 
 Truck::Truck(int type, int x, int y) {
-	mX = x + LEFT_GAMEBOARD + GAMEBOARD_WIDTH;
-	mY = y + TOP_GAMEBOARD;
 	loadImage(type);
+	mX = x + LEFT_GAMEBOARD + WIDTH_GAMEBOARD;
+	mY = y + TOP_GAMEBOARD;
+	mSpeed = -1;
 }
 
-void Truck::drawToScreen() {
-	for (int i = 0; i < image.size(); i++) {
-		Common::gotoXY(mX, mY + i);
-		cout << image[i] << endl;
-	}
-}
-
-void Truck::eraseFromScreen()
-{
-	for (int i = 0; i < image.size(); i++) {
-		Common::gotoXY(mX, mY + i);
-		for (int j = 0; j < image[i].length(); j++)
-			putchar(' ');
-	}
-}
-
-void Truck::move()
-{
-}
+//******************************************//
 
 void Truck::loadImage(int type)
 {
@@ -40,13 +24,13 @@ void Truck::loadImage(int type)
 	case 0:
 		file = "ASCII\\truck1.txt";
 		_height = 4;
-		_width = 19;
+		_width = 18;
 		mSpeed = -1;
 		break;
 	case 1:
 		file = "ASCII\\truck2.txt";
 		_height = 4;
-		_width = 13;
+		_width = 12;
 		mSpeed = -1;
 		break;
 	default:
@@ -62,6 +46,8 @@ void Truck::loadImage(int type)
 	in.close();
 }
 
+//******************************************//
+
 bool Truck::checkPos() {
 	if ((mX + mSpeed) > LEFT_GAMEBOARD) return true;
 	return false;
@@ -69,9 +55,12 @@ bool Truck::checkPos() {
 
 void Truck::updatePos()
 {
+	if (mX < WIDTH_GAMEBOARD - _width) eraseFromScreen();
+
 	if (checkPos())
 		mX += mSpeed;
 	else
-		//mX = LEFT_GAMEBOARD + 1;
-		mX = GAMEBOARD_WIDTH + _width;
+		mX = WIDTH_GAMEBOARD + _width;
+
+	if (mX < WIDTH_GAMEBOARD - _width) drawToScreen();
 }

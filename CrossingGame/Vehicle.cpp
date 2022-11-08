@@ -1,15 +1,15 @@
 #include "Vehicle.h"
-#include "Truck.h"
-#include "Car.h"
 
 Vehicle::Vehicle()
 {
-	mX = mY = 0;
+	mSpeed = _height = _width = mX = mY = 0;
 }
 
 Vehicle::~Vehicle()
 {
 }
+
+//******************************************//
 
 void Vehicle::setCoords(int x, int y)
 {
@@ -22,27 +22,41 @@ pair<int, int> Vehicle::getCoords(int, int)
 	return pair<int, int>(mX, mY);
 }
 
-bool Vehicle::checkPos()
+//******************************************//
+
+void Vehicle::loadImage(int)
 {
-	return true;
 }
 
 void Vehicle::drawToScreen()
 {
+	for (int i = 0; i < image.size(); i++) {
+		Common::gotoXY(mX, mY + i);
+		cout << image[i] << endl;
+	}
 }
 
-void Vehicle::move()
+void Vehicle::eraseFromScreen()
 {
+	for (int i = 0; i < image.size(); i++) {
+		Common::gotoXY(mX, mY + i);
+		for (int j = 0; j < image[i].length(); j++)
+			putchar(' ');
+	}
 }
 
-void Vehicle::loadImage(int)
+//******************************************//
+
+bool Vehicle::checkPos()
 {
+	return true;
 }
 
 void Vehicle::updatePos()
 {
 }
 
-void Vehicle::eraseFromScreen()
-{
+void Vehicle::speedUp() {
+	if (mSpeed > 0) mSpeed++;
+	else mSpeed--;
 }
