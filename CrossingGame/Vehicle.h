@@ -1,14 +1,14 @@
 ﻿#pragma once
-#include "Common.h"'
+#include "Common.h"
 #include <vector>
 #include <string>
 
 class Vehicle {
 protected:
 	int mX, mY;				//Tọa độ của obj trong game frame
-	int mSpeed = 1;			//Tốc độ của obj
+	int mSpeed;			//Tốc độ của obj
 	vector<string> image;	//Lưu hình ảnh của obj
-	int _height = 0, _width = 0;
+	int _height, _width;
 public:
 	Vehicle(); //Khởi tạo obj tại 0,0
 	~Vehicle();
@@ -35,4 +35,5 @@ public:
 
 	virtual bool checkPos();
 	virtual void updatePos();
+	virtual void speedUp();
 };

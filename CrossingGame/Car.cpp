@@ -3,6 +3,8 @@
 Car::Car(int type)
 {
 	loadImage(type);
+	mX = mY = 0;
+	mSpeed = 1;
 }
 
 Car::Car(int type, int x, int y)
@@ -10,6 +12,7 @@ Car::Car(int type, int x, int y)
 	loadImage(type);
 	mX = x + LEFT_GAMEBOARD;
 	mY = y + TOP_GAMEBOARD;
+	mSpeed = 1;
 }
 
 //******************************************//
@@ -21,7 +24,7 @@ void Car::loadImage(int type)
 	case 0:
 		file = "ASCII\\car1.txt";
 		_height = 4;
-		_width = 15;
+		_width = 14;
 	}
 
 	ifstream fin(file);
@@ -38,7 +41,7 @@ void Car::loadImage(int type)
 
 bool Car::checkPos()
 {
-	if ((mX + mSpeed) < GAMEBOARD_WIDTH - _width) return true;
+	if ((mX + mSpeed) < WIDTH_GAMEBOARD - _width) return true;
 	return false;
 }
 

@@ -9,8 +9,8 @@
 
 class Game {
 private:
-	int _level = 0;
-	People human;
+	int _level;
+	People* human;
 	vector<Vehicle*> vh;
 public:
 	Game();
@@ -19,12 +19,18 @@ public:
 	//******************************************//
 
 	void playGame(int);
+	template <class T> 
+	void initLane(vector<T*>&, T*, int, int, int, int);
 	void initGameData(int);
+	template <class T>
+	void Draw(vector<T*>);
 	void drawBoardGame();
 
 	//******************************************//
 
 	void updateVehicle();
+	void speedUpVehicle();
+	void updatePeople();
 
 	//******************************************//
 

@@ -2,7 +2,7 @@
 
 Vehicle::Vehicle()
 {
-	mX = mY = 0;
+	mSpeed = _height = _width = mX = mY = 0;
 }
 
 Vehicle::~Vehicle()
@@ -54,4 +54,9 @@ bool Vehicle::checkPos()
 
 void Vehicle::updatePos()
 {
+}
+
+void Vehicle::speedUp() {
+	if (mSpeed > 0) mSpeed++;
+	else mSpeed--;
 }

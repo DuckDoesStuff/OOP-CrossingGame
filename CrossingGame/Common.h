@@ -26,10 +26,11 @@ using namespace std;
 #define LIGHT_YELLOW 14
 #define BRIGHT_WHITE 15
 
-#define LEFT_GAMEBOARD 5
-#define TOP_GAMEBOARD 4
+#define LEFT_GAMEBOARD 0
+#define TOP_GAMEBOARD 5
 
-#define GAMEBOARD_WIDTH 100
+#define WIDTH_GAMEBOARD 100
+#define HEIGHT_GAMEBOARD 21
 
 
 enum Key {
