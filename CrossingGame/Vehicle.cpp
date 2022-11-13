@@ -3,6 +3,7 @@
 Vehicle::Vehicle()
 {
 	mSpeed = _height = _width = mX = mY = 0;
+	moving = true;
 }
 
 Vehicle::~Vehicle()

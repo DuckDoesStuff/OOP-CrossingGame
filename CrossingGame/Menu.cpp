@@ -24,7 +24,7 @@ void Menu::printTitle()
 
 	Common().setConsoleColor(BRIGHT_WHITE, LIGHT_BLUE);
 
-	int left = 37, top = 4;
+	int left = 53, top = 4;
 	int i = 0;
 	while (!in.eof())
 	{
@@ -39,7 +39,7 @@ void Menu::printTitle()
 
 void Menu::renderOptionsBox()
 {
-	int left = 53, top = 17;
+	int left = 69, top = 17;
 	int boxW = 21, boxH = 2;
 
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
@@ -82,7 +82,7 @@ void Menu::renderOptionsBox()
 
 void Menu::renderOptionsText()
 {
-	int left = 44, top = 18;
+	int left = 60, top = 18;
 	int width = 41;
 	for (int i = 0; i < Menu()._opt; i++) {
 		Common::gotoXY((width - Menu()._selections[i].length()) / 2 + left, top + i * 2);
@@ -92,11 +92,11 @@ void Menu::renderOptionsText()
 
 void Menu::renderCurOpt()
 {
-	int left1 = 50, top = 18;
+	int left1 = 66, top = 18;
 	Common::gotoXY(left1, top);
 	putchar(62);				//left arrows
 	putchar(62);
-	int left2 = 76;
+	int left2 = 92;
 	Common::gotoXY(left2, top);
 	putchar(60);				//right arrows
 	putchar(60);
@@ -144,10 +144,10 @@ void Menu::renderCurOpt()
 			break;
 		}
 	}
-
+	Game g;
 	switch (slt) {
 	case 0:
-		Game().playGame(1);
+		g.playGame(1);
 		break;
 	case 1:
 		break;

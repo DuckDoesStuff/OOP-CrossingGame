@@ -84,15 +84,16 @@ void People::move() {
 
 //******************************************//
 
-void People::checkImpact() {
+bool People::checkImpact() {
 	vector<Vehicle*> v = *g_vh;
 	for (int i = 0; i < v.size(); i++) {
 		if (v[i]->getY() == mY - 1) {
 			if (mX + _width >= v[i]->getX() && mX < v[i]->getX() + v[i]->getWidth()) {
 				alive = false;
-				break;
+				return true;;
 			}
 		}
+
 
 		/*Common::gotoXY(WIDTH_GAMEBOARD + 2, 0);
 		cout << "                ";
@@ -100,4 +101,5 @@ void People::checkImpact() {
 		cout << v[0]->getX() << ":" << v[0]->getX() + v[0]->getWidth() << " " << mX;
 		if (mX > v[0]->getX() - 1 && mX < v[0]->getX() + v[0]->getWidth()) cout << " Impacted";*/
 	}
+	return false;
 }

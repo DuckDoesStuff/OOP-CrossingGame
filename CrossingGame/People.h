@@ -34,5 +34,5 @@ public:
 	//******************************************//
 
 	bool isAlive() { return alive; }
-	void checkImpact();
+	bool checkImpact();
 };

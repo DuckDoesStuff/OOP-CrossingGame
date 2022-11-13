@@ -55,12 +55,13 @@ bool Truck::checkPos() {
 
 void Truck::updatePos()
 {
-	if (mX < WIDTH_GAMEBOARD - _width) eraseFromScreen();
+	if (!moving) return;
+	if (mX < WIDTH_GAMEBOARD - _width + LEFT_GAMEBOARD) eraseFromScreen();
 
 	if (checkPos())
 		mX += mSpeed;
 	else
-		mX = WIDTH_GAMEBOARD + _width;
+		mX = WIDTH_GAMEBOARD + _width + LEFT_GAMEBOARD;
 
-	if (mX < WIDTH_GAMEBOARD - _width) drawToScreen();
+	if (mX < WIDTH_GAMEBOARD - _width + LEFT_GAMEBOARD) drawToScreen();
 }

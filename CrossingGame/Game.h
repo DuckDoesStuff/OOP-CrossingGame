@@ -1,17 +1,24 @@
 #pragma once
 #include <thread>
+#include <mutex>
 #include "Common.h"
 #include "People.h"
 #include "Car.h"
 #include "Truck.h"
 
-#define _numOfLane 4
+#define _numOfLane 5
 
 class Game {
 private:
-	int _level;
+	int level;
+	int frame;
+	vector<pair<int, int>> trafficLane;
+	vector<int> trafficTimer;
+
+	int numOfObjs;
 	People* human;
 	vector<Vehicle*> vh;
+
 public:
 	Game();
 	~Game();
@@ -19,21 +26,25 @@ public:
 	//******************************************//
 
 	void playGame(int);
+
 	template <class T> 
 	void initLane(vector<T*>&, T*, int, int, int, int);
 	void initGameData(int);
+
 	template <class T>
-	void Draw(vector<T*>);
+	void DrawObj(vector<T*>);
+
 	void drawBoardGame();
 
 	//******************************************//
 
 	void updateVehicle();
-	void speedUpVehicle();
-	void updatePeople();
+	void setTraffic();
+	void drawTraffic();
 
 	//******************************************//
 
-	void setLevel(int n) { _level = n; }
-	int getLevel() { return _level; }
+	void setLevel(int n) { level = n; }
+	int getLevel() { return level; }
+
 };

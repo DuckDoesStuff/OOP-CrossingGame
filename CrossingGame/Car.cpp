@@ -24,7 +24,7 @@ void Car::loadImage(int type)
 	case 0:
 		file = "ASCII\\car1.txt";
 		_height = 4;
-		_width = 14;
+		_width = 15;
 	}
 
 	ifstream fin(file);
@@ -41,12 +41,13 @@ void Car::loadImage(int type)
 
 bool Car::checkPos()
 {
-	if ((mX + mSpeed) < WIDTH_GAMEBOARD - _width) return true;
+	if ((mX + mSpeed) < WIDTH_GAMEBOARD - _width + LEFT_GAMEBOARD) return true;
 	return false;
 }
 
 void Car::updatePos()
 {
+	if (!moving) return;
 	if (mX > LEFT_GAMEBOARD)
 		eraseFromScreen();
 

@@ -37,8 +37,8 @@ void Common::setAndCenterWindow()
 {
 	RECT rectClient, rectWindow;
 	GetClientRect(consoleWindow, &rectClient), GetWindowRect(consoleWindow, &rectWindow);
-	int width = 1152;
-	int height = 648;
+	int width = 1400;
+	int height = 720;
 	int posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2,
 		posY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
 	MoveWindow(consoleWindow, posX, posY, width, height, TRUE);
