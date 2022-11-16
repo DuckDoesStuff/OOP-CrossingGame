@@ -1,34 +1,34 @@
-#include "Vehicle.h"
+#include "Animal.h"
 
-Vehicle::Vehicle()
+Animal::Animal()
 {
 	mSpeed = _height = _width = mX = mY = 0;
 }
 
-Vehicle::~Vehicle()
+Animal::~Animal()
 {
 }
 
 //******************************************//
 
-void Vehicle::setCoords(int x, int y)
+void Animal::setCoords(int x, int y)
 {
 	mX = x;
 	mY = y;
 }
 
-pair<int, int> Vehicle::getCoords(int, int)
+pair<int, int> Animal::getCoords(int, int)
 {
 	return pair<int, int>(mX, mY);
 }
 
 //******************************************//
 
-void Vehicle::loadImage(int)
+void Animal::loadImage(int)
 {
 }
 
-void Vehicle::drawToScreen()
+void Animal::drawToScreen()
 {
 	for (int i = 0; i < image.size(); i++) {
 		Common::gotoXY(mX, mY + i);
@@ -36,29 +36,29 @@ void Vehicle::drawToScreen()
 	}
 }
 
-void Vehicle::eraseFromScreen()
+void Animal::eraseFromScreen()
 {
 	for (int i = 0; i < image.size(); i++) {
 		Common::gotoXY(mX, mY + i);
-	
-			for (int j = 0; j < image[i].length(); j++)
-				putchar(' ');
-		
+		for (int j = 0; j < image[i].length(); j++)
+			putchar(' ');
 	}
 }
 
 //******************************************//
 
-bool Vehicle::checkPos()
+bool Animal::checkPos()
 {
 	return true;
 }
 
-void Vehicle::updatePos()
+void Animal::updatePos()
 {
 }
 
-void Vehicle::speedUp() {
+void Animal::speedUp() {
 	if (mSpeed > 0) mSpeed++;
 	else mSpeed--;
 }
+
+

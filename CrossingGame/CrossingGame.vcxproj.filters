@@ -39,6 +39,15 @@
     <ClCompile Include="People.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hourse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -60,6 +69,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="People.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hourse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

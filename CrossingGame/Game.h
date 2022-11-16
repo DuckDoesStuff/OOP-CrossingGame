@@ -4,6 +4,8 @@
 #include "People.h"
 #include "Car.h"
 #include "Truck.h"
+#include "Camel.h"
+#include "Hourse.h"
 
 #define _numOfLane 4
 
@@ -12,6 +14,7 @@ private:
 	int _level;
 	People* human;
 	vector<Vehicle*> vh;
+	vector<Animal*> an;
 public:
 	Game();
 	~Game();
@@ -29,7 +32,13 @@ public:
 	//******************************************//
 
 	void updateVehicle();
+	void updateAnimal();
+
+	void speedUpAnimal();
+	
 	void speedUpVehicle();
+
+
 	void updatePeople();
 
 	//******************************************//

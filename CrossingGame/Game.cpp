@@ -22,9 +22,11 @@ void Game::playGame(int level)
 	drawBoardGame();
 
 	Draw(vh);
+	Draw(an);
 	while (human->isAlive()) {
 		//updatePeople();
 		updateVehicle();
+		updateAnimal();
 		human->checkImpact();
 		human->move();
 		Sleep(60);
@@ -54,17 +56,33 @@ void Game::initGameData(int level)
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < numOfObjs; j++) {
-			Vehicle* obj;
+			
 			if (i % 2 == 0)
-				obj = new Car(0);
+			{
+				Vehicle* obj;
+				if (i % 4 == 0)
+					obj = new Car(0);
+				else
+					obj = new Truck(0);
+				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
+			}
 			else
-				obj = new Truck(0);
-			initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
+			{
+				Animal* obj;
+				if (i % 3 == 0)
+					obj = new Hourse(0);
+				else
+					obj = new Camel(0);
+				initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
+			}
+			
 		}
 		laneSpacing += 5;
 	}
 	human = new People(WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	human->setVehicle(vh);
+	human->setAnimal(an);
+
 }
 
 template <class T>
@@ -156,12 +174,26 @@ void Game::updateVehicle() {
 		vh[i]->updatePos();
 	}
 }
-
 void Game::speedUpVehicle() {
 	for (int i = 0; i < vh.size(); i++) {
 		vh[i]->speedUp();
 	}
 }
+
+//ehe
+void Game::updateAnimal() {
+	for (int i = 0; i < an.size(); i++) 
+	{
+		an[i]->updatePos();
+	}
+}
+void Game::speedUpAnimal()
+{
+	for (int i = 0; i < an.size(); i++) {
+		an[i]->speedUp();
+	}
+}
+
 
 void Game::updatePeople() {
 	human->checkImpact();
