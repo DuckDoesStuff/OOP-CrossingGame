@@ -30,8 +30,12 @@ void Game::playGame(int level)
 	initGameData(level);
 	drawBoardGame();
 	drawTraffic();
+	human->drawToScreen();
+
+
 
 	DrawObj(vh);
+	Sleep(10);
 	while (true) {
 		updateVehicle();
 

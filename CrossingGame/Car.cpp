@@ -41,21 +41,21 @@ void Car::loadImage(int type)
 
 bool Car::checkPos()
 {
-	if ((mX + mSpeed) < WIDTH_GAMEBOARD - _width + LEFT_GAMEBOARD) return true;
+	if ((mX + mSpeed) < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) return true;
 	return false;
 }
 
 void Car::updatePos()
 {
 	if (!moving) return;
-	if (mX > LEFT_GAMEBOARD)
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
 		eraseFromScreen();
 
 	if (checkPos())
 		mX += mSpeed;
 	else
-		mX = -_width;
+		mX = LEFT_GAMEBOARD - _width - 1;
 
-	if (mX > LEFT_GAMEBOARD)
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
 		drawToScreen();
 }

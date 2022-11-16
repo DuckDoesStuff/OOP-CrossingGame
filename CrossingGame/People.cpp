@@ -65,21 +65,28 @@ void People::eraseFromScreen() {
 }
 
 void People::move() {
-	eraseFromScreen();
-
-    if (Common::pressedKey(W) && mY > TOP_GAMEBOARD - 3)
+	int c = Common::getConsoleInput();
+	if (c == 2 && mY > TOP_GAMEBOARD - 3) {
+		eraseFromScreen();
 		mY-=5;
-
-    if (Common::pressedKey(A) && mX > LEFT_GAMEBOARD + 1)
+		drawToScreen();
+	}
+	else if (c == 3 && mX > LEFT_GAMEBOARD + 1) {
+		eraseFromScreen();
 		mX--;
-
-	if (Common::pressedKey(S) && mY < TOP_GAMEBOARD + HEIGHT_GAMEBOARD)
+		drawToScreen();
+	}
+	else if (c == 5 && mY < TOP_GAMEBOARD + HEIGHT_GAMEBOARD) {
+		eraseFromScreen();
 		mY+=5;
-
-    if (Common::pressedKey(D) && mX < LEFT_GAMEBOARD + WIDTH_GAMEBOARD - 4)
+		drawToScreen();
+	}
+	else if (c == 4 && mX < LEFT_GAMEBOARD + WIDTH_GAMEBOARD - 4) {
+		eraseFromScreen();
 		mX++;
+		drawToScreen();
+	}
 
-	drawToScreen();
 }
 
 //******************************************//
@@ -90,7 +97,7 @@ bool People::checkImpact() {
 		if (v[i]->getY() == mY - 1) {
 			if (mX + _width >= v[i]->getX() && mX < v[i]->getX() + v[i]->getWidth()) {
 				alive = false;
-				return true;;
+				return true;
 			}
 		}
 

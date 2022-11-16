@@ -115,7 +115,10 @@ bool Common::pressedKey(int n)
 
 int Common::getConsoleInput()
 {
-	int c = _getch();
+	int c = -1;
+	if (_kbhit()) c = _getch();
+	else return c;
+
 	if (c == 0 || c == 224)
 	{
 		switch (_getch())

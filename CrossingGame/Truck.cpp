@@ -39,6 +39,7 @@ void Truck::loadImage(int type)
 	ifstream in(file);
 	
 	string s;
+	int i = 0;
 	while (!in.eof()) {
 		getline(in, s);
 		image.push_back(s);
@@ -49,19 +50,21 @@ void Truck::loadImage(int type)
 //******************************************//
 
 bool Truck::checkPos() {
-	if ((mX + mSpeed) > LEFT_GAMEBOARD) return true;
+	if ((mX + mSpeed + _width) > LEFT_GAMEBOARD) return true;
 	return false;
 }
 
 void Truck::updatePos()
 {
 	if (!moving) return;
-	if (mX < WIDTH_GAMEBOARD - _width + LEFT_GAMEBOARD) eraseFromScreen();
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
+		eraseFromScreen();
 
 	if (checkPos())
 		mX += mSpeed;
 	else
-		mX = WIDTH_GAMEBOARD + _width + LEFT_GAMEBOARD;
+		mX = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 1;
 
-	if (mX < WIDTH_GAMEBOARD - _width + LEFT_GAMEBOARD) drawToScreen();
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
+		drawToScreen();
 }
