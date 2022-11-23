@@ -8,7 +8,7 @@ int main() {
 	//std::cout << "Hello, world!" << endl;
 
 	Menu test;
-	test.renderMainScreen();
+	test.renderMenuScreen();
 
 	//Common::clearConsole();
 	system("pause");

@@ -2,21 +2,15 @@
 
 
 Menu::Menu() {
+	game = nullptr;
+	loadSettings();
 }
 
 Menu::~Menu() {
-
+	saveSettings();
 }
 
-void Menu::renderMainScreen()
-{
-	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
-	Common::clearConsole();
-	printTitle();
-	renderOptionsBox();
-	renderOptionsText();
-	renderCurOpt();
-}
+//##################################################//
 
 void Menu::printTitle()
 {
@@ -37,15 +31,14 @@ void Menu::printTitle()
 	in.close();
 }
 
-void Menu::renderOptionsBox()
+void Menu::renderOptionsBox(int left, int top)
 {
-	int left = 69, top = 17;
 	int boxW = 21, boxH = 2;
 
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 
 	int box;
-	for (int i = 0; i < Menu()._opt; i++) {
+	for (int i = 0; i < opt; i++) {
 		box = i * boxH;
 		for (int j = 0; j < boxW; j++) {
 			Common::gotoXY(left + j, top + box);
@@ -74,85 +67,179 @@ void Menu::renderOptionsBox()
 	putchar(201);
 	Common::gotoXY(left + boxW, top);
 	putchar(187);
-	Common::gotoXY(left, top + boxH * Menu()._opt);
+	Common::gotoXY(left, top + boxH * opt);
 	putchar(200);
-	Common::gotoXY(left + boxW, top + boxH * Menu()._opt);
+	Common::gotoXY(left + boxW, top + boxH * opt);
 	putchar(188);
 }
 
-void Menu::renderOptionsText()
+void Menu::renderOptionsText(string text[], int left, int top)
 {
-	int left = 60, top = 18;
 	int width = 41;
-	for (int i = 0; i < Menu()._opt; i++) {
-		Common::gotoXY((width - Menu()._selections[i].length()) / 2 + left, top + i * 2);
-		std::cout << Menu()._selections[i];
+	for (int i = 0; i < opt; i++) {
+		Common::gotoXY((width - text[i].length()) / 2 + left, top + i * 2);
+		std::cout << text[i];
 	}
 }
 
-void Menu::renderCurOpt()
-{
-	int left1 = 66, top = 18;
-	Common::gotoXY(left1, top);
+void Menu::renderArrowsOpt(const int& n) {
+	int top = this->top + 1;
+	int left = this->left - 3;
+	Common::gotoXY(left, top + 2 * n);
 	putchar(62);				//left arrows
 	putchar(62);
-	int left2 = 92;
-	Common::gotoXY(left2, top);
+	Common::gotoXY(left + 26, top + 2 * n);
 	putchar(60);				//right arrows
 	putchar(60);
-	int c, slt = 0;
+}
+
+//##################################################//
+
+void Menu::ArrowUp(int slt) {
+	int left = this->left - 3;
+	int top = this->top + 1;
+
+	Common::gotoXY(left, top + 2 * (slt + 1));
+	cout << "  ";
+	Common::gotoXY(left + 26, top + 2 * (slt + 1));
+	cout << "  ";
+
+	Common::gotoXY(left, top + 2 * slt);
+	cout << ">>";
+	Common::gotoXY(left + 26, top + 2 * slt);
+	cout << "<<";
+}
+
+void Menu::ArrowDown(int slt) {
+	int left = this->left - 3;
+	int top = this->top + 1;
+
+	Common::gotoXY(left, top + 2 * (slt - 1));
+	cout << "  ";
+	Common::gotoXY(left + 26, top + 2 * (slt - 1));
+	cout << "  ";
+
+	Common::gotoXY(left, top + 2 * slt);
+	cout << ">>";
+	Common::gotoXY(left + 26, top + 2 * slt);
+	cout << "<<";
+}
+
+//##################################################//
+
+void Menu::initMenu() {
+	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
+	Common::clearConsole();
+	printTitle();
+	renderOptionsBox(left, top);
+	renderOptionsText(menuOptions, left - 9, top + 1);
+	renderArrowsOpt(menuSlt);
+}
+
+void Menu::renderMenuScreen()
+{
+	t_sound = thread(&Menu::soundHandle, this);
+	initMenu();
+	renderMenuCurOpt();
+	if (t_sound.joinable()) t_sound.join();
+}
+
+void Menu::renderMenuCurOpt()
+{
+	int c;
 	bool loadMenu = true;
 	while (loadMenu) {
 		c = Common::getConsoleInput();
 		switch (c) {
 		case 2:			//move up
-			if (slt == 0) break; // limit up
-			Common::gotoXY(left1, top);
-			putchar(' ');
-			putchar(' ');
-			Common::gotoXY(left2, top);
-			putchar(' ');
-			putchar(' ');
-			top -= 2;
-			Common::gotoXY(left1, top);
-			putchar(62);
-			putchar(62);
-			Common::gotoXY(left2, top);
-			putchar(60);
-			putchar(60);
-			slt--;
+			if (menuSlt == 0) break;
+			menuSlt--;
+			ArrowUp(menuSlt);
 			break;
 		case 5:			//move down
-			if (slt == 3) break; // limit down
-			Common::gotoXY(left1, top);
-			putchar(' ');
-			putchar(' ');
-			Common::gotoXY(left2, top);
-			putchar(' ');
-			putchar(' ');
-			top += 2;
-			Common::gotoXY(left1, top);
-			putchar(62);
-			putchar(62);
-			Common::gotoXY(left2, top);
-			putchar(60);
-			putchar(60);
-			slt++;
+			if (menuSlt == opt - 1) break;
+			menuSlt++;
+			ArrowDown(menuSlt);
 			break;
 		case 6:			//enter
-			loadMenu = false;
+			switch (menuSlt) {
+			case 0:
+				runGame = false;
+				game = new Game();
+				game->runGame();
+				delete game;
+				game = nullptr;
+				runGame = true;
+
+				initMenu();
+				break;
+			case 1:
+				break;
+			case 3:
+				break;
+			case 4:
+				exitMenu = true;
+				return;
+			}
 			break;
 		}
 	}
-	Game g;
-	switch (slt) {
-	case 0:
-		g.playGame(1);
-		break;
-	case 1:
-		break;
-	case 3:
-		break;
-	case 4:exit(0);
+	
+}
+
+//##################################################//
+
+void Menu::renderSettingScreen() {
+
+}
+
+//##################################################//
+
+void Menu::soundHandle() {
+	bool BgOff = false;
+	mciSendString(L"open \"Sound/dumb_ways2die.mp3\" type mpegvideo alias mp3", NULL, 0, NULL);
+	setVolume(10);
+	playBg();
+	while (!exitMenu) {
+		if (sound == true && BgOff == true) {
+			playBg();
+			BgOff = false;
+		}
+		else if (sound == false && BgOff == false) {
+			stopBg();
+			BgOff = true;
+		}
 	}
+	stopBg();
+}
+
+void Menu::playBg() {
+	mciSendString(L"play mp3 from 0 repeat", NULL, 0, NULL);
+}
+
+void Menu::stopBg() {
+	mciSendString(L"stop mp3", NULL, 0, NULL);
+}
+
+void Menu::setVolume(int volume) {
+	wstring cmd = L"setaudio mp3 volume to " + to_wstring(volume);
+	mciSendString(cmd.c_str(), NULL, 0, NULL);
+}
+
+//##################################################//
+
+void Menu::saveSettings() {
+	ofstream out("settings.txt");
+
+	out << sound;
+
+	out.close();
+}
+
+void Menu::loadSettings() {
+	ifstream in("settings.txt");
+
+	in >> sound;
+
+	in.close();
 }

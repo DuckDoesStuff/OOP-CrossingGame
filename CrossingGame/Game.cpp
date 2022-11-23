@@ -3,7 +3,6 @@
 Game::Game()
 {
 	srand(time(NULL));
-	Common::clearConsole();
 	level = 0;
 	human = nullptr;
 	numOfObjs = 0;
@@ -24,6 +23,11 @@ Game::~Game()
 }
 
 //******************************************//
+
+void Game::runGame() {
+	Common::clearConsole();
+	playGame();
+}
 
 void Game::playGame(int level)
 {

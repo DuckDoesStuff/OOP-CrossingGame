@@ -25,7 +25,8 @@ public:
 
 	//******************************************//
 
-	void playGame(int);
+	void runGame();
+	void playGame(int level = 1);
 
 	template <class T> 
 	void initLane(vector<T*>&, T*, int, int, int, int);
@@ -46,5 +47,4 @@ public:
 
 	void setLevel(int n) { level = n; }
 	int getLevel() { return level; }
-
 };
