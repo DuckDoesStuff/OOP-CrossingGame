@@ -16,6 +16,7 @@ private:
 	bool exitMenu = false;
 
 	string menuOptions[4] = { "Play", "Settings", "Leaderboard", "Exit" }; //selections
+	string settingsOptions[4] = { "Background music", "Back" }; //selections
 
 	Game* game;
 	bool runGame = false;
@@ -29,7 +30,7 @@ public:
 	//##################################################//
 
 	void printTitle();
-	void renderOptionsBox(int, int);
+	void renderOptionsBox(int);
 	void renderOptionsText(string[], int, int);
 	void renderArrowsOpt(const int&);
 
@@ -41,11 +42,13 @@ public:
 	//##################################################//
 
 	void initMenu();
-	void renderMenuScreen();//Render the title and menu options also setup console attributes
-	void renderMenuCurOpt();	//hien thi lua chon hien tai
+	void renderMenuCurOpt();
+	void renderMenuScreen();
 
 	//##################################################//
 
+	void initSettings();
+	void renderSettCurOpt();
 	void renderSettingScreen();
 
 	//##################################################//

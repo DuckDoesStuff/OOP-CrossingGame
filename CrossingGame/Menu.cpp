@@ -31,14 +31,14 @@ void Menu::printTitle()
 	in.close();
 }
 
-void Menu::renderOptionsBox(int left, int top)
+void Menu::renderOptionsBox(int n)
 {
 	int boxW = 21, boxH = 2;
 
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 
 	int box;
-	for (int i = 0; i < opt; i++) {
+	for (int i = 0; i < n; i++) {
 		box = i * boxH;
 		for (int j = 0; j < boxW; j++) {
 			Common::gotoXY(left + j, top + box);
@@ -67,9 +67,9 @@ void Menu::renderOptionsBox(int left, int top)
 	putchar(201);
 	Common::gotoXY(left + boxW, top);
 	putchar(187);
-	Common::gotoXY(left, top + boxH * opt);
+	Common::gotoXY(left, top + boxH * n);
 	putchar(200);
-	Common::gotoXY(left + boxW, top + boxH * opt);
+	Common::gotoXY(left + boxW, top + boxH * n);
 	putchar(188);
 }
 
@@ -131,7 +131,7 @@ void Menu::initMenu() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
 	printTitle();
-	renderOptionsBox(left, top);
+	renderOptionsBox(opt);
 	renderOptionsText(menuOptions, left - 9, top + 1);
 	renderArrowsOpt(menuSlt);
 }
@@ -163,7 +163,7 @@ void Menu::renderMenuCurOpt()
 			break;
 		case 6:			//enter
 			switch (menuSlt) {
-			case 0:
+			case 0://Play
 				runGame = false;
 				game = new Game();
 				game->runGame();
@@ -173,24 +173,68 @@ void Menu::renderMenuCurOpt()
 
 				initMenu();
 				break;
-			case 1:
+			case 1://Settings
+				renderSettingScreen();
+
+
+				initMenu();
+				break;
+			case 2:
 				break;
 			case 3:
-				break;
-			case 4:
 				exitMenu = true;
+				Common::clearConsole();
+				return;
+				break;
+			}
+		}
+	}
+}
+
+//##################################################//
+
+void Menu::initSettings() {
+	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
+	Common::clearConsole();
+	printTitle();
+	renderOptionsBox(sett);
+	renderOptionsText(settingsOptions, left - 9, top + 1);
+	renderArrowsOpt(0);
+}
+
+void Menu::renderSettCurOpt() {
+	int c, slt = 0;
+	bool loadSett = true;
+	while (loadSett) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:			//move up
+			if (slt == 0) break;
+			slt--;
+			ArrowUp(slt);
+			break;
+		case 5:			//move down
+			if (slt == sett - 1) break;
+			slt++;
+			ArrowDown(slt);
+			break;
+		case 6:			//enter
+			switch (slt) {
+			case 0:
+				sound = !sound;
+				break;
+			case 1:
 				return;
 			}
 			break;
 		}
 	}
-	
+
 }
 
-//##################################################//
-
 void Menu::renderSettingScreen() {
-
+	initSettings();
+	renderSettCurOpt();
 }
 
 //##################################################//
