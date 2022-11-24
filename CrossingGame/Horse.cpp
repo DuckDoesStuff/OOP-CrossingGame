@@ -1,13 +1,13 @@
-#include "Car.h"
+#include "Horse.h"
 
-Car::Car(int type)
+Horse::Horse(int type)
 {
 	loadImage(type);
 	mX = mY = 0;
 	mSpeed = 1;
 }
 
-Car::Car(int type, int x, int y)
+Horse::Horse(int type, int x, int y)
 {
 	loadImage(type);
 	mX = x + LEFT_GAMEBOARD;
@@ -17,14 +17,14 @@ Car::Car(int type, int x, int y)
 
 //******************************************//
 
-void Car::loadImage(int type)
+void Horse::loadImage(int type)
 {
 	string file;
-	switch (type){
+	switch (type) {
 	case 0:
-		file = "ASCII\\car1.txt";
+		file = "ASCII\\horse.txt";
 		_height = 4;
-		_width = 15;
+		_width = 18;
 	}
 
 	ifstream fin(file);
@@ -39,16 +39,16 @@ void Car::loadImage(int type)
 
 //******************************************//
 
-bool Car::checkPos()
+bool Horse::checkPos()
 {
 	if ((mX + mSpeed) < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) return true;
 	return false;
 }
 
-void Car::updatePos()
+void Horse::updatePos()
 {
 	if (!moving) return;
-	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
 		eraseFromScreen();
 
 	if (checkPos())
@@ -56,6 +56,6 @@ void Car::updatePos()
 	else
 		mX = LEFT_GAMEBOARD - _width - 1;
 
-	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
 		drawToScreen();
 }

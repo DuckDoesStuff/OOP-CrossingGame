@@ -37,8 +37,8 @@ void Common::setAndCenterWindow()
 {
 	RECT rectClient, rectWindow;
 	GetClientRect(consoleWindow, &rectClient), GetWindowRect(consoleWindow, &rectWindow);
-	int width = 1152;
-	int height = 648;
+	int width = 1400;
+	int height = 720;
 	int posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2,
 		posY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
 	MoveWindow(consoleWindow, posX, posY, width, height, TRUE);
@@ -108,9 +108,17 @@ void Common::clearConsole()
 	system("cls");
 }
 
+bool Common::pressedKey(int n)
+{
+	return GetAsyncKeyState(n);
+}
+
 int Common::getConsoleInput()
 {
-	int c = _getch();
+	int c = -1;
+	if (_kbhit()) c = _getch();
+	else return c;
+
 	if (c == 0 || c == 224)
 	{
 		switch (_getch())

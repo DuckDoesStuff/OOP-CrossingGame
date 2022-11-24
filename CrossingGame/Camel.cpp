@@ -1,12 +1,12 @@
-﻿#include "Truck.h"
+﻿#include "Camel.h"
 
-Truck::Truck(int type) {
+Camel::Camel(int type) {
 	loadImage(type);
 	mX = mY = 0;
 	mSpeed = -1;
 }
 
-Truck::Truck(int type, int x, int y) {
+Camel::Camel(int type, int x, int y) {
 	loadImage(type);
 	mX = x + LEFT_GAMEBOARD + WIDTH_GAMEBOARD;
 	mY = y + TOP_GAMEBOARD;
@@ -15,31 +15,30 @@ Truck::Truck(int type, int x, int y) {
 
 //******************************************//
 
-void Truck::loadImage(int type)
+void Camel::loadImage(int type)
 {
 	//Hình ảnh của obj
 	string file;
 	switch (type)
 	{
 	case 0:
-		file = "ASCII\\truck1.txt";
+		file = "ASCII\\camel.txt";
 		_height = 4;
-		_width = 18;
+		_width = 13;
 		mSpeed = -1;
 		break;
 	case 1:
-		file = "ASCII\\truck2.txt";
+		file = "ASCII\\camel.txt";
 		_height = 4;
-		_width = 12;
+		_width = 13;
 		mSpeed = -1;
 		break;
 	default:
 		break;
 	}
 	ifstream in(file);
-	
+
 	string s;
-	int i = 0;
 	while (!in.eof()) {
 		getline(in, s);
 		image.push_back(s);
@@ -49,15 +48,15 @@ void Truck::loadImage(int type)
 
 //******************************************//
 
-bool Truck::checkPos() {
-	if ((mX + mSpeed + _width) > LEFT_GAMEBOARD) return true;
+bool Camel::checkPos() {
+	if ((mX + mSpeed) > LEFT_GAMEBOARD) return true;
 	return false;
 }
 
-void Truck::updatePos()
+void Camel::updatePos()
 {
 	if (!moving) return;
-	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
 		eraseFromScreen();
 
 	if (checkPos())
@@ -65,6 +64,8 @@ void Truck::updatePos()
 	else
 		mX = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 1;
 
-	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
 		drawToScreen();
 }
+
+

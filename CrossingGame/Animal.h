@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-class Vehicle {
+class Animal {
 protected:
 	int mX, mY;				//Tọa độ của obj trong game frame
 	int mSpeed;			//Tốc độ của obj
@@ -11,8 +11,8 @@ protected:
 	int _height, _width;
 	bool moving;
 public:
-	Vehicle(); //Khởi tạo obj tại 0,0
-	~Vehicle();
+	Animal(); //Khởi tạo obj tại 0,0
+	~Animal();
 
 	//******************************************//
 
@@ -25,7 +25,6 @@ public:
 	int getY() { return mY; }
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
-	int getSpeed() { return mSpeed; }
 
 	//******************************************//
 

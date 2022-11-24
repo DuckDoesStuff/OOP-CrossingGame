@@ -1,35 +1,35 @@
-#include "Vehicle.h"
+#include "Animal.h"
 
-Vehicle::Vehicle()
+Animal::Animal()
 {
 	mSpeed = _height = _width = mX = mY = 0;
 	moving = true;
 }
 
-Vehicle::~Vehicle()
+Animal::~Animal()
 {
 }
 
 //******************************************//
 
-void Vehicle::setCoords(int x, int y)
+void Animal::setCoords(int x, int y)
 {
 	mX = x;
 	mY = y;
 }
 
-pair<int, int> Vehicle::getCoords(int, int)
+pair<int, int> Animal::getCoords(int, int)
 {
 	return pair<int, int>(mX, mY);
 }
 
 //******************************************//
 
-void Vehicle::loadImage(int)
+void Animal::loadImage(int)
 {
 }
 
-void Vehicle::drawToScreen()
+void Animal::drawToScreen()
 {
 	//for (int i = 0; i < image.size(); i++) {
 	//	Common::gotoXY(mX, mY + i);
@@ -38,11 +38,11 @@ void Vehicle::drawToScreen()
 
 	int start = 0, end = _width;
 
-	if (LEFT_GAMEBOARD - mX + 1 > 0) 
+	if (LEFT_GAMEBOARD - mX + 1 > 0)
 		start = LEFT_GAMEBOARD - mX + 1;
 	if (LEFT_GAMEBOARD + WIDTH_GAMEBOARD - mX > 0)
 		end = LEFT_GAMEBOARD + WIDTH_GAMEBOARD - mX - 1;
-	if (end > _width) 
+	if (end > _width)
 		end = _width;
 
 	for (int i = 0; i < _height; i++) {
@@ -52,7 +52,7 @@ void Vehicle::drawToScreen()
 	}
 }
 
-void Vehicle::eraseFromScreen()
+void Animal::eraseFromScreen()
 {
 	//for (int i = 0; i < image.size(); i++) {
 	//	Common::gotoXY(mX, mY + i);
@@ -78,16 +78,18 @@ void Vehicle::eraseFromScreen()
 
 //******************************************//
 
-bool Vehicle::checkPos()
+bool Animal::checkPos()
 {
 	return true;
 }
 
-void Vehicle::updatePos()
+void Animal::updatePos()
 {
 }
 
-void Vehicle::speedUp() {
+void Animal::speedUp() {
 	if (mSpeed > 0) mSpeed++;
 	else mSpeed--;
 }
+
+

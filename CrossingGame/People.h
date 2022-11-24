@@ -1,27 +1,41 @@
 #pragma once
 #include "Common.h"
-#include <iostream>
+#include "Vehicle.h"
+#include "Animal.h"
+#include <thread>
+#include <vector>
+#include <string>
 
 class People {
 protected:
 	int mX, mY;
 	vector<string> image;
 	int _height, _width;
-	bool isAlive = true;
+	bool alive;
+	vector<Vehicle*>* g_vh;
+	vector<Animal*>* g_an;
 public:
 	People();
+	People(int, int);
 	~People();
+
+	//******************************************//
+
 	void setCoords(int x, int y);
 	pair<int, int> getCoords(int, int);
+
+	void setVehicle(vector<Vehicle*>&);
+	void setAnimal(vector<Animal*>&);
+
+	//******************************************//
+
+	virtual void loadImage(int type);
 	virtual void drawToScreen();
 	virtual void eraseFromScreen();
 	virtual void move();
-	//void loadImage(int type);
-	virtual void loadImage(int type);
-	virtual void Up();
-	virtual void Down();
-	virtual void Left();
-	virtual void Right();
-	void checkPos(int, int, int, int);
-	bool alive() { return isAlive; }
+
+	//******************************************//
+
+	bool isAlive() { return alive; }
+	bool checkImpact();
 };

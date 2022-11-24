@@ -1,10 +1,10 @@
 #pragma once
-#include "Vehicle.h"
+#include "Animal.h"
 
-class Car:public Vehicle {
+class Camel :public Animal {
 public:
-	Car(int);
-	Car(int, int, int);
+	Camel(int);
+	Camel(int, int, int);
 
 	//******************************************//
 
@@ -14,4 +14,5 @@ public:
 
 	bool checkPos();
 	void updatePos();
+
 };
