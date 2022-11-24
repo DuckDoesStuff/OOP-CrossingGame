@@ -29,7 +29,7 @@ using namespace std;
 #define LIGHT_YELLOW 14
 #define BRIGHT_WHITE 15
 
-#define LEFT_GAMEBOARD 5
+#define LEFT_GAMEBOARD 0
 #define TOP_GAMEBOARD 4
 
 #define GAMEBOARD_WIDTH 100

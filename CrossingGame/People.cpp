@@ -1,5 +1,15 @@
 #include "People.h"
 
+People::People()
+{
+	loadImage(1);
+	setCoords(GAMEBOARD_WIDTH/2, 25);
+}
+
+People::~People()
+{
+}
+
 void People::setCoords(int x, int y) {
 	mX = x;
 	mY = y;
@@ -22,33 +32,52 @@ void People::eraseFromScreen() {
 	}
 }
 
-
 void People::Up() {
-	Common::gotoXY(mX, mY - 2);
+	eraseFromScreen();
+	mY--;
+	drawToScreen();
 }
 void People::Down() {
-	Common::gotoXY(mX, mY + 2);
+	eraseFromScreen();
+	mY++;
+	drawToScreen();
 }
 void People::Left() {
-	Common::gotoXY(mX - 4, mY);
+	eraseFromScreen();
+	mX--;
+	drawToScreen();
 }
 void People::Right() {
-	Common::gotoXY(mX + 4, mY);
+	eraseFromScreen();
+	mX++;
+	drawToScreen();
 }
+
 void People::move() {
-    if ((GetAsyncKeyState('W') != 0) ) {
-        Up();
-    }
-    if ((GetAsyncKeyState('A') != 0) ) {
-        Left();
-    }
-    if ((GetAsyncKeyState('S') != 0) ) {
-        Down();
-    }
-    if ((GetAsyncKeyState('D') != 0) ) {
-        Right();
-    }
+	if ((GetAsyncKeyState('W') != 0)) {
+		if (mY>TOP_GAMEBOARD - 3) Up();
+	}
+	if ((GetAsyncKeyState('A') != 0)) {
+		if (mX> LEFT_GAMEBOARD + 1) Left();
+	}
+	if ((GetAsyncKeyState('S') != 0)) {
+		if (mY<25) Down();
+	}
+	if ((GetAsyncKeyState('D') != 0)) {
+		if (mX<GAMEBOARD_WIDTH - _width) Right();
+	}
 }
+
+void People::checkPos(int x, int y, int width, int height) {
+	if (x+1 <= mX && mX <= x + width-1) {
+		if (y+1 <= mY && mY <= y + height-1) {
+			isAlive = false;
+		}
+	}
+}
+
+
+
 void People::loadImage(int type) {
 	string file;
 	if (type == 1) {

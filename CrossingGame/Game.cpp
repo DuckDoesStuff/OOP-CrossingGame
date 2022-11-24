@@ -16,12 +16,23 @@ Game::~Game()
 void Game::playGame()
 {
 	drawBoardGame();
+	p = new People();
+	p->drawToScreen();
 	for (int i = 0; i < _lane.size(); i++)
 		_lane[i].printLane();
 
-	while (true) {
-		for (int i = 0; i < _lane.size(); i++)
+	while (p->alive()) {
+		p->move();
+		for (int i = 0; i < _lane.size(); i++) {
 			_lane[i].moveLane();
+			for (int j = 0; j < _lane[i].getNumOfObjs(); j++) {
+				int x=_lane[i]._Obj[j]->getX();
+				int y = _lane[i]._Obj[j]->getY();
+				int width = _lane[i]._Obj[j]->getWidth();
+				int height = _lane[i]._Obj[j]->getHeight();
+				p->checkPos(x,y, width, height);
+			}
+		}
 		Sleep(10);
 	}
 }
@@ -42,19 +53,19 @@ void Game::drawBoardGame()
 
 	int box;
 	for (int j = 0; j < boxW; j++) {
-		Common::gotoXY(left + j, top - 3);
+		Common::gotoXY(left + j, top - 4);
 		putchar(205);
 	}
 	for (int j = 0; j < boxH; j++) {
-		Common::gotoXY(left, top - 3 + j);
+		Common::gotoXY(left, top - 4 + j);
 		putchar(186);
-		Common::gotoXY(left + boxW, top - 3 + j);
+		Common::gotoXY(left + boxW, top - 4 + j);
 		putchar(186);
 	}
 
-	Common::gotoXY(left, top - 3);
+	Common::gotoXY(left, top - 4);
 	putchar(201);
-	Common::gotoXY(left + boxW, top - 3);
+	Common::gotoXY(left + boxW, top - 4);
 	putchar(187);
 
 	for (int i = 0; i < _numOfLane; i++) {
@@ -88,19 +99,19 @@ void Game::drawBoardGame()
 	putchar(185);
 
 	for (int j = 0; j < boxW; j++) {
-		Common::gotoXY(left + j, top + boxH * _numOfLane + 3);
+		Common::gotoXY(left + j, top + boxH * _numOfLane + 4);
 		putchar(205);
 	}
-	for (int j = 0; j < 3; j++) {
+	for (int j = 0; j < 5; j++) {
 		Common::gotoXY(left, top + boxH * _numOfLane + j);
 		putchar(186);
 		Common::gotoXY(left + boxW, top + boxH * _numOfLane + j);
 		putchar(186);
 	}
 
-	Common::gotoXY(left, top + boxH * _numOfLane + 3);
+	Common::gotoXY(left, top + boxH * _numOfLane + 4);
 	putchar(200);
-	Common::gotoXY(left + boxW, top + boxH * _numOfLane + 3);
+	Common::gotoXY(left + boxW, top + boxH * _numOfLane + 4);
 	putchar(188);
 
 	Common::gotoXY(left, top + boxH * _numOfLane);

@@ -1,8 +1,9 @@
 #pragma once
 #include "Common.h"
 #include "Lane.h"
-//#include "Vehicle.h"
+#include "Vehicle.h"
 #include "Truck.h"
+#include "People.h"
 #include <iostream>
 #include <string>
 
@@ -14,6 +15,7 @@ private:
 	int _level;
 	vector<Lane> _lane;
 	int _numOfLane;
+	People* p;
 public:
 	Game();
 	~Game();
@@ -21,6 +23,7 @@ public:
 	void playGame();
 	void initGameData();
 	void drawBoardGame();
+	void impact();
 
 	void setLevel(int);
 	int getLevel();
