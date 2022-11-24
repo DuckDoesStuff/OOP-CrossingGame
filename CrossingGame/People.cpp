@@ -32,6 +32,10 @@ void People::setVehicle(vector<Vehicle*>& vh) {
 	g_vh = &vh;
 }
 
+void People::setAnimal(vector<Animal*>& an) {
+	g_an = &an;
+}
+
 //******************************************//
 
 void People::loadImage(int type) {
@@ -65,39 +69,52 @@ void People::eraseFromScreen() {
 }
 
 void People::move() {
-	eraseFromScreen();
-
-    if (Common::pressedKey(W) && mY > TOP_GAMEBOARD - 3)
+	int c = Common::getConsoleInput();
+	if (c == 2 && mY > TOP_GAMEBOARD - 3) {
+		eraseFromScreen();
 		mY-=5;
-
-    if (Common::pressedKey(A) && mX > LEFT_GAMEBOARD + 1)
+		drawToScreen();
+	}
+	else if (c == 3 && mX > LEFT_GAMEBOARD + 1) {
+		eraseFromScreen();
 		mX--;
-
-	if (Common::pressedKey(S) && mY < TOP_GAMEBOARD + HEIGHT_GAMEBOARD)
+		drawToScreen();
+	}
+	else if (c == 5 && mY < TOP_GAMEBOARD + HEIGHT_GAMEBOARD) {
+		eraseFromScreen();
 		mY+=5;
-
-    if (Common::pressedKey(D) && mX < LEFT_GAMEBOARD + WIDTH_GAMEBOARD - 4)
+		drawToScreen();
+	}
+	else if (c == 4 && mX < LEFT_GAMEBOARD + WIDTH_GAMEBOARD - 4) {
+		eraseFromScreen();
 		mX++;
+		drawToScreen();
+	}
 
-	drawToScreen();
 }
 
 //******************************************//
 
-void People::checkImpact() {
-	vector<Vehicle*> v = *g_vh;
-	for (int i = 0; i < v.size(); i++) {
-		if (v[i]->getY() == mY - 1) {
-			if (mX + _width >= v[i]->getX() && mX < v[i]->getX() + v[i]->getWidth()) {
-				alive = false;
-				break;
-			}
-		}
+bool People::checkImpact() {
+	//vector<Vehicle*> v = *g_vh;
+	vector<Animal*> a = *g_an;
+	//for (int i = 0; i < v.size(); i++) {
+	//	if (v[i]->getY() == mY - 1) 
+	//		if (mX + _width >= v[i]->getX() && mX < v[i]->getX() + v[i]->getWidth()) {
+	//			alive = false;
+	//			return true;
+	//		}
+	//	
+	//}
 
-		/*Common::gotoXY(WIDTH_GAMEBOARD + 2, 0);
-		cout << "                ";
-		Common::gotoXY(WIDTH_GAMEBOARD + 2, 0);
-		cout << v[0]->getX() << ":" << v[0]->getX() + v[0]->getWidth() << " " << mX;
-		if (mX > v[0]->getX() - 1 && mX < v[0]->getX() + v[0]->getWidth()) cout << " Impacted";*/
+	for (int i = 0; i < a.size(); i++) {
+		if (a[i]->getY() == mY - 1) 
+			if (mX + _width >= a[i]->getX() && mX < a[i]->getX() + a[i]->getWidth()) {
+				alive = false;
+				return true;
+			}
+		
 	}
+
+	return false;
 }

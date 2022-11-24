@@ -1,6 +1,7 @@
 #pragma once
 #include "Common.h"
 #include "Vehicle.h"
+#include "Animal.h"
 #include <thread>
 #include <vector>
 #include <string>
@@ -12,6 +13,7 @@ protected:
 	int _height, _width;
 	bool alive;
 	vector<Vehicle*>* g_vh;
+	vector<Animal*>* g_an;
 public:
 	People();
 	People(int, int);
@@ -23,6 +25,7 @@ public:
 	pair<int, int> getCoords(int, int);
 
 	void setVehicle(vector<Vehicle*>&);
+	void setAnimal(vector<Animal*>&);
 
 	//******************************************//
 
@@ -34,5 +37,5 @@ public:
 	//******************************************//
 
 	bool isAlive() { return alive; }
-	void checkImpact();
+	bool checkImpact();
 };
