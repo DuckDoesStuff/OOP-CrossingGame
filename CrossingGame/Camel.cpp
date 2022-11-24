@@ -55,17 +55,17 @@ bool Camel::checkPos() {
 
 void Camel::updatePos()
 {
-	if (mX < WIDTH_GAMEBOARD - _width)
+	if (!moving) return;
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
 		eraseFromScreen();
 
-		if (checkPos())
-			mX += mSpeed;
-		else
-		{
-			mX = WIDTH_GAMEBOARD + _width;
-		}
-		if (mX < WIDTH_GAMEBOARD - _width) drawToScreen();
-	
+	if (checkPos())
+		mX += mSpeed;
+	else
+		mX = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 1;
+
+	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
+		drawToScreen();
 }
 
 

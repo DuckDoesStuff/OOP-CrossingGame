@@ -25,6 +25,7 @@ public:
 	pair<int, int> getCoords(int, int);
 
 	void setVehicle(vector<Vehicle*>&);
+	void setAnimal(vector<Animal*>&);
 
 	void setAnimal(vector<Animal*>& an);
 
@@ -38,5 +39,5 @@ public:
 	//******************************************//
 
 	bool isAlive() { return alive; }
-	void checkImpact();
+	bool checkImpact();
 };
