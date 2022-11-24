@@ -1,6 +1,7 @@
 #pragma once
 #include <thread>
 #include <mutex>
+#include <unordered_map>
 #include "Common.h"
 #include "People.h"
 
@@ -15,8 +16,8 @@ class Game {
 private:
 	int level;
 	int frame;
-	vector<pair<int, int>> trafficLane;
-	vector<int> trafficTimer;
+	vector<pair<int, int>> trafficLane;			//{lane, timer}
+	vector<int> trafficTimer;					//{timer}
 
 	int numOfObjs;
 	People* human;
