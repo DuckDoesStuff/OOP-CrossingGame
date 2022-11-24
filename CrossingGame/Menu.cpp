@@ -8,6 +8,8 @@ Menu::Menu() {
 
 Menu::~Menu() {
 	saveSettings();
+	delete game;
+	game = nullptr;
 }
 
 //##################################################//
@@ -151,31 +153,31 @@ void Menu::renderMenuCurOpt()
 	while (loadMenu) {
 		c = Common::getConsoleInput();
 		switch (c) {
-		case 2:			//move up
+		case 2:								//move up
 			if (menuSlt == 0) break;
 			menuSlt--;
 			ArrowUp(menuSlt);
 			break;
-		case 5:			//move down
+		case 5:								//move down
 			if (menuSlt == opt - 1) break;
 			menuSlt++;
 			ArrowDown(menuSlt);
 			break;
-		case 6:			//enter
+		case 6:								//enter
 			switch (menuSlt) {
-			case 0://Play
-				runGame = false;
+			case 0:					//Play
+				//gameHandle();
+
+				delete game;
+				runGame = true;
 				game = new Game();
 				game->runGame();
-				delete game;
-				game = nullptr;
-				runGame = true;
+				runGame = false;
 
 				initMenu();
 				break;
-			case 1://Settings
+			case 1:					//Settings
 				renderSettingScreen();
-
 
 				initMenu();
 				break;
@@ -286,4 +288,22 @@ void Menu::loadSettings() {
 	in >> sound;
 
 	in.close();
+}
+
+//##################################################//
+
+void Menu::gameHandle() {
+	delete game;
+	game = new Game();
+	runGame = true;
+
+	t_game = thread(&Game::runGame, game);
+	while (runGame) {
+		if (Common::pressedKey(P)) {
+
+		}
+	}
+
+	runGame = false;
+	t_game.join();
 }

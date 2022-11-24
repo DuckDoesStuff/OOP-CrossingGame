@@ -19,6 +19,7 @@ private:
 	string settingsOptions[4] = { "Background music", "Back" }; //selections
 
 	Game* game;
+	thread t_game;
 	bool runGame = false;
 
 	thread t_sound;
@@ -62,4 +63,8 @@ public:
 
 	void saveSettings();
 	void loadSettings();
+
+	//##################################################//
+
+	void gameHandle();
 };

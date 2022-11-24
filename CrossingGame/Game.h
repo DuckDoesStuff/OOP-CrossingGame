@@ -3,8 +3,11 @@
 #include <mutex>
 #include "Common.h"
 #include "People.h"
+
 #include "Car.h"
 #include "Truck.h"
+#include "Camel.h"
+#include "Horse.h"
 
 #define _numOfLane 5
 
@@ -18,7 +21,7 @@ private:
 	int numOfObjs;
 	People* human;
 	vector<Vehicle*> vh;
-
+	vector<Animal*> an;
 public:
 	Game();
 	~Game();
@@ -36,10 +39,12 @@ public:
 	void DrawObj(vector<T*>);
 
 	void drawBoardGame();
+	void drawPeople();
 
 	//******************************************//
 
 	void updateVehicle();
+	void updateAnimal();
 	void setTraffic();
 	void drawTraffic();
 
