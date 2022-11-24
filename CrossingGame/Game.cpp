@@ -38,7 +38,7 @@ void Game::playGame(int level)
 {
 	initGameData(level);
 	drawBoardGame();
-	//drawTraffic();
+	drawTraffic();
 	drawPeople();
 
 	DrawObj(vh);
@@ -67,52 +67,6 @@ void Game::initGameData(int l)
 {
 	level = l;
 
-	//if (level == 1) {
-	//	numOfObjs = 2;
-	//	frame = 60;
-	//	for (int i = 0; i < 3; i++) {
-	//		int index;
-	//		bool unique = false;
-	//		do {
-	//			index = rand() % 5;
-	//			unique = true;
-	//			for (auto& it : trafficLane) {
-	//				if (it.first == index) {
-	//					unique = false;
-	//					break;
-	//				}
-	//			}
-	//		} while (!unique);
-
-	//		int laneTimer = rand() % (60 - 90 + 1) + 60;
-	//		trafficLane.push_back({ index, laneTimer });
-	//		trafficTimer.push_back(laneTimer);
-	//	}
-
-	//}
-	//else {
-	//	numOfObjs = 3;
-	//	frame = 45;
-	//	for (int i = 0; i < 2; i++) {
-	//		int index;
-	//		bool unique = false;
-	//		do {
-	//			index = rand() % 5;
-	//			unique = true;
-	//			for (auto& it : trafficLane) {
-	//				if (it.first == index) {
-	//					unique = false;
-	//					break;
-	//				}
-	//			}
-	//		} while (!unique);
-
-	//		int laneTimer = rand() % (30 - 40 + 1) + 30;
-	//		trafficLane.push_back({ index, laneTimer });
-	//		trafficTimer.push_back(laneTimer);
-	//	}
-	//}
-
 	int animalCount = 0;
 	int vehicleCount = 0;
 	int trafficCount = 0;
@@ -133,7 +87,6 @@ void Game::initGameData(int l)
 		vehicleCount = 1;
 		trafficCount = 2;
 	}
-
 
 	int rowSpacing = 0;
 	int laneSpacing = 0;
@@ -187,6 +140,8 @@ void Game::initGameData(int l)
 			}
 		else if (lane[i] == "traffic") {
 			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
+			trafficLane.push_back({ vh.size(), laneTimer});
+			trafficTimer.push_back(laneTimer);
 			for (int j = 0; j < numOfObjs; j++) {
 				Vehicle* obj;
 				if (i % 2 == 0)
@@ -194,34 +149,11 @@ void Game::initGameData(int l)
 				else
 					obj = new Truck(0);
 				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
-			}
-			trafficLane.push_back({ i, laneTimer });
-			trafficTimer.push_back(laneTimer);
+			}		
 		}
 		laneSpacing += 5;
 	}
 
-
-	//for (int i = 0; i < _numOfLane; i++) {
-	//	for (int j = 0; j < numOfObjs; j++) {
-	//		/*Vehicle* obj;
-	//		if (i % 2 == 0)
-	//			obj = new Car(0);
-	//		else
-	//			obj = new Truck(0);
-	//		initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);*/
-	//
-//			Animal* obj;
-//			if (i % 2 == 0)
-//				obj = new Horse(0);
-//			else
-//				obj = new Camel(0);
-//			initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
-	//
-	//		
-	//	}
-	//	laneSpacing += 5;
-	//}
 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	human->setVehicle(vh);
 	human->setAnimal(an);
@@ -319,19 +251,46 @@ void Game::updateVehicle() {
 	for (int i = 0; i < vh.size(); i++) {
 		vh[i]->updatePos();
 	}
-	//setTraffic();
+	setTraffic();
+}
+
+void Game::setTraffic() {
+	int index = 0;
+	for (auto& it : trafficLane) {
+		if (it.second > 0)
+			it.second--;
+		else {
+			for (int i = 0; i < numOfObjs; i++) {
+				vh[it.first + i]->startORstop();
+				drawTraffic();
+				it.second = trafficTimer[index];
+			}
+		}
+		index++;
+	}
+}
+
+void Game::drawTraffic() {
+	for (auto& it : trafficLane) {
+		if(vh[it.first]->getSpeed() > 0)
+			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[it.first]->getY() + 1);
+		else
+			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[it.first]->getY() + 1);
+
+
+		if (vh[it.first]->isMoving())
+			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
+		else
+			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_RED);
+		cout << "@";
+	}
+	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 }
 
 void Game::updateAnimal() {
 	for (int i = 0; i < an.size(); i++) {
 		an[i]->updatePos();
 	}
-}
-
-void Game::setTraffic() {
-}
-
-void Game::drawTraffic() {
 }
 
 //******************************************//

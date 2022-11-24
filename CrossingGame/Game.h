@@ -16,7 +16,7 @@ class Game {
 private:
 	int level;
 	int frame;
-	vector<pair<int, int>> trafficLane;			//{lane, timer}
+	vector<pair<int, int>> trafficLane;			//{index of first vh, timer}
 	vector<int> trafficTimer;					//{timer}
 
 	int numOfObjs;
