@@ -126,9 +126,9 @@ void Game::initGameData(int l)
 			initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);*/
 			Animal* obj;
 			if (i % 2 == 0)
-				obj = new Camel(0);
-			else
 				obj = new Horse(0);
+			else
+				obj = new Camel(0);
 			initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
 		}
 		laneSpacing += 5;
