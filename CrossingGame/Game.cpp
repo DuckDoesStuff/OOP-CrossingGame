@@ -34,12 +34,12 @@ Game::~Game()
 void Game::runGame() {
 	Common::clearConsole();
 	ifstream fin;
-	playGame(1);
+	initGameData(1);
+	playGame();
 }
 
-void Game::playGame(int level)
+void Game::playGame()
 {
-	initGameData(level);
 	drawBoardGame();
 	drawTraffic();
 	drawPeople();
@@ -130,8 +130,7 @@ void Game::initGameData(int l)
 			}
 		else if (lane[i] == "vehicle") {
 			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
-			trafficLane.push_back({ vh.size(), laneTimer});
-			trafficTimer.push_back(laneTimer);
+			trafficTimer.push_back({ laneTimer, laneTimer });
 			for (int j = 0; j < numOfObjs; j++) {
 				Vehicle* obj;
 				if (i % 2 == 0)
@@ -246,14 +245,15 @@ void Game::updateVehicle() {
 
 void Game::setTraffic() {
 	int index = 0;
-	for (auto& it : trafficLane) {
-		if (it.second > 0)
-			it.second--;
+	for (int j = 0; j <= vh.size() - numOfObjs; j += numOfObjs) {
+		//int index = (vh[j]->getY() - 1 - TOP_GAMEBOARD) / 5;
+		if (trafficTimer[index].first > 0)
+			trafficTimer[index].first--;
 		else {
 			for (int i = 0; i < numOfObjs; i++) {
-				vh[it.first + i]->startORstop();
+				vh[j + i]->startORstop();
 				drawTraffic();
-				it.second = trafficTimer[index];
+				trafficTimer[index].first = trafficTimer[index].second;
 			}
 		}
 		index++;
@@ -261,14 +261,14 @@ void Game::setTraffic() {
 }
 
 void Game::drawTraffic() {
-	for (auto& it : trafficLane) {
-		if(vh[it.first]->getSpeed() > 0)
-			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[it.first]->getY() + 1);
+	for (int j = 0; j <= vh.size() - numOfObjs; j += numOfObjs) {
+		if(vh[j]->getSpeed() > 0)
+			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[j]->getY() + 1);
 		else
-			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[it.first]->getY() + 1);
+			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[j]->getY() + 1);
 
 
-		if (vh[it.first]->isMoving())
+		if (vh[j]->isMoving())
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
 		else
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_RED);

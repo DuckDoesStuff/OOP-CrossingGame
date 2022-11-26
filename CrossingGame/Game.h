@@ -19,7 +19,7 @@ private:
 	bool out=false; //check out
 	string name; //username
 	vector<pair<int, int>> trafficLane;			//{index of first vh, timer}
-	vector<int> trafficTimer;					//{timer}
+	vector<pair<int, int>> trafficTimer;					//{timer}
 	string* laneOpt;						//save lane
 
 	int numOfObjs;
@@ -33,7 +33,7 @@ public:
 	//******************************************//
 
 	void runGame();
-	void playGame(int);
+	void playGame();
 
 	template <class T> 
 	void initLane(vector<T*>&, T*, int, int, int, int);
