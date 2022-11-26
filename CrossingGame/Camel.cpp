@@ -49,7 +49,7 @@ void Camel::loadImage(int type)
 //******************************************//
 
 bool Camel::checkPos() {
-	if ((mX + mSpeed) > LEFT_GAMEBOARD) return true;
+	if ((mX + mSpeed + _width) > LEFT_GAMEBOARD) return true;
 	return false;
 }
 

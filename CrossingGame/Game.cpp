@@ -50,7 +50,7 @@ void Game::playGame(int level)
 		updateAnimal();
 
 		human->move();
-		if(human->checkImpact()) break;
+		//if(human->checkImpact()) break;
 
 		Sleep(frame);
 	}

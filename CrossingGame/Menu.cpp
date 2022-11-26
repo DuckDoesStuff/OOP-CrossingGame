@@ -141,8 +141,10 @@ void Menu::initMenu() {
 void Menu::renderMenuScreen()
 {
 	t_sound = thread(&Menu::soundHandle, this);
+
 	initMenu();
 	renderMenuCurOpt();
+
 	if (t_sound.joinable()) t_sound.join();
 }
 
@@ -226,7 +228,8 @@ void Menu::renderSettCurOpt() {
 				sound = !sound;
 				break;
 			case 1:
-				return;
+				loadSett = false;
+				break;
 			}
 			break;
 		}
