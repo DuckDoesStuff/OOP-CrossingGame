@@ -23,6 +23,8 @@ Game::~Game()
 		delete an[i];
 		an[i] = nullptr;
 	}
+	delete []laneOpt;
+	laneOpt = nullptr;
 
 	trafficLane.clear();
 }
@@ -31,12 +33,13 @@ Game::~Game()
 
 void Game::runGame() {
 	Common::clearConsole();
+	ifstream fin;
+	initGameData(1);
 	playGame();
 }
 
-void Game::playGame(int level)
+void Game::playGame()
 {
-	initGameData(level);
 	drawBoardGame();
 	drawTraffic();
 	drawPeople();
@@ -50,7 +53,12 @@ void Game::playGame(int level)
 		updateAnimal();
 
 		human->move();
-		//if(human->checkImpact()) break;
+		quitGame();
+		if (human->checkImpact()) {
+			saveGame();
+			break;
+		}
+		if (out == true) break;
 
 		Sleep(frame);
 	}
@@ -69,28 +77,26 @@ void Game::initGameData(int l)
 
 	int animalCount = 0;
 	int vehicleCount = 0;
-	int trafficCount = 0;
 
 	if (level == 1) {
 		numOfObjs = 2;
 		frame = 60;
 
 		animalCount = 1;
-		vehicleCount = 2;
-		trafficCount = 2;
+		vehicleCount = 4;
 	}
 	else {
 		numOfObjs = 3;
 		frame = 45;
 
 		animalCount = 2;
-		vehicleCount = 1;
-		trafficCount = 2;
+		vehicleCount = 3;
 	}
 
 	int rowSpacing = 0;
 	int laneSpacing = 0;
 	unordered_map<int, string> lane;
+	laneOpt = new string[5];
 	
 	//Picking animal lane
 	for (int i = 0; i < animalCount; i++) {
@@ -99,6 +105,7 @@ void Game::initGameData(int l)
 			randomIndex = rand() % _numOfLane;
 		} while (lane.find(randomIndex) != lane.end());
 		lane.insert({ randomIndex, "animal" });
+		laneOpt[randomIndex] = "animal";
 	}
 
 	//Picking vehicle lane
@@ -108,15 +115,7 @@ void Game::initGameData(int l)
 			randomIndex = rand() % _numOfLane;
 		} while (lane.find(randomIndex) != lane.end());
 		lane.insert({ randomIndex, "vehicle" });
-	}
-
-	//Picking traffic lane
-	for (int i = 0; i < trafficCount; i++) {
-		int randomIndex;
-		do {
-			randomIndex = rand() % _numOfLane;
-		} while (lane.find(randomIndex) != lane.end());
-		lane.insert({ randomIndex, "traffic" });
+		laneOpt[randomIndex] = "vehicle";
 	}
 
 	for (int i = 0; i < _numOfLane; i++) {
@@ -129,19 +128,9 @@ void Game::initGameData(int l)
 					obj = new Camel(0);
 				initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
 			}
-		else if (lane[i] == "vehicle") 
-			for (int j = 0; j < numOfObjs; j++) {
-				Vehicle* obj;
-				if (i % 2 == 0)
-					obj = new Car(0);
-				else
-					obj = new Truck(0);
-				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
-			}
-		else if (lane[i] == "traffic") {
+		else if (lane[i] == "vehicle") {
 			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
-			trafficLane.push_back({ vh.size(), laneTimer});
-			trafficTimer.push_back(laneTimer);
+			trafficTimer.push_back({ laneTimer, laneTimer });
 			for (int j = 0; j < numOfObjs; j++) {
 				Vehicle* obj;
 				if (i % 2 == 0)
@@ -256,14 +245,15 @@ void Game::updateVehicle() {
 
 void Game::setTraffic() {
 	int index = 0;
-	for (auto& it : trafficLane) {
-		if (it.second > 0)
-			it.second--;
+	for (int j = 0; j <= vh.size() - numOfObjs; j += numOfObjs) {
+		//int index = (vh[j]->getY() - 1 - TOP_GAMEBOARD) / 5;
+		if (trafficTimer[index].first > 0)
+			trafficTimer[index].first--;
 		else {
 			for (int i = 0; i < numOfObjs; i++) {
-				vh[it.first + i]->startORstop();
+				vh[j + i]->startORstop();
 				drawTraffic();
-				it.second = trafficTimer[index];
+				trafficTimer[index].first = trafficTimer[index].second;
 			}
 		}
 		index++;
@@ -271,14 +261,14 @@ void Game::setTraffic() {
 }
 
 void Game::drawTraffic() {
-	for (auto& it : trafficLane) {
-		if(vh[it.first]->getSpeed() > 0)
-			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[it.first]->getY() + 1);
+	for (int j = 0; j <= vh.size() - numOfObjs; j += numOfObjs) {
+		if(vh[j]->getSpeed() > 0)
+			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[j]->getY() + 1);
 		else
-			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[it.first]->getY() + 1);
+			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[j]->getY() + 1);
 
 
-		if (vh[it.first]->isMoving())
+		if (vh[j]->isMoving())
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
 		else
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_RED);
@@ -292,5 +282,75 @@ void Game::updateAnimal() {
 		an[i]->updatePos();
 	}
 }
+
+void Game::inputName() {
+	Common::gotoXY(80, 40);
+	cout << "Enter your name: ";
+	cin >> name;
+}
+
+void Game::quitGame() {
+	int c = Common::getConsoleInput();
+	if (c == 6) out = true;
+}
+
+
+//******************************************//
+void Game::saveGame() {
+	string dataName;
+	string temp;
+
+	dataName = "Data\\" + name + ".txt";
+	temp = "Data\\" + name;
+
+	ifstream fin;
+	fin.open("listData.txt");
+
+	bool appeared = 0;
+	string temp1;
+	while (!fin.eof()) {
+		getline(fin, temp1, '\n');
+		if (temp1 == temp) {
+			appeared = 1;
+		}
+	}
+	fin.close();
+	ofstream fout;
+
+	if (appeared == 0) {
+		fout.open("listData.txt", ios::app);
+		fout << temp << ".txt" << endl;
+		fout.close();
+	}
+
+	fout.open(dataName);
+	fout << name << endl;
+	fout << level << endl;
+	fout << human->getCoords().first << " " << human->getCoords().second << endl;
+	savePosVehicle(fout);
+	savePosAnimal(fout);
+	saveLane(fout);
+	fout.close();
+}
+void Game::savePosVehicle(ofstream& fout) {
+	for (int i = 0; i < vh.size(); i++) {
+		fout << vh[i]->getX() << " ";
+	}
+	fout << endl;
+}
+void Game::savePosAnimal(ofstream& fout) {
+	for (int i = 0; i < an.size(); i++) {
+		fout << an[i]->getX() << " ";
+	}
+	fout << endl;
+}
+
+void Game::saveLane(ofstream& fout) {
+	for (int i = 0; i < _numOfLane; i++) {
+		fout << laneOpt[i] << " ";
+	}
+	fout << endl;
+}
+//******************************************//
 
 //******************************************//

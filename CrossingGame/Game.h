@@ -16,8 +16,11 @@ class Game {
 private:
 	int level;
 	int frame;
+	bool out=false; //check out
+	string name; //username
 	vector<pair<int, int>> trafficLane;			//{index of first vh, timer}
-	vector<int> trafficTimer;					//{timer}
+	vector<pair<int, int>> trafficTimer;					//{timer}
+	string* laneOpt;						//save lane
 
 	int numOfObjs;
 	People* human;
@@ -30,7 +33,7 @@ public:
 	//******************************************//
 
 	void runGame();
-	void playGame(int level = 1);
+	void playGame();
 
 	template <class T> 
 	void initLane(vector<T*>&, T*, int, int, int, int);
@@ -41,6 +44,7 @@ public:
 
 	void drawBoardGame();
 	void drawPeople();
+	void inputName();
 
 	//******************************************//
 
@@ -49,6 +53,13 @@ public:
 	void setTraffic();
 	void drawTraffic();
 
+	//******************************************//
+	//save game
+	void saveGame();
+	void savePosVehicle(ofstream&);
+	void savePosAnimal(ofstream&);
+	void saveLane(ofstream&);
+	void quitGame();
 	//******************************************//
 
 	void setLevel(int n) { level = n; }

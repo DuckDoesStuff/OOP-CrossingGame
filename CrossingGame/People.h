@@ -22,7 +22,7 @@ public:
 	//******************************************//
 
 	void setCoords(int x, int y);
-	pair<int, int> getCoords(int, int);
+	pair<int, int> getCoords();
 
 	void setVehicle(vector<Vehicle*>&);
 	void setAnimal(vector<Animal*>&);

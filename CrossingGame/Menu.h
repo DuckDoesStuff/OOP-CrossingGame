@@ -10,12 +10,14 @@
 class Menu {
 private:
 	int left = 69, top = 17;
-	int opt = 4;			//number of options
+	int opt = 4;	//number of options
+	int playOpt = 3; //play new game or continue game
 	int sett = 2;
 	int menuSlt = 0;
 	bool exitMenu = false;
 
 	string menuOptions[4] = { "Play", "Settings", "Leaderboard", "Exit" }; //selections
+	string playOptions[4] = { "New game", "Continue game", "Back"}; //selections
 	string settingsOptions[4] = { "Background music", "Back" }; //selections
 
 	Game* game;
@@ -51,6 +53,12 @@ public:
 	void initSettings();
 	void renderSettCurOpt();
 	void renderSettingScreen();
+
+	//##################################################//
+
+	void initPlayOpt();
+	void renderPlayOpt();
+	void renderPlayOptScreen();
 
 	//##################################################//
 
