@@ -24,7 +24,7 @@ void People::setCoords(int x, int y) {
 	mY = y;
 }
 
-pair<int, int> People::getCoords(int, int) {
+pair<int, int> People::getCoords() {
 	return pair<int, int>(mX, mY);
 }
 

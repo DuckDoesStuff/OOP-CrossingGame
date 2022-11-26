@@ -167,18 +167,11 @@ void Menu::renderMenuCurOpt()
 			switch (menuSlt) {
 			case 0:					//Play
 				//gameHandle();
-
-				delete game;
-				runGame = true;
-				game = new Game();
-				game->runGame();
-				runGame = false;
-
+				renderPlayOptScreen();
 				initMenu();
 				break;
 			case 1:					//Settings
 				renderSettingScreen();
-
 				initMenu();
 				break;
 			case 2:
@@ -231,7 +224,6 @@ void Menu::renderSettCurOpt() {
 			break;
 		}
 	}
-
 }
 
 void Menu::renderSettingScreen() {
@@ -240,6 +232,59 @@ void Menu::renderSettingScreen() {
 }
 
 //##################################################//
+void Menu::initPlayOpt() {
+	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
+	Common::clearConsole();
+	printTitle();
+	renderOptionsBox(playOpt);
+	renderOptionsText(playOptions, left - 9, top + 1);
+	renderArrowsOpt(0);
+}
+
+void Menu::renderPlayOpt() {
+	int c, slt = 0;
+	bool loadPlayOpt = true;
+	while (loadPlayOpt) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:			//move up
+			if (slt == 0) break;
+			slt--;
+			ArrowUp(slt);
+			break;
+		case 5:			//move down
+			if (slt == playOpt - 1) break;
+			slt++;
+			ArrowDown(slt);
+			break;
+		case 6:			//enter
+			switch (slt) {
+			case 0:
+				delete game;
+				runGame = true;
+				game = new Game();
+				Common::clearConsole();
+				printTitle();
+				game->inputName();
+				game->runGame();
+				runGame = false;
+				loadPlayOpt = false;
+				break;
+			case 1:
+				return;
+			case 2:
+				return;
+			}
+			break;
+		}
+	}
+}
+
+void Menu::renderPlayOptScreen() {
+	initPlayOpt();
+	renderPlayOpt();
+}
+//###############################################//
 
 void Menu::soundHandle() {
 	bool BgOff = false;

@@ -131,6 +131,8 @@ int Common::getConsoleInput()
 			return 4;
 		case 80:				//xuống
 			return 5;
+		case 27:				//esc
+			return 6;
 		default:				//nút khác
 			return 1;
 		}

@@ -1,0 +1,6 @@
+zit
+1
+62 27
+45 95 112 43 45 95 112 43 
+45 95 
+vehicle vehicle vehicle vehicle animal 
