@@ -162,66 +162,64 @@ void Game::initGameFromFile(string fileName) {
 	ifstream fin;
 	fin.open(fileName);
 	int mX, mY;
-	while (!fin.eof()) {
-		fin >> name;
-		fin >> level;
-		if (level == 1) {
-			numOfObjs = 2;
-			frame = 60;
-		}
-		else {
-			numOfObjs = 3;
-			frame = 45;
-		}
+	fin >> name;
+	fin >> level;
+	if (level == 1) {
+		numOfObjs = 2;
+		frame = 60;
+	}
+	else {
+		numOfObjs = 3;
+		frame = 45;
+	}
 
-		fin >> mX;
-		fin >> mY;
-		for (int i = 0; i < _numOfLane; i++) {
-			fin >> laneOpt[i];
-		}
+	fin >> mX;
+	fin >> mY;
+	for (int i = 0; i < _numOfLane; i++) {
+		fin >> laneOpt[i];
+	}
 
-		for (int i = 0; i < _numOfLane; i++) {
-			if (laneOpt[i] == "animal")
-				for (int j = 0; j < numOfObjs; j++) {
-					Animal* obj;
-					if (i % 2 == 0)
-						obj = new Horse(0);
-					else
-						obj = new Camel(0);
-					initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
-				}
-			else if (laneOpt[i] == "vehicle") {
-				int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
-				trafficTimer.push_back({ laneTimer, laneTimer });
-				for (int j = 0; j < numOfObjs; j++) {
-					Vehicle* obj;
-					if (i % 2 == 0)
-						obj = new Car(0);
-					else
-						obj = new Truck(0);
-					initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
-				}
+	for (int i = 0; i < _numOfLane; i++) {
+		if (laneOpt[i] == "animal")
+			for (int j = 0; j < numOfObjs; j++) {
+				Animal* obj;
+				if (i % 2 == 0)
+					obj = new Horse(0);
+				else
+					obj = new Camel(0);
+				initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
 			}
-			laneSpacing += 5;
+		else if (laneOpt[i] == "vehicle") {
+			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
+			trafficTimer.push_back({ laneTimer, laneTimer });
+			for (int j = 0; j < numOfObjs; j++) {
+				Vehicle* obj;
+				if (i % 2 == 0)
+					obj = new Car(0);
+				else
+					obj = new Truck(0);
+				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
+			}
 		}
-		for (int i = 0; i < vh.size(); i++) {
-			int temp;
-			fin >> temp;
-			vh[i]->setmX(temp);
-		}
-		for (int i = 0; i < an.size(); i++) {
-			int temp;
-			fin >> temp;
-			an[i]->setmX(temp);
-		}
-		for (int i = 0; i < trafficTimer.size(); i++) {
-			fin >> trafficTimer[i].first >> trafficTimer[i].second;
-		}
-		for (int i = 0; i < vh.size(); i++) {
-			int temp;
-			fin >> temp;
-			vh[i]->setMoving(temp);
-		}
+		laneSpacing += 5;
+	}
+	for (int i = 0; i < vh.size(); i++) {
+		int temp;
+		fin >> temp;
+		vh[i]->setmX(temp);
+	}
+	for (int i = 0; i < an.size(); i++) {
+		int temp;
+		fin >> temp;
+		an[i]->setmX(temp);
+	}
+	for (int i = 0; i < trafficTimer.size(); i++) {
+		fin >> trafficTimer[i].first >> trafficTimer[i].second;
+	}
+	for (int i = 0; i < vh.size(); i++) {
+		int temp;
+		fin >> temp;
+		vh[i]->setMoving(temp);
 	}
 	human = new People(mX, mY);
 	human->setVehicle(vh);
