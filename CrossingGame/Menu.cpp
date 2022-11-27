@@ -244,7 +244,6 @@ void Menu::initPlayOpt() {
 void Menu::renderPlayOpt() {
 	int c, slt = 0;
 	bool loadPlayOpt = true;
-	string file = "Data\\tienzitdangghet.txt";
 	while (loadPlayOpt) {
 		c = Common::getConsoleInput();
 		switch (c) {
@@ -267,16 +266,12 @@ void Menu::renderPlayOpt() {
 				Common::clearConsole();
 				printTitle();
 				game->inputName();
-				game->runGame(1, file);
+				game->runGame();
 				runGame = false;
 				loadPlayOpt = false;
 				break;
 			case 1:
-				delete game;
-				runGame = true;
-				game = new Game();
-				Common::clearConsole();
-				game->runGame(2, file);
+				renderContinueOptScreen();
 				runGame = false;
 				loadPlayOpt = false;
 				return;
@@ -292,6 +287,70 @@ void Menu::renderPlayOptScreen() {
 	initPlayOpt();
 	renderPlayOpt();
 }
+//###############################################//
+
+void Menu::renderContinueTexts(vector<string> text, int left, int top) {
+	int width = 41;
+	for (int i = 0; i < fileData.size()-1; i++) {
+		Common::gotoXY((width - (text[i].length()-10)) / 2 + left, top + i * 2);
+		cout << text[i].substr(5, text[i].length() - 9);
+	}
+	Common::gotoXY((width - text[fileData.size() - 1].length()) / 2 + left, top + (fileData.size()-1)  * 2);
+	cout << text[fileData.size() - 1];
+}
+
+void Menu::initContinueOpt() {
+	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
+	Common::clearConsole();
+	printTitle();
+	//fileData.clear();
+	loadFileData("listData.txt");
+	renderOptionsBox(fileData.size());
+	renderContinueTexts(fileData, left - 9, top + 1);
+	renderArrowsOpt(0);
+}
+
+void Menu::renderContinueOpt() {
+	int c, slt = 0;
+	bool loadContinueOpt = true;
+	while (loadContinueOpt) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:			//move up
+			if (slt == 0) break;
+			slt--;
+			ArrowUp(slt);
+			break;
+		case 5:			//move down
+			if (slt == fileData.size() - 1) break;
+			slt++;
+			ArrowDown(slt);
+			break;
+		case 6:			//enter
+			if (slt != fileData.size()-1) {
+				delete game;
+				runGame = true;
+				game = new Game();
+				Common::clearConsole();
+				printTitle();
+				game->continueGame(fileData[slt]);
+				runGame = false;
+				loadContinueOpt = false;
+				break;
+			}
+			else if (slt == fileData.size() - 1) {
+				return;
+			}
+			break;
+		}
+	}
+}
+
+void Menu::renderContinueOptScreen() {
+	initContinueOpt();
+	renderContinueOpt();
+}
+
 //###############################################//
 
 void Menu::soundHandle() {
@@ -344,6 +403,30 @@ void Menu::loadSettings() {
 }
 
 //##################################################//
+void Menu::loadFileData(string fileName) {
+	ifstream fin;
+	fin.open(fileName);
+	string temp;
+	vector<string> fileDataTemp;
+	fileDataTemp.clear();
+	fileData.clear();
+	while (!fin.eof()) {
+		getline(fin, temp, '\n');
+		fileDataTemp.push_back(temp);
+	}
+	if (fileDataTemp.size() - 1 < 10) {
+		for (int i = 0; i < fileDataTemp.size() - 1; i++) {
+			fileData.push_back(fileDataTemp[i]);
+		}
+	}
+	else {
+		for (int i = (fileDataTemp.size() - 10); i < fileDataTemp.size() - 1; i++) {
+			fileData.push_back(fileDataTemp[i]);
+		}
+	}
+	fileData.push_back("Back");
+	fin.close();
+}
 
 void Menu::gameHandle() {
 	/*delete game;

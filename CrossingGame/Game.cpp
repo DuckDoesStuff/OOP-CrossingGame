@@ -32,16 +32,16 @@ Game::~Game()
 
 //******************************************//
 
-void Game::runGame(int mode, string fileName) {
+void Game::runGame() {
 	Common::clearConsole();
-	if (mode == 1) {
-		initGameData(1);
-	}
-	else {
-		initGameFromFile(fileName);
-	}
+	initGameData(1);
 	playGame();
+}
 
+void Game::continueGame(string fileName) {
+	Common::clearConsole();
+	initGameFromFile(fileName);
+	playGame();
 }
 
 void Game::playGame()
@@ -378,30 +378,13 @@ void Game::quitGame() {
 //******************************************//
 void Game::saveGame() {
 	string dataName;
-	string temp;
-
 	dataName = "Data\\" + name + ".txt";
-	temp = "Data\\" + name;
 
-	ifstream fin;
-	fin.open("listData.txt");
-
-	bool appeared = 0;
-	string temp1;
-	while (!fin.eof()) {
-		getline(fin, temp1, '\n');
-		if (temp1 == temp) {
-			appeared = 1;
-		}
-	}
-	fin.close();
 	ofstream fout;
 
-	if (appeared == 0) {
-		fout.open("listData.txt", ios::app);
-		fout << temp << ".txt" << endl;
-		fout.close();
-	}
+	fout.open("listData.txt", ios::app);
+	fout << dataName << endl;
+	fout.close();
 
 	fout.open(dataName);
 	fout << name << endl;
@@ -428,6 +411,7 @@ void Game::savePosVehicle(ofstream& fout) {
 	fout << endl;
 
 }
+
 void Game::savePosAnimal(ofstream& fout) {
 	for (int i = 0; i < an.size(); i++) {
 		fout << an[i]->getX() << " ";

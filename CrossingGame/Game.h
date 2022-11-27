@@ -32,7 +32,8 @@ public:
 
 	//******************************************//
 
-	void runGame(int, string);
+	void runGame();
+	void continueGame(string);
 	void playGame();
 
 	template <class T> 

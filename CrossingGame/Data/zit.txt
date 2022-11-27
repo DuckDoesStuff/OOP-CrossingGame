@@ -1,8 +1,0 @@
-zit
-1
-64 22
-vehicle vehicle vehicle animal vehicle 
-103 37 54 104 104 38 107 41 
-67 117 
-13 8355 6952 6821 87
-0 0 1 1 1 1 0 0 

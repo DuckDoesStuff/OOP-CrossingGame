@@ -19,6 +19,7 @@ private:
 	string menuOptions[4] = { "Play", "Settings", "Leaderboard", "Exit" }; //selections
 	string playOptions[4] = { "New game", "Continue game", "Back"}; //selections
 	string settingsOptions[4] = { "Background music", "Back" }; //selections
+	vector<string> fileData;
 
 	Game* game;
 	thread t_game;
@@ -61,6 +62,15 @@ public:
 	void renderPlayOptScreen();
 
 	//##################################################//
+
+	void renderContinueTexts(vector<string>, int, int);
+	void initContinueOpt();
+	void renderContinueOpt();
+	void renderContinueOptScreen();
+	void loadFileData(string);
+
+	//##################################################//
+
 
 	void soundHandle();
 	void playBg();

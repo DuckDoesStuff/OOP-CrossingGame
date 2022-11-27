@@ -1,8 +1,0 @@
-camnhungngungoc
-1
-66 7
-animal vehicle vehicle vehicle vehicle 
-80 80 22 22 94 94 26 26 66 66 52 52 66 66 52 52 
-49 49 49 49 
-70 84 38 68 42 70 46 72 26 77 10 61 33 84 24 75 
-0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 
