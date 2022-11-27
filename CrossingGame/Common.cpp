@@ -118,42 +118,35 @@ int Common::getConsoleInput()
 	if (_kbhit()) c = _getch();
 	else return c;
 
-	if (c == 0 || c == 224)
+	switch (c)
 	{
-		switch (_getch())
-		{
-		case 72:				//lên
-			return 2;
-		case 75:				//trái
-			return 3;
-		case 77:				//phải
-			return 4;
-		case 80:				//xuống
-			return 5;
-		case 27:				//esc
-			return 6;
-		default:				//nút khác
-			return 1;
-		}
+	case 72:				//lên
+		return 2;
+	case 75:				//trái
+		return 3;
+	case 77:				//phải
+		return 4;
+	case 80:				//xuống
+		return 5;
+	case 27:				//esc
+		return 6;
 	}
-	else
-	{
-		c = toupper(c);
-		switch (c) {
-		case 13://Enter
-			return 6;
-		case 'W':
-			return 2;
-		case 'A':
-			return 3;
-		case 'D':
-			return 4;
-		case 'S':
-			return 5;
-		case 'P':
-			return 7;
-		default:
-			return c;
-		}
+	c = toupper(c);
+	switch (c) {
+	case 13://Enter
+		return 6;
+	case 'W':
+		return 2;
+	case 'A':
+		return 3;
+	case 'D':
+		return 4;
+	case 'S':
+		return 5;
+	case 'P':
+		return 7;
+	default:
+		return c;
 	}
+	
 }

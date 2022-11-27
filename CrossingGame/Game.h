@@ -17,8 +17,9 @@ private:
 	int level;
 	int frame;
 	bool running;
-	string name; //username
-	vector<pair<int, int>> trafficTimer;					//{timer}
+	string name;							//username
+	vector<pair<int, int>> trafficTimer;	//{timer}
+	vector<string> options = { "Continue", "Save game", "Restart game", "Back to menu" };
 	string* laneOpt;						//save lane
 
 	int numOfObjs;
@@ -34,18 +35,26 @@ public:
 	//******************************************//
 
 	void runGame(int, string);
-	void playGame();
 	void gameHandle();
+	void playGame();
+	void pauseGame();
+	void displayInfo();
+
+	//******************************************//
 
 	template <class T> 
 	void initLane(vector<T*>&, T*, int, int, int, int);
 	void initGameData(int);
+	void initGameFromFile(string);
+
+	//******************************************//
 
 	template <class T>
 	void DrawObj(vector<T*>);
-
 	void drawBoardGame();
 	void drawPeople();
+	void drawSquare(const int&, const int&, const int&, const int&);
+
 	void inputName();
 
 	//******************************************//
@@ -62,10 +71,14 @@ public:
 	void savePosAnimal(ofstream&);
 	void saveLane(ofstream&);
 	void saveTraffic(ofstream&);
-	void initGameFromFile(string);
-	void quitGame();
+
 	//******************************************//
 
 	void setLevel(int n) { level = n; }
 	int getLevel() { return level; }
+
+	//******************************************//
+
+	void renderPauseCurOpt();
+	void drawPauseMenu(vector<string>&);
 };

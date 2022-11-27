@@ -97,9 +97,9 @@ void Menu::renderArrowsOpt(const int& n) {
 
 //##################################################//
 
-void Menu::ArrowUp(int slt) {
-	int left = this->left - 3;
-	int top = this->top + 1;
+void Menu::ArrowUp(int left, int top, int slt) {
+	left -= 3;
+	top += 1;
 
 	Common::gotoXY(left, top + 2 * (slt + 1));
 	cout << "  ";
@@ -112,9 +112,9 @@ void Menu::ArrowUp(int slt) {
 	cout << "<<";
 }
 
-void Menu::ArrowDown(int slt) {
-	int left = this->left - 3;
-	int top = this->top + 1;
+void Menu::ArrowDown(int left, int top, int slt) {
+	left -= 3;
+	top += 1;
 
 	Common::gotoXY(left, top + 2 * (slt - 1));
 	cout << "  ";
@@ -158,12 +158,12 @@ void Menu::renderMenuCurOpt()
 		case 2:								//move up
 			if (menuSlt == 0) break;
 			menuSlt--;
-			ArrowUp(menuSlt);
+			ArrowUp(left, top, menuSlt);
 			break;
 		case 5:								//move down
 			if (menuSlt == opt - 1) break;
 			menuSlt++;
-			ArrowDown(menuSlt);
+			ArrowDown(left, top, menuSlt);
 			break;
 		case 6:								//enter
 			switch (menuSlt) {
@@ -207,12 +207,12 @@ void Menu::renderSettCurOpt() {
 		case 2:			//move up
 			if (slt == 0) break;
 			slt--;
-			ArrowUp(slt);
+			ArrowUp(left, top, slt);
 			break;
 		case 5:			//move down
 			if (slt == sett - 1) break;
 			slt++;
-			ArrowDown(slt);
+			ArrowDown(left, top, slt);
 			break;
 		case 6:			//enter
 			switch (slt) {
@@ -254,12 +254,12 @@ void Menu::renderPlayOpt() {
 		case 2:			//move up
 			if (slt == 0) break;
 			slt--;
-			ArrowUp(slt);
+			ArrowUp(left, top, slt);
 			break;
 		case 5:			//move down
 			if (slt == playOpt - 1) break;
 			slt++;
-			ArrowDown(slt);
+			ArrowDown(left, top, slt);
 			break;
 		case 6:			//enter
 			switch (slt) {

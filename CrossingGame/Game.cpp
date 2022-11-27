@@ -40,19 +40,13 @@ void Game::runGame(int mode, string fileName) {
 	else {
 		initGameFromFile(fileName);
 	}
-	playGame();
-
+	displayInfo();
+	gameHandle();
 }
 
-void Game::playGame()
+void Game::gameHandle()
 {
-	drawBoardGame();
-	drawTraffic();
-	drawPeople();
-
-	/*DrawObj(vh);
-	DrawObj(an);*/
-	t_game = thread(&Game::gameHandle, this);
+	t_game = thread(&Game::playGame, this);
 	running = true;
 
 	while (human->isAlive()) {
@@ -60,20 +54,29 @@ void Game::playGame()
 			if (running) {
 				running = false;
 				t_game.join();
+
+				t_game = thread(&Game::pauseGame, this);
 			}
 			else {
 				running = true;
-				while (_kbhit())
+				t_game.join();
+
+				while (_kbhit())//clear up buffer 
 					char c  = _getch();
-				t_game = thread(&Game::gameHandle, this);
+				t_game = thread(&Game::playGame, this);
 			}
-			//need pause screen
 		}
 	}
 	if (t_game.joinable()) t_game.join();
 }
 
-void Game::gameHandle() {
+void Game::playGame() {
+	drawBoardGame();
+	drawTraffic();
+	drawPeople();
+	DrawObj(vh);
+	DrawObj(an);
+
 	while (running) {
 		updateVehicle();
 		updateAnimal();
@@ -86,6 +89,31 @@ void Game::gameHandle() {
 		Sleep(frame);
 	}
 }
+
+void Game::pauseGame() {
+	drawPauseMenu(options);
+
+
+	while (!running) {
+		//handling user's input here
+	}
+}
+
+void Game::displayInfo() {
+	int left = LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 5;
+	int top = TOP_GAMEBOARD - 5;
+
+	int width = 30, height = 10;
+
+	drawSquare(left, top, width, height);
+
+	Common::gotoXY(left + 1, top + 1);
+	cout << "Player: " << name;
+	Common::gotoXY(left + 1, top + 2);
+	cout << "Level: " << level;
+}
+
+//******************************************//
 
 template <class T>
 void Game::initLane(vector<T*>& v, T* obj, int numOfObjs, int rowSpacing, int laneSpacing, int i) {
@@ -244,6 +272,8 @@ void Game::initGameFromFile(string fileName) {
 	fin.close();
 }
 
+//******************************************//
+
 template <class T>
 void Game::DrawObj(vector<T*> v) {
 	for (int i = 0; i < v.size(); i++)
@@ -330,6 +360,38 @@ void Game::drawPeople() {
 	human->drawToScreen();
 }
 
+void Game::drawSquare(const int& left, const int& top, const int& width, const int& height) {
+	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
+
+	Common::gotoXY(left, top);
+	putchar(201);
+	for (int i = 1; i < width; i++) {
+		Common::gotoXY(left + i, top);
+		putchar(205);
+		Common::gotoXY(left + i, top + height);
+		putchar(205);
+	}
+	Common::gotoXY(left + width, top);
+	putchar(187);
+
+	Common::gotoXY(left, top + height);
+	putchar(200);
+	for (int i = 1; i < height; i++) {
+		Common::gotoXY(left, top + i);
+		putchar(186);
+		Common::gotoXY(left + width, top + i);
+		putchar(186);
+	}
+	Common::gotoXY(left + width, top + height);
+	putchar(188);
+}
+
+void Game::inputName() {
+	Common::gotoXY(80, 40);
+	cout << "Enter your name: ";
+	cin >> name;
+}
+
 //******************************************//
 
 void Game::updateVehicle() {
@@ -379,13 +441,8 @@ void Game::updateAnimal() {
 	}
 }
 
-void Game::inputName() {
-	Common::gotoXY(80, 40);
-	cout << "Enter your name: ";
-	cin >> name;
-}
-
 //******************************************//
+
 void Game::saveGame() {
 	string dataName;
 	string temp;
@@ -424,13 +481,6 @@ void Game::saveGame() {
 	fout.close();
 }
 
-void Game::saveLane(ofstream& fout) {
-	for (int i = 0; i < _numOfLane; i++) {
-		fout << laneOpt[i] << " ";
-	}
-	fout << endl;
-}
-
 void Game::savePosVehicle(ofstream& fout) {
 	for (int i = 0; i < vh.size(); i++) {
 		fout << vh[i]->getX() << " ";
@@ -438,9 +488,17 @@ void Game::savePosVehicle(ofstream& fout) {
 	fout << endl;
 
 }
+
 void Game::savePosAnimal(ofstream& fout) {
 	for (int i = 0; i < an.size(); i++) {
 		fout << an[i]->getX() << " ";
+	}
+	fout << endl;
+}
+
+void Game::saveLane(ofstream& fout) {
+	for (int i = 0; i < _numOfLane; i++) {
+		fout << laneOpt[i] << " ";
 	}
 	fout << endl;
 }
@@ -455,4 +513,51 @@ void Game::saveTraffic(ofstream& fout) {
 	}
 	fout << endl;
 }
+
 //******************************************//
+
+void Game::renderPauseCurOpt() {
+	int c = -1, pauseSlt = 0;
+	bool loadPause = true;
+	while (loadPause) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:								//move up
+			if (pauseSlt == 0) break;
+			pauseSlt--;
+			//ArrowUp(pauseSlt);
+			break;
+		case 5:								//move down
+			if (pauseSlt == options.size() - 1) break;
+			pauseSlt++;
+			//ArrowDown(pauseSlt);
+			break;
+		case 6:								//enter
+			switch (pauseSlt) {
+			case 0:							//Continue
+
+				break;
+			case 1:							//Save
+				break;
+			case 2:							
+				break;
+			case 3:
+				break;
+			}
+		}
+	}
+}
+
+void Game::drawPauseMenu(vector<string>& options) {
+	int width = 30, height = 10;
+
+	int left = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 5;
+	int top = TOP_GAMEBOARD + 15;
+
+	drawSquare(left, top, width, height);
+
+	for (int i = 0; i < options.size(); i++) {
+		Common::gotoXY((width - options[i].length()) / 2 + left, 2 + top + i * 2);
+		cout << options[i];
+	}
+}

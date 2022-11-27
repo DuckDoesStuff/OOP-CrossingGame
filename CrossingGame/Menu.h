@@ -39,8 +39,8 @@ public:
 
 	//##################################################//
 
-	void ArrowUp(int);
-	void ArrowDown(int);
+	void ArrowUp(int, int, int);
+	void ArrowDown(int, int, int);
 
 	//##################################################//
 
