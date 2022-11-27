@@ -138,6 +138,16 @@ void Menu::initMenu() {
 	renderArrowsOpt(menuSlt);
 }
 
+void Menu::renderMenuScreen()
+{
+	t_sound = thread(&Menu::soundHandle, this);
+
+	initMenu();
+	renderMenuCurOpt();
+
+	if (t_sound.joinable()) t_sound.join();
+}
+
 void Menu::renderMenuCurOpt()
 {
 	int c;
@@ -175,16 +185,6 @@ void Menu::renderMenuCurOpt()
 			}
 		}
 	}
-}
-
-void Menu::renderMenuScreen()
-{
-	t_sound = thread(&Menu::soundHandle, this);
-
-	initMenu();
-	renderMenuCurOpt();
-
-	if (t_sound.joinable()) t_sound.join();
 }
 
 //##################################################//
@@ -247,6 +247,7 @@ void Menu::initPlayOpt() {
 void Menu::renderPlayOpt() {
 	int c, slt = 0;
 	bool loadPlayOpt = true;
+	string file = "Data\\tienzitdangghet.txt";
 	while (loadPlayOpt) {
 		c = Common::getConsoleInput();
 		switch (c) {
@@ -270,12 +271,21 @@ void Menu::renderPlayOpt() {
 				Common::clearConsole();
 				printTitle();
 				game->inputName();
-				game->runGame();
+				game->runGame(1, "haha");
 
 				runGame = false;
 				loadPlayOpt = false;
 				break;
 			case 1:
+				delete game;
+				runGame = true;
+
+				game = new Game();
+				Common::clearConsole();
+				game->runGame(2, file);
+
+				runGame = false;
+				loadPlayOpt = false;
 				return;
 			case 2:
 				return;

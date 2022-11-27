@@ -1,0 +1,8 @@
+tienzitdangghet
+1
+68 22
+vehicle animal vehicle vehicle vehicle 
+51 101 51 101 106 37 51 101 
+88 37 
+33 65 56 88 52 84 30 62 
+1 1 1 1 1 1 1 1 

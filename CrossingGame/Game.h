@@ -33,7 +33,7 @@ public:
 
 	//******************************************//
 
-	void runGame();
+	void runGame(int, string);
 	void playGame();
 	void gameHandle();
 
@@ -61,6 +61,9 @@ public:
 	void savePosVehicle(ofstream&);
 	void savePosAnimal(ofstream&);
 	void saveLane(ofstream&);
+	void saveTraffic(ofstream&);
+	void initGameFromFile(string);
+	void quitGame();
 	//******************************************//
 
 	void setLevel(int n) { level = n; }
