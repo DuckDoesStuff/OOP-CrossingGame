@@ -81,7 +81,7 @@ public:
 	static void disableMaximize();
 	static void setFontInfo(int sizeX, int sizeY);
 	static void clearConsole();
-	static bool pressedKey(int);
+	static bool pressedKey(Key);
 	static int getConsoleInput();
 	//static void playSound(int);
 };

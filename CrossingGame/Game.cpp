@@ -7,6 +7,8 @@ Game::Game()
 	human = nullptr;
 	numOfObjs = 0;
 	frame = 0;
+	laneOpt = nullptr;
+	running = true;
 }
 
 Game::~Game()
@@ -23,10 +25,8 @@ Game::~Game()
 		delete an[i];
 		an[i] = nullptr;
 	}
-	delete []laneOpt;
+	delete[]laneOpt;
 	laneOpt = nullptr;
-
-	trafficLane.clear();
 }
 
 //******************************************//
@@ -46,19 +46,36 @@ void Game::playGame()
 
 	DrawObj(vh);
 	DrawObj(an);
+	t_game = thread(&Game::gameHandle, this);
+	running = true;
 
-	Sleep(10);
-	while (true) {
+	while (human->isAlive()) {
+		if (Common::pressedKey(P)) {
+			if (running) {
+				running = false;
+				t_game.join();
+			}
+			else {
+				running = true;
+				while (_kbhit())
+					_getch();
+				t_game = thread(&Game::gameHandle, this);
+			}
+		}
+	}
+	if (t_game.joinable()) t_game.join();
+}
+
+void Game::gameHandle() {
+	while (running) {
 		updateVehicle();
 		updateAnimal();
-
 		human->move();
-		quitGame();
+
 		if (human->checkImpact()) {
 			saveGame();
 			break;
 		}
-		if (out == true) break;
 
 		Sleep(frame);
 	}
@@ -97,7 +114,7 @@ void Game::initGameData(int l)
 	int laneSpacing = 0;
 	unordered_map<int, string> lane;
 	laneOpt = new string[5];
-	
+
 	//Picking animal lane
 	for (int i = 0; i < animalCount; i++) {
 		int randomIndex;
@@ -119,7 +136,7 @@ void Game::initGameData(int l)
 	}
 
 	for (int i = 0; i < _numOfLane; i++) {
-		if (lane[i] == "animal") 
+		if (lane[i] == "animal")
 			for (int j = 0; j < numOfObjs; j++) {
 				Animal* obj;
 				if (i % 2 == 0)
@@ -138,7 +155,7 @@ void Game::initGameData(int l)
 				else
 					obj = new Truck(0);
 				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
-			}		
+			}
 		}
 		laneSpacing += 5;
 	}
@@ -184,7 +201,7 @@ void Game::drawBoardGame()
 			Common::gotoXY(left + j, top + box);
 			putchar(205);
 			Common::gotoXY(left + j, top + boxH + box);
-		putchar(205);
+			putchar(205);
 		}
 
 		for (int j = 0; j < boxH; j++) {
@@ -262,7 +279,7 @@ void Game::setTraffic() {
 
 void Game::drawTraffic() {
 	for (int j = 0; j <= vh.size() - numOfObjs; j += numOfObjs) {
-		if(vh[j]->getSpeed() > 0)
+		if (vh[j]->getSpeed() > 0)
 			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[j]->getY() + 1);
 		else
 			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[j]->getY() + 1);
@@ -288,12 +305,6 @@ void Game::inputName() {
 	cout << "Enter your name: ";
 	cin >> name;
 }
-
-void Game::quitGame() {
-	int c = Common::getConsoleInput();
-	if (c == 6) out = true;
-}
-
 
 //******************************************//
 void Game::saveGame() {
@@ -351,6 +362,4 @@ void Game::saveLane(ofstream& fout) {
 	}
 	fout << endl;
 }
-//******************************************//
-
 //******************************************//

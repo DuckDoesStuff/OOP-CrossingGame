@@ -138,16 +138,6 @@ void Menu::initMenu() {
 	renderArrowsOpt(menuSlt);
 }
 
-void Menu::renderMenuScreen()
-{
-	t_sound = thread(&Menu::soundHandle, this);
-
-	initMenu();
-	renderMenuCurOpt();
-
-	if (t_sound.joinable()) t_sound.join();
-}
-
 void Menu::renderMenuCurOpt()
 {
 	int c;
@@ -168,7 +158,6 @@ void Menu::renderMenuCurOpt()
 		case 6:								//enter
 			switch (menuSlt) {
 			case 0:					//Play
-				//gameHandle();
 				renderPlayOptScreen();
 				initMenu();
 				break;
@@ -186,6 +175,16 @@ void Menu::renderMenuCurOpt()
 			}
 		}
 	}
+}
+
+void Menu::renderMenuScreen()
+{
+	t_sound = thread(&Menu::soundHandle, this);
+
+	initMenu();
+	renderMenuCurOpt();
+
+	if (t_sound.joinable()) t_sound.join();
 }
 
 //##################################################//
@@ -235,6 +234,7 @@ void Menu::renderSettingScreen() {
 }
 
 //##################################################//
+
 void Menu::initPlayOpt() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -265,11 +265,13 @@ void Menu::renderPlayOpt() {
 			case 0:
 				delete game;
 				runGame = true;
+
 				game = new Game();
 				Common::clearConsole();
 				printTitle();
 				game->inputName();
 				game->runGame();
+
 				runGame = false;
 				loadPlayOpt = false;
 				break;
@@ -287,6 +289,7 @@ void Menu::renderPlayOptScreen() {
 	initPlayOpt();
 	renderPlayOpt();
 }
+
 //###############################################//
 
 void Menu::soundHandle() {
@@ -339,19 +342,3 @@ void Menu::loadSettings() {
 }
 
 //##################################################//
-
-void Menu::gameHandle() {
-	delete game;
-	game = new Game();
-	runGame = true;
-
-	t_game = thread(&Game::runGame, game);
-	while (runGame) {
-		if (Common::pressedKey(P)) {
-
-		}
-	}
-
-	runGame = false;
-	t_game.join();
-}

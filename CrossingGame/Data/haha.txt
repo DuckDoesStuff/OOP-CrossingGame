@@ -1,0 +1,6 @@
+haha
+1
+68 22
+28 78 10 60 28 78 28 78 
+10 60 
+vehicle vehicle vehicle animal vehicle 
