@@ -3,6 +3,7 @@
 Game::Game()
 {
 	srand(time(NULL));
+	name = "";
 	level = 0;
 	human = nullptr;
 	numOfObjs = 0;
@@ -31,11 +32,16 @@ Game::~Game()
 
 //******************************************//
 
-void Game::runGame() {
+void Game::runGame(int mode, string fileName) {
 	Common::clearConsole();
-	ifstream fin;
-	initGameData(1);
+	if (mode == 1) {
+		initGameData(1);
+	}
+	else {
+		initGameFromFile(fileName);
+	}
 	playGame();
+
 }
 
 void Game::playGame()
@@ -146,6 +152,78 @@ void Game::initGameData(int l)
 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	human->setVehicle(vh);
 	human->setAnimal(an);
+}
+
+void Game::initGameFromFile(string fileName) {
+	laneOpt = new string[5];
+	int rowSpacing = 0;
+	int laneSpacing = 0;
+	ifstream fin;
+	fin.open(fileName);
+	int mX, mY;
+	while (!fin.eof()) {
+		fin >> name;
+		fin >> level;
+		if (level == 1) {
+			numOfObjs = 2;
+			frame = 60;
+		}
+		else {
+			numOfObjs = 3;
+			frame = 45;
+		}
+
+		fin >> mX;
+		fin >> mY;
+		for (int i = 0; i < _numOfLane; i++) {
+			fin >> laneOpt[i];
+		}
+
+		for (int i = 0; i < _numOfLane; i++) {
+			if (laneOpt[i] == "animal")
+				for (int j = 0; j < numOfObjs; j++) {
+					Animal* obj;
+					if (i % 2 == 0)
+						obj = new Horse(0);
+					else
+						obj = new Camel(0);
+					initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
+				}
+			else if (laneOpt[i] == "vehicle") {
+				int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
+				trafficTimer.push_back({ laneTimer, laneTimer });
+				for (int j = 0; j < numOfObjs; j++) {
+					Vehicle* obj;
+					if (i % 2 == 0)
+						obj = new Car(0);
+					else
+						obj = new Truck(0);
+					initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
+				}
+			}
+			laneSpacing += 5;
+		}
+		for (int i = 0; i < vh.size(); i++) {
+			int temp;
+			fin >> temp;
+			vh[i]->setmX(temp);
+		}
+		for (int i = 0; i < an.size(); i++) {
+			int temp;
+			fin >> temp;
+			an[i]->setmX(temp);
+		}
+		for (int i = 0; i < trafficTimer.size(); i++) {
+			fin >> trafficTimer[i].first >> trafficLane[i].second;
+		}
+		for (int i = 0; i < vh.size(); i++) {
+			int temp;
+			fin >> temp;
+			temp == 1 ? vh[i]->setMoving(true) : vh[i]->setMoving(false);
+		}
+	}
+
+	fin.close();
 }
 
 template <class T>
@@ -327,16 +405,26 @@ void Game::saveGame() {
 	fout << name << endl;
 	fout << level << endl;
 	fout << human->getCoords().first << " " << human->getCoords().second << endl;
+	saveLane(fout);
 	savePosVehicle(fout);
 	savePosAnimal(fout);
-	saveLane(fout);
+	saveTraffic(fout);
 	fout.close();
 }
+
+void Game::saveLane(ofstream& fout) {
+	for (int i = 0; i < _numOfLane; i++) {
+		fout << laneOpt[i] << " ";
+	}
+	fout << endl;
+}
+
 void Game::savePosVehicle(ofstream& fout) {
 	for (int i = 0; i < vh.size(); i++) {
 		fout << vh[i]->getX() << " ";
 	}
 	fout << endl;
+
 }
 void Game::savePosAnimal(ofstream& fout) {
 	for (int i = 0; i < an.size(); i++) {
@@ -345,9 +433,13 @@ void Game::savePosAnimal(ofstream& fout) {
 	fout << endl;
 }
 
-void Game::saveLane(ofstream& fout) {
-	for (int i = 0; i < _numOfLane; i++) {
-		fout << laneOpt[i] << " ";
+void Game::saveTraffic(ofstream& fout) {
+	for (int i = 0; i < trafficTimer.size(); i++) {
+		fout << trafficTimer[i].first << " " << trafficTimer[i].second;
+	}
+	fout << endl;
+	for (int i = 0; i < vh.size(); i++) {
+		fout << vh[i]->isMoving() << " ";
 	}
 	fout << endl;
 }

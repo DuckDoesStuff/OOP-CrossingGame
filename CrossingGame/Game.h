@@ -32,7 +32,7 @@ public:
 
 	//******************************************//
 
-	void runGame();
+	void runGame(int, string);
 	void playGame();
 
 	template <class T> 
@@ -59,6 +59,8 @@ public:
 	void savePosVehicle(ofstream&);
 	void savePosAnimal(ofstream&);
 	void saveLane(ofstream&);
+	void saveTraffic(ofstream&);
+	void initGameFromFile(string);
 	void quitGame();
 	//******************************************//
 

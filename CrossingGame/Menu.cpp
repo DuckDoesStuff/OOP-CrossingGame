@@ -266,7 +266,7 @@ void Menu::renderPlayOpt() {
 				Common::clearConsole();
 				printTitle();
 				game->inputName();
-				game->runGame();
+				game->runGame(1, "Data\\nhung.txt");
 				runGame = false;
 				loadPlayOpt = false;
 				break;
