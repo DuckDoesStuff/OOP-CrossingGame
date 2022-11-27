@@ -323,12 +323,12 @@ void Menu::renderContinueOpt() {
 		case 2:			//move up
 			if (slt == 0) break;
 			slt--;
-			ArrowUp(slt);
+			ArrowUp(left, top, slt);
 			break;
 		case 5:			//move down
 			if (slt == fileData.size() - 1) break;
 			slt++;
-			ArrowDown(slt);
+			ArrowDown(left, top, slt);
 			break;
 		case 6:			//enter
 			if (slt != fileData.size()-1) {
