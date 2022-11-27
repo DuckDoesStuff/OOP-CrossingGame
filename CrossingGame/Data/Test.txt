@@ -1,6 +1,0 @@
-Test
-1
-68 22
-10 60 28 78 10 60 28 78 
-28 78 
-animal vehicle vehicle vehicle vehicle 

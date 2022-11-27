@@ -34,6 +34,8 @@ public:
 
 	//******************************************//
 
+	void runGame();
+	void continueGame(string);
 	void runGame(int, string);
 	void gameHandle();
 	void playGame();
