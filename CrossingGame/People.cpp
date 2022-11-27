@@ -32,7 +32,8 @@ void People::setVehicle(vector<Vehicle*>& vh) {
 	g_vh = &vh;
 }
 
-void People::setAnimal(vector<Animal*>& an) {
+void People::setAnimal(vector<Animal*>& an)
+{
 	g_an = &an;
 }
 
@@ -95,24 +96,24 @@ void People::move() {
 //******************************************//
 
 bool People::checkImpact() {
-	//vector<Vehicle*> v = *g_vh;
+	vector<Vehicle*> v = *g_vh;
 	vector<Animal*> a = *g_an;
-	//for (int i = 0; i < v.size(); i++) {
-	//	if (v[i]->getY() == mY - 1) 
-	//		if (mX + _width >= v[i]->getX() && mX < v[i]->getX() + v[i]->getWidth()) {
-	//			alive = false;
-	//			return true;
-	//		}
-	//	
-	//}
+	for (int i = 0; i < v.size(); i++) {
+		if (v[i]->getY() == mY - 1) {
+			if (mX + _width >= v[i]->getX() && mX < v[i]->getX() + v[i]->getWidth()) {
+				alive = false;
+				return true;
+			}
+		}
+	}
 
 	for (int i = 0; i < a.size(); i++) {
-		if (a[i]->getY() == mY - 1) 
+		if (a[i]->getY() == mY - 1) {
 			if (mX + _width >= a[i]->getX() && mX < a[i]->getX() + a[i]->getWidth()) {
 				alive = false;
 				return true;
 			}
-		
+		}
 	}
 
 	return false;

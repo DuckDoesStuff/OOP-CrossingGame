@@ -1,8 +1,0 @@
-lala
-1
-68 27
-vehicle vehicle vehicle animal vehicle 
-34 84 4 54 34 84 34 84 
-105 54 
-53 68 48 63 50 65 72 87 
-1 1 1 1 1 1 1 1 

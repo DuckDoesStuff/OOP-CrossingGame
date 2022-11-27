@@ -16,9 +16,8 @@ class Game {
 private:
 	int level;
 	int frame;
-	bool out=false; //check out
+	bool running;
 	string name; //username
-	vector<pair<int, int>> trafficLane;			//{index of first vh, timer}
 	vector<pair<int, int>> trafficTimer;					//{timer}
 	string* laneOpt;						//save lane
 
@@ -26,6 +25,8 @@ private:
 	People* human;
 	vector<Vehicle*> vh;
 	vector<Animal*> an;
+	
+	thread t_game;
 public:
 	Game();
 	~Game();
@@ -35,6 +36,7 @@ public:
 	void runGame();
 	void continueGame(string);
 	void playGame();
+	void gameHandle();
 
 	template <class T> 
 	void initLane(vector<T*>&, T*, int, int, int, int);

@@ -83,6 +83,4 @@ public:
 	void loadSettings();
 
 	//##################################################//
-
-	void gameHandle();
 };

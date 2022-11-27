@@ -141,8 +141,10 @@ void Menu::initMenu() {
 void Menu::renderMenuScreen()
 {
 	t_sound = thread(&Menu::soundHandle, this);
+
 	initMenu();
 	renderMenuCurOpt();
+
 	if (t_sound.joinable()) t_sound.join();
 }
 
@@ -166,7 +168,6 @@ void Menu::renderMenuCurOpt()
 		case 6:								//enter
 			switch (menuSlt) {
 			case 0:					//Play
-				//gameHandle();
 				renderPlayOptScreen();
 				initMenu();
 				break;
@@ -219,7 +220,8 @@ void Menu::renderSettCurOpt() {
 				sound = !sound;
 				break;
 			case 1:
-				return;
+				loadSett = false;
+				break;
 			}
 			break;
 		}
@@ -232,6 +234,7 @@ void Menu::renderSettingScreen() {
 }
 
 //##################################################//
+
 void Menu::initPlayOpt() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -262,6 +265,7 @@ void Menu::renderPlayOpt() {
 			case 0:
 				delete game;
 				runGame = true;
+
 				game = new Game();
 				Common::clearConsole();
 				printTitle();
@@ -425,20 +429,4 @@ void Menu::loadFileData(string fileName) {
 	}
 	fileData.push_back("Back");
 	fin.close();
-}
-
-void Menu::gameHandle() {
-	/*delete game;
-	game = new Game();
-	runGame = true;
-
-	t_game = thread(&Game::runGame, game);
-	while (runGame) {
-		if (Common::pressedKey(P)) {
-
-		}
-	}
-
-	runGame = false;
-	t_game.join();*/
 }
