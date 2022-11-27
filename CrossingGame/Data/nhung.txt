@@ -1,8 +1,8 @@
 nhung
 1
-64 12
-vehicle vehicle vehicle animal vehicle 
-34 84 22 72 27 77 37 87 
-19 69 
-10 70 55 85 45 61 1 67 
-1 1 1 1 0 0 1 1 
+69 27
+animal vehicle vehicle vehicle vehicle 
+110 41 47 97 110 41 47 97 
+47 97 
+48 76 52 80 57 85 42 70 
+1 1 1 1 1 1 1 1 

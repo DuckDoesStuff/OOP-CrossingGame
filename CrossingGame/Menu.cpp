@@ -292,7 +292,7 @@ void Menu::renderPlayOptScreen() {
 void Menu::renderContinueTexts(vector<string> text, int left, int top) {
 	int width = 41;
 	for (int i = 0; i < fileData.size()-1; i++) {
-		Common::gotoXY((width - (text[i].length()-10)) / 2 + left, top + i * 2);
+		Common::gotoXY((width - (text[i].length()-9)) / 2 + left, top + i * 2);
 		cout << text[i].substr(5, text[i].length() - 9);
 	}
 	Common::gotoXY((width - text[fileData.size() - 1].length()) / 2 + left, top + (fileData.size()-1)  * 2);
@@ -408,19 +408,18 @@ void Menu::loadFileData(string fileName) {
 	fin.open(fileName);
 	string temp;
 	vector<string> fileDataTemp;
-	fileDataTemp.clear();
 	fileData.clear();
 	while (!fin.eof()) {
 		getline(fin, temp, '\n');
 		fileDataTemp.push_back(temp);
 	}
-	if (fileDataTemp.size() - 1 < 10) {
+	if (fileDataTemp.size() - 1 < 9) {
 		for (int i = 0; i < fileDataTemp.size() - 1; i++) {
 			fileData.push_back(fileDataTemp[i]);
 		}
 	}
 	else {
-		for (int i = (fileDataTemp.size() - 10); i < fileDataTemp.size() - 1; i++) {
+		for (int i = (fileDataTemp.size() - 9); i < fileDataTemp.size() - 1; i++) {
 			fileData.push_back(fileDataTemp[i]);
 		}
 	}
