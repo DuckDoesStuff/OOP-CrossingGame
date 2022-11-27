@@ -61,11 +61,12 @@ void Game::playGame()
 		human->move();
 		quitGame();
 		if (human->checkImpact()) {
+			break;
+		}
+		if (Common::pressedKey(P)) {
 			saveGame();
 			break;
 		}
-		if (out == true) break;
-
 		Sleep(frame);
 	}
 }
@@ -214,14 +215,17 @@ void Game::initGameFromFile(string fileName) {
 			an[i]->setmX(temp);
 		}
 		for (int i = 0; i < trafficTimer.size(); i++) {
-			fin >> trafficTimer[i].first >> trafficLane[i].second;
+			fin >> trafficTimer[i].first >> trafficTimer[i].second;
 		}
 		for (int i = 0; i < vh.size(); i++) {
 			int temp;
 			fin >> temp;
-			temp == 1 ? vh[i]->setMoving(true) : vh[i]->setMoving(false);
+			vh[i]->setMoving(temp);
 		}
 	}
+	human = new People(mX, mY);
+	human->setVehicle(vh);
+	human->setAnimal(an);
 
 	fin.close();
 }
@@ -435,7 +439,7 @@ void Game::savePosAnimal(ofstream& fout) {
 
 void Game::saveTraffic(ofstream& fout) {
 	for (int i = 0; i < trafficTimer.size(); i++) {
-		fout << trafficTimer[i].first << " " << trafficTimer[i].second;
+		fout << trafficTimer[i].first << " " << trafficTimer[i].second << " ";
 	}
 	fout << endl;
 	for (int i = 0; i < vh.size(); i++) {

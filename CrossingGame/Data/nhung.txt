@@ -1,8 +1,8 @@
 nhung
 1
-66 12
-vehicle animal vehicle vehicle vehicle 
-41 91 33 83 6 56 33 83 
-106 55 
-17 7741 8547 6543 64
-1 1 1 1 0 0 0 0 
+52 27
+vehicle vehicle vehicle vehicle animal 
+88 22 60 110 95 29 53 103 
+35 85 
+62 6520 7716 7534 84
+1 1 0 0 0 0 0 0 

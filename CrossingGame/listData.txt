@@ -1,2 +1,9 @@
 Data\nhung.txt
 Data\nhung.txt
+Data\nhung.txt
+Data\zit.txt
+Data\bodangghet.txt
+Data\bodangghet.txt
+Data\camnhungngungoc.txt
+Data\camnhungngungoc.txt
+Data\tienzitdangghet.txt
