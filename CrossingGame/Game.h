@@ -83,4 +83,9 @@ public:
 
 	void renderPauseCurOpt();
 	void drawPauseMenu(vector<string>&);
+	int askPlayer();
+
+	//******************************************//
+	void arrowLeft(int, int, int);
+	void arrowRight(int, int, int);
 };

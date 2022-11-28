@@ -41,16 +41,32 @@ void People::setAnimal(vector<Animal*>& an)
 
 void People::loadImage(int type) {
 	string file;
+	image.clear();
 	if (type == 1) {
 		file = "ASCII\\life.txt";
 		_height = 3;
 		_width = 3;
+	}
+	if (type == 2) {
+		file = "ASCII\\die.txt";
+		_height = 3;
+		_width = 5;
 	}
 	ifstream fin(file);
 	string s;
 	while (!fin.eof()) {
 		getline(fin, s);
 		image.push_back(s);
+	}
+}
+
+void People::dieAnimation() {
+	loadImage(2);
+	while (mY > TOP_GAMEBOARD) {
+		eraseFromScreen();
+		mY -= 1;
+		drawToScreen();
+		Sleep(100);
 	}
 }
 

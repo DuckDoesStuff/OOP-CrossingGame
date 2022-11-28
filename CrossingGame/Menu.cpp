@@ -269,6 +269,7 @@ void Menu::renderPlayOpt() {
 				game = new Game();
 				Common::clearConsole();
 				printTitle();
+				Common::gotoXY(70, 20);
 				game->inputName();
 				game->runGame();
 				runGame = false;

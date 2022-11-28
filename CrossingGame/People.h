@@ -32,7 +32,9 @@ public:
 	virtual void loadImage(int type);
 	virtual void drawToScreen();
 	virtual void eraseFromScreen();
+	virtual void dieAnimation();
 	virtual void move();
+	virtual void setAlive(bool a) { alive = a; }
 
 	//******************************************//
 

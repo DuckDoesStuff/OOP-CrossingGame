@@ -35,13 +35,15 @@ Game::~Game()
 void Game::runGame() {
 	Common::clearConsole();
 	initGameData(1);
-	playGame();
+	displayInfo();
+	gameHandle();
 }
 
 void Game::continueGame(string fileName) {
 	Common::clearConsole();
 	initGameFromFile(fileName);
-	playGame();
+	displayInfo();
+	gameHandle();
 }
 
 void Game::gameHandle()
@@ -66,6 +68,12 @@ void Game::gameHandle()
 				t_game = thread(&Game::playGame, this);
 			}
 		}
+		if (Common::pressedKey(E)) {
+			saveGame();
+			human->setAlive(false);
+			running = false;
+			break;
+		}
 	}
 	if (t_game.joinable()) t_game.join();
 }
@@ -77,13 +85,37 @@ void Game::playGame() {
 	DrawObj(vh);
 	DrawObj(an);
 
+	int a, b; //nhunnhun de tam de check cai hop ask hoi
+	a = human->getCoords().first; //nhunnhun de tam de check cai hop ask hoi
+	b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
+	int check = 0; //nhunnhun de tam de check cai hop ask hoi
+
 	while (running) {
 		updateVehicle();
 		updateAnimal();
 		human->move();
 
 		if (human->checkImpact()) {
-			break;
+			human->dieAnimation();
+
+			//nhunnhun de tam de check cai hop ask hoi
+			if (askPlayer() == 0) {
+				Common::clearConsole();
+				check = 1;
+			}
+			else {
+				break;
+			}
+
+		}
+
+		//nhunnhun de tam de check cai hop ask hoi
+		if (check == 1) {
+			drawBoardGame();
+			human->loadImage(1);
+			human->setCoords(a, b);
+			human->drawToScreen();
+			check = 0;
 		}
 
 		Sleep(frame);
@@ -447,10 +479,25 @@ void Game::saveGame() {
 	string dataName;
 	dataName = "Data\\" + name + ".txt";
 
+	ifstream fin;
+	fin.open("listData.txt");
+	vector<string> tempList;
+	while (!fin.eof()) {
+		string temp;
+		fin >> temp;
+		if (temp != dataName) {
+			tempList.push_back(temp);
+		}
+	}
+	tempList[tempList.size() - 1] = dataName;
+	fin.close();
+
 	ofstream fout;
 
-	fout.open("listData.txt", ios::app);
-	fout << dataName << endl;
+	fout.open("listData.txt");
+	for (int i = 0; i < tempList.size(); i++) {
+		fout << tempList[i] << endl;
+	}
 	fout.close();
 
 	fout.open(dataName);
@@ -543,4 +590,75 @@ void Game::drawPauseMenu(vector<string>& options) {
 		Common::gotoXY((width - options[i].length()) / 2 + left, 2 + top + i * 2);
 		cout << options[i];
 	}
+}
+
+int Game::askPlayer() {
+	int width = 30, height = 7;
+	int left = 65;
+	int top = 14;
+	Common::gotoXY(left, top);
+	for (int i = 0; i < 7; i++) {
+		Common::gotoXY(left, top+i);
+		cout << "                              ";
+	}
+	drawSquare(left, top, width, height);
+	Common::gotoXY(left + 3, top + 2);
+	cout << "Do you want to play again?";
+	Common::gotoXY(left + 8, top + 5);
+	cout << "Yes";
+	Common::gotoXY(left + 20, top + 5);
+	cout << "No";
+	int c, slt = 0;
+	arrowLeft(left + 8, top + 5, slt);
+
+	bool ask = true;
+	while (ask) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 3:			//move up
+			if (slt == 0) break;
+			slt--;
+			arrowLeft(left + 8, top + 5, slt);
+			break;
+		case 4:			//move down
+			if (slt == 2 - 1) break;
+			slt++;
+			arrowRight(left + 8, top + 5, slt);
+			break;
+		case 6:			//enter
+			switch (slt) {
+			case 0:
+				ask = false;
+				return 0;
+			case 1:
+				ask = false;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+void Game::arrowLeft(int left, int top, int slt) {
+	left -= 3;
+	Common::gotoXY(left + 12 * (slt + 1), top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt + 1) + 6, top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt), top);
+	cout << ">>";
+	Common::gotoXY(left + 12 * (slt) + 7, top);
+	cout << "<<";
+}
+
+void Game::arrowRight(int left, int top, int slt) {
+	left -= 3;
+	Common::gotoXY(left + 12 * (slt - 1), top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt - 1) + 7, top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt), top);
+	cout << ">>";
+	Common::gotoXY(left + 12 * (slt) + 6, top);
+	cout << "<<";
 }
