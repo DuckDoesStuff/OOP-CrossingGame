@@ -1,10 +1,8 @@
-Data\ahihi.txt
-Data\2.txt
-Data\lala.txt
-Data\nhung.txt
-Data\meomeo.txt
-Data\olol.txt
-Data\1.txt
-Data\pop.txt
+Data\Pizzaa.txt
+Data\nice.txt
+Data\moah_moah.txt
+Data\Bob.txt
+Data\Nhung.txt
 Data\Duck.txt
-Data\d.txt
+Data\f.txt
+Data\ahihi.txt

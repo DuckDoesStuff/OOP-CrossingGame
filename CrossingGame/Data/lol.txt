@@ -1,0 +1,8 @@
+duc
+1
+63 32
+vehicle vehicle vehicle animal vehicle 
+44 94 114 44 44 94 44 94 
+108 44 
+50 75 55 80 51 76 41 66 
+1 1 1 1 1 1 1 1 

@@ -269,8 +269,6 @@ void Menu::renderPlayOpt() {
 				printTitle();
 
 				game = new Game();
-				Common::gotoXY(70, 20);
-				game->inputName();
 				game->runGame();
 
 				runGame = false;
@@ -310,7 +308,6 @@ void Menu::initContinueOpt() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
 	printTitle();
-	//fileData.clear();
 	loadFileData("listData.txt");
 	renderOptionsBox(fileData.size());
 	renderContinueTexts(fileData, left - 9, top + 1);
@@ -412,16 +409,18 @@ void Menu::loadSettings() {
 //##################################################//
 
 void Menu::loadFileData(string fileName) {
-	ifstream fin;
-	fin.open(fileName);
-	string temp;
+	ifstream fin(fileName);
 	vector<string> fileDataTemp;
 	fileData.clear();
+
 	while (!fin.eof()) {
+		string temp;
 		getline(fin, temp, '\n');
-		fileDataTemp.push_back(temp);
+		if (temp == "") break;
+		fileData.push_back(temp);
 	}
-	if (fileDataTemp.size() - 1 < 9) {
+
+	/*if (fileDataTemp.size() - 1 < 9) {
 		for (int i = 0; i < fileDataTemp.size() - 1; i++) {
 			fileData.push_back(fileDataTemp[i]);
 		}
@@ -430,7 +429,7 @@ void Menu::loadFileData(string fileName) {
 		for (int i = (fileDataTemp.size() - 9); i < fileDataTemp.size() - 1; i++) {
 			fileData.push_back(fileDataTemp[i]);
 		}
-	}
+	}*/
 	fileData.push_back("Back");
 	fin.close();
 }

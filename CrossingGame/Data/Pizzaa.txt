@@ -1,0 +1,8 @@
+last
+1
+68 32
+vehicle vehicle animal vehicle vehicle 
+39 89 119 49 119 49 39 89 
+39 89 
+57 77 53 73 56 76 47 67 
+1 1 1 1 1 1 1 1 
