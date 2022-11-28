@@ -81,13 +81,13 @@ public:
 
 	//******************************************//
 
-	void renderPauseCurOpt();
+	void renderPauseCurOpt(int, int, int, int);
 	void drawPauseMenu(int, int, int, int, vector<string>&);
 	void erasePauseMenu(int, int, int, int);
-	int askPlayer();
 
 	//******************************************//
+	
+	int askPlayer();
 	void arrowLeft(int, int, int);
 	void arrowRight(int, int, int);
-	void renderPauseCurOpt(int, int, int, int);
 };

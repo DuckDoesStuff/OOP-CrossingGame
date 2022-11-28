@@ -128,7 +128,7 @@ void Menu::ArrowDown(int left, int top, int slt) {
 }
 
 //##################################################//
-
+//Menu
 void Menu::initMenu() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -188,7 +188,7 @@ void Menu::renderMenuCurOpt()
 }
 
 //##################################################//
-
+//Settings
 void Menu::initSettings() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -234,7 +234,7 @@ void Menu::renderSettingScreen() {
 }
 
 //##################################################//
-
+//Play
 void Menu::initPlayOpt() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -265,13 +265,14 @@ void Menu::renderPlayOpt() {
 			case 0:
 				delete game;
 				runGame = true;
-
-				game = new Game();
 				Common::clearConsole();
 				printTitle();
+
+				game = new Game();
 				Common::gotoXY(70, 20);
 				game->inputName();
 				game->runGame();
+
 				runGame = false;
 				loadPlayOpt = false;
 				break;
@@ -292,8 +293,9 @@ void Menu::renderPlayOptScreen() {
 	initPlayOpt();
 	renderPlayOpt();
 }
-//###############################################//
 
+//###############################################//
+//Continue
 void Menu::renderContinueTexts(vector<string> text, int left, int top) {
 	int width = 41;
 	for (int i = 0; i < fileData.size()-1; i++) {
@@ -335,10 +337,10 @@ void Menu::renderContinueOpt() {
 			if (slt != fileData.size()-1) {
 				delete game;
 				runGame = true;
+
 				game = new Game();
-				Common::clearConsole();
-				printTitle();
 				game->continueGame(fileData[slt]);
+
 				runGame = false;
 				loadContinueOpt = false;
 				break;
@@ -408,6 +410,7 @@ void Menu::loadSettings() {
 }
 
 //##################################################//
+
 void Menu::loadFileData(string fileName) {
 	ifstream fin;
 	fin.open(fileName);

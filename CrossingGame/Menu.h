@@ -67,10 +67,8 @@ public:
 	void initContinueOpt();
 	void renderContinueOpt();
 	void renderContinueOptScreen();
-	void loadFileData(string);
 
 	//##################################################//
-
 
 	void soundHandle();
 	void playBg();
@@ -83,4 +81,6 @@ public:
 	void loadSettings();
 
 	//##################################################//
+	
+	void loadFileData(string);
 };

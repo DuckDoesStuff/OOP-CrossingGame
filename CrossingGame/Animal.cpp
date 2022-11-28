@@ -36,15 +36,16 @@ void Animal::drawToScreen()
 	//	cout << image[i] << endl;
 	//}
 
-	int start = 0, end = _width;
+	int start = 0, end = 0;
 
-	if (LEFT_GAMEBOARD - mX + 1 > 0)
+	if (mX < LEFT_GAMEBOARD + 1)
 		start = LEFT_GAMEBOARD - mX + 1;
-	if (LEFT_GAMEBOARD + WIDTH_GAMEBOARD - mX > 0)
+	if (mX < LEFT_GAMEBOARD + WIDTH_GAMEBOARD)
 		end = LEFT_GAMEBOARD + WIDTH_GAMEBOARD - mX - 1;
 	if (end > _width)
 		end = _width;
 
+	if (start == 0 && end == 0) return;
 	for (int i = 0; i < _height; i++) {
 		Common::gotoXY(mX + start, mY + i);
 		for (int j = start; j <= end; j++)

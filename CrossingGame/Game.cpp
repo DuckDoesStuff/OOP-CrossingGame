@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	srand(time(NULL));
+	srand((unsigned)time(0));
 	name = "";
 	level = 0;
 	human = nullptr;
@@ -128,13 +128,8 @@ void Game::pauseGame() {
 	int width = 30, height = 10;
 
 	drawPauseMenu(left, top, width, height, options);
-
 	renderPauseCurOpt(left, top, width, height);
-
 	erasePauseMenu(left, top, width, height);
-	//while (!running) {
-	//	//handling user's input here
-	//}
 }
 
 void Game::displayInfo() {
@@ -425,7 +420,6 @@ void Game::drawSquare(const int& left, const int& top, const int& width, const i
 }
 
 void Game::inputName() {
-	Common::gotoXY(80, 40);
 	cout << "Enter your name: ";
 	cin >> name;
 }
@@ -518,17 +512,17 @@ void Game::saveGame() {
 }
 
 void Game::savePosVehicle(ofstream& fout) {
-	for (int i = 0; i < vh.size(); i++) {
+	for (int i = 0; i < vh.size(); i++) 
 		fout << vh[i]->getX() << " ";
-	}
+	
 	fout << endl;
 
 }
 
 void Game::savePosAnimal(ofstream& fout) {
-	for (int i = 0; i < an.size(); i++) {
+	for (int i = 0; i < an.size(); i++)
 		fout << an[i]->getX() << " ";
-	}
+
 	fout << endl;
 }
 
@@ -556,9 +550,9 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 	int pauseSlt = 0;
 	top += 2;
 
-	Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 3, top);
+	Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
 	cout << ">>";
-	Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2, top);
+	Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
 	cout << "<<";
 
 	int c = -1;
@@ -567,28 +561,28 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 		switch (c) {
 		case 2:								//move up
 			if (pauseSlt == 0) break;
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 3, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
 			cout << "  ";
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
 			cout << "  ";
 			top -= 2;
 			pauseSlt--;
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 3, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
 			cout << ">>";
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
 			cout << "<<";
 			break;
 		case 5:								//move down
 			if (pauseSlt == options.size() - 1) break;
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 3, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
 			cout << "  ";
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
 			cout << "  ";
 			top += 2;
 			pauseSlt++;
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 3, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
 			cout << ">>";
-			Common::gotoXY(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2, top);
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
 			cout << "<<";
 			break;
 		case 6:								//enter
@@ -628,6 +622,7 @@ void Game::erasePauseMenu(int left, int top, int width, int height) {
 		}
 }
 
+//******************************************//
 
 int Game::askPlayer() {
 	int width = 30, height = 7;
