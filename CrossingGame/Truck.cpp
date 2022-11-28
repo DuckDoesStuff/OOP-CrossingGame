@@ -24,7 +24,7 @@ void Truck::loadImage(int type)
 	case 0:
 		file = "ASCII\\truck1.txt";
 		_height = 4;
-		_width = 18;
+		_width = 19;
 		mSpeed = -1;
 		break;
 	case 1:

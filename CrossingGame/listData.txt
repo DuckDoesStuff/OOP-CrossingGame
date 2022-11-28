@@ -1,7 +1,9 @@
 Data\ahihi.txt
-Data\1.txt
 Data\2.txt
 Data\lala.txt
-Data\olol.txt
 Data\nhung.txt
 Data\meomeo.txt
+Data\Duck.txt
+Data\d.txt
+Data\olol.txt
+Data\1.txt

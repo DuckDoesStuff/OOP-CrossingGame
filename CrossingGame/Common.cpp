@@ -108,7 +108,7 @@ void Common::clearConsole()
 	system("cls");
 }
 
-bool Common::pressedKey(Key n) {
+bool Common::pressedKey(int n) {
 	return ((GetAsyncKeyState(n) >> 0) & 1);
 }
 
