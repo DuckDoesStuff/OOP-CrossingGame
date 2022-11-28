@@ -97,9 +97,9 @@ void Menu::renderArrowsOpt(const int& n) {
 
 //##################################################//
 
-void Menu::ArrowUp(int slt) {
-	int left = this->left - 3;
-	int top = this->top + 1;
+void Menu::ArrowUp(int left, int top, int slt) {
+	left -= 3;
+	top += 1;
 
 	Common::gotoXY(left, top + 2 * (slt + 1));
 	cout << "  ";
@@ -112,9 +112,9 @@ void Menu::ArrowUp(int slt) {
 	cout << "<<";
 }
 
-void Menu::ArrowDown(int slt) {
-	int left = this->left - 3;
-	int top = this->top + 1;
+void Menu::ArrowDown(int left, int top, int slt) {
+	left -= 3;
+	top += 1;
 
 	Common::gotoXY(left, top + 2 * (slt - 1));
 	cout << "  ";
@@ -128,7 +128,7 @@ void Menu::ArrowDown(int slt) {
 }
 
 //##################################################//
-
+//Menu
 void Menu::initMenu() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -141,8 +141,10 @@ void Menu::initMenu() {
 void Menu::renderMenuScreen()
 {
 	t_sound = thread(&Menu::soundHandle, this);
+
 	initMenu();
 	renderMenuCurOpt();
+
 	if (t_sound.joinable()) t_sound.join();
 }
 
@@ -156,29 +158,21 @@ void Menu::renderMenuCurOpt()
 		case 2:								//move up
 			if (menuSlt == 0) break;
 			menuSlt--;
-			ArrowUp(menuSlt);
+			ArrowUp(left, top, menuSlt);
 			break;
 		case 5:								//move down
 			if (menuSlt == opt - 1) break;
 			menuSlt++;
-			ArrowDown(menuSlt);
+			ArrowDown(left, top, menuSlt);
 			break;
 		case 6:								//enter
 			switch (menuSlt) {
 			case 0:					//Play
-				//gameHandle();
-
-				delete game;
-				runGame = true;
-				game = new Game();
-				game->runGame();
-				runGame = false;
-
+				renderPlayOptScreen();
 				initMenu();
 				break;
 			case 1:					//Settings
 				renderSettingScreen();
-
 				initMenu();
 				break;
 			case 2:
@@ -194,7 +188,7 @@ void Menu::renderMenuCurOpt()
 }
 
 //##################################################//
-
+//Settings
 void Menu::initSettings() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -213,12 +207,12 @@ void Menu::renderSettCurOpt() {
 		case 2:			//move up
 			if (slt == 0) break;
 			slt--;
-			ArrowUp(slt);
+			ArrowUp(left, top, slt);
 			break;
 		case 5:			//move down
 			if (slt == sett - 1) break;
 			slt++;
-			ArrowDown(slt);
+			ArrowDown(left, top, slt);
 			break;
 		case 6:			//enter
 			switch (slt) {
@@ -226,12 +220,12 @@ void Menu::renderSettCurOpt() {
 				sound = !sound;
 				break;
 			case 1:
-				return;
+				loadSett = false;
+				break;
 			}
 			break;
 		}
 	}
-
 }
 
 void Menu::renderSettingScreen() {
@@ -240,6 +234,131 @@ void Menu::renderSettingScreen() {
 }
 
 //##################################################//
+//Play
+void Menu::initPlayOpt() {
+	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
+	Common::clearConsole();
+	printTitle();
+	renderOptionsBox(playOpt);
+	renderOptionsText(playOptions, left - 9, top + 1);
+	renderArrowsOpt(0);
+}
+
+void Menu::renderPlayOpt() {
+	int c, slt = 0;
+	bool loadPlayOpt = true;
+	while (loadPlayOpt) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:			//move up
+			if (slt == 0) break;
+			slt--;
+			ArrowUp(left, top, slt);
+			break;
+		case 5:			//move down
+			if (slt == playOpt - 1) break;
+			slt++;
+			ArrowDown(left, top, slt);
+			break;
+		case 6:			//enter
+			switch (slt) {
+			case 0:
+				delete game;
+				runGame = true;
+				Common::clearConsole();
+				printTitle();
+
+				game = new Game();
+				Common::gotoXY(70, 20);
+				game->inputName();
+				game->runGame();
+
+				runGame = false;
+				loadPlayOpt = false;
+				break;
+			case 1:
+				renderContinueOptScreen();
+				runGame = false;
+				loadPlayOpt = false;
+				return;
+			case 2:
+				return;
+			}
+			break;
+		}
+	}
+}
+
+void Menu::renderPlayOptScreen() {
+	initPlayOpt();
+	renderPlayOpt();
+}
+
+//###############################################//
+//Continue
+void Menu::renderContinueTexts(vector<string> text, int left, int top) {
+	int width = 41;
+	for (int i = 0; i < fileData.size()-1; i++) {
+		Common::gotoXY((width - (text[i].length()-9)) / 2 + left, top + i * 2);
+		cout << text[i].substr(5, text[i].length() - 9);
+	}
+	Common::gotoXY((width - text[fileData.size() - 1].length()) / 2 + left, top + (fileData.size()-1)  * 2);
+	cout << text[fileData.size() - 1];
+}
+
+void Menu::initContinueOpt() {
+	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
+	Common::clearConsole();
+	printTitle();
+	//fileData.clear();
+	loadFileData("listData.txt");
+	renderOptionsBox(fileData.size());
+	renderContinueTexts(fileData, left - 9, top + 1);
+	renderArrowsOpt(0);
+}
+
+void Menu::renderContinueOpt() {
+	int c, slt = 0;
+	bool loadContinueOpt = true;
+	while (loadContinueOpt) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:			//move up
+			if (slt == 0) break;
+			slt--;
+			ArrowUp(left, top, slt);
+			break;
+		case 5:			//move down
+			if (slt == fileData.size() - 1) break;
+			slt++;
+			ArrowDown(left, top, slt);
+			break;
+		case 6:			//enter
+			if (slt != fileData.size()-1) {
+				delete game;
+				runGame = true;
+
+				game = new Game();
+				game->continueGame(fileData[slt]);
+
+				runGame = false;
+				loadContinueOpt = false;
+				break;
+			}
+			else if (slt == fileData.size() - 1) {
+				return;
+			}
+			break;
+		}
+	}
+}
+
+void Menu::renderContinueOptScreen() {
+	initContinueOpt();
+	renderContinueOpt();
+}
+
+//###############################################//
 
 void Menu::soundHandle() {
 	bool BgOff = false;
@@ -292,18 +411,26 @@ void Menu::loadSettings() {
 
 //##################################################//
 
-void Menu::gameHandle() {
-	delete game;
-	game = new Game();
-	runGame = true;
-
-	t_game = thread(&Game::runGame, game);
-	while (runGame) {
-		if (Common::pressedKey(P)) {
-
+void Menu::loadFileData(string fileName) {
+	ifstream fin;
+	fin.open(fileName);
+	string temp;
+	vector<string> fileDataTemp;
+	fileData.clear();
+	while (!fin.eof()) {
+		getline(fin, temp, '\n');
+		fileDataTemp.push_back(temp);
+	}
+	if (fileDataTemp.size() - 1 < 9) {
+		for (int i = 0; i < fileDataTemp.size() - 1; i++) {
+			fileData.push_back(fileDataTemp[i]);
 		}
 	}
-
-	runGame = false;
-	t_game.join();
+	else {
+		for (int i = (fileDataTemp.size() - 9); i < fileDataTemp.size() - 1; i++) {
+			fileData.push_back(fileDataTemp[i]);
+		}
+	}
+	fileData.push_back("Back");
+	fin.close();
 }
