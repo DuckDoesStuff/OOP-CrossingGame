@@ -2,11 +2,14 @@
 
 Game::Game()
 {
-	srand(time(NULL));
+	srand((unsigned)time(0));
+	name = "";
 	level = 0;
 	human = nullptr;
 	numOfObjs = 0;
 	frame = 0;
+	laneOpt = nullptr;
+	running = true;
 }
 
 Game::~Game()
@@ -23,38 +26,127 @@ Game::~Game()
 		delete an[i];
 		an[i] = nullptr;
 	}
-
-	trafficLane.clear();
+	delete[]laneOpt;
+	laneOpt = nullptr;
 }
 
 //******************************************//
 
 void Game::runGame() {
 	Common::clearConsole();
-	playGame();
+	initGameData(1);
+	displayInfo();
+	gameHandle();
 }
 
-void Game::playGame(int level)
+void Game::continueGame(string fileName) {
+	Common::clearConsole();
+	initGameFromFile(fileName);
+	displayInfo();
+	gameHandle();
+}
+
+void Game::gameHandle()
 {
-	initGameData(level);
+	t_game = thread(&Game::playGame, this);
+	running = true;
+
+	while (human->isAlive()) {
+		if (Common::pressedKey(P)) {
+			if (running) {
+				running = false;
+				t_game.join();
+
+				pauseGame();
+				t_game = thread(&Game::playGame, this);
+			}
+			else {
+				running = true;
+
+				while (_kbhit())				//clear up buffer 
+					char c  = _getch();
+				t_game = thread(&Game::playGame, this);
+			}
+		}
+		if (Common::pressedKey(VK_ESCAPE)) {
+			saveGame();
+			human->setAlive(false);
+			running = false;
+			break;
+		}
+	}
+	if (t_game.joinable()) t_game.join();
+}
+
+void Game::playGame() {
 	drawBoardGame();
 	drawTraffic();
 	drawPeople();
-
 	DrawObj(vh);
 	DrawObj(an);
 
-	Sleep(10);
-	while (true) {
+	int a, b; //nhunnhun de tam de check cai hop ask hoi
+	a = human->getCoords().first; //nhunnhun de tam de check cai hop ask hoi
+	b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
+	int check = 0; //nhunnhun de tam de check cai hop ask hoi
+
+	while (running) {
 		updateVehicle();
 		updateAnimal();
-
 		human->move();
-		if(human->checkImpact()) break;
+
+		if (human->checkImpact()) {
+			human->dieAnimation();
+
+			//nhunnhun de tam de check cai hop ask hoi
+			if (askPlayer() == 0) {
+				Common::clearConsole();
+				check = 1;
+			}
+			else {
+				break;
+			}
+
+		}
+
+		//nhunnhun de tam de check cai hop ask hoi
+		if (check == 1) {
+			drawBoardGame();
+			human->loadImage(1);
+			human->setCoords(a, b);
+			human->drawToScreen();
+			check = 0;
+		}
 
 		Sleep(frame);
 	}
 }
+
+void Game::pauseGame() {
+	int left = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 5;
+	int top = TOP_GAMEBOARD + 15;
+	int width = 30, height = 10;
+
+	drawPauseMenu(left, top, width, height, options);
+	renderPauseCurOpt(left, top, width, height);
+	erasePauseMenu(left, top, width, height);
+}
+
+void Game::displayInfo() {
+	int left = LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 5;
+	int top = TOP_GAMEBOARD - 5;
+
+	int width = 30, height = 10;
+
+	drawSquare(left, top, width, height);
+
+	Common::gotoXY(left + 1, top + 1);
+	cout << "Player: " << name;
+	Common::gotoXY(left + 1, top + 2);
+	cout << "Level: " << level;
+}
+
+//******************************************//
 
 template <class T>
 void Game::initLane(vector<T*>& v, T* obj, int numOfObjs, int rowSpacing, int laneSpacing, int i) {
@@ -69,29 +161,27 @@ void Game::initGameData(int l)
 
 	int animalCount = 0;
 	int vehicleCount = 0;
-	int trafficCount = 0;
 
 	if (level == 1) {
 		numOfObjs = 2;
 		frame = 60;
 
 		animalCount = 1;
-		vehicleCount = 2;
-		trafficCount = 2;
+		vehicleCount = 4;
 	}
 	else {
 		numOfObjs = 3;
 		frame = 45;
 
 		animalCount = 2;
-		vehicleCount = 1;
-		trafficCount = 2;
+		vehicleCount = 3;
 	}
 
 	int rowSpacing = 0;
 	int laneSpacing = 0;
 	unordered_map<int, string> lane;
-	
+	laneOpt = new string[5];
+
 	//Picking animal lane
 	for (int i = 0; i < animalCount; i++) {
 		int randomIndex;
@@ -99,6 +189,7 @@ void Game::initGameData(int l)
 			randomIndex = rand() % _numOfLane;
 		} while (lane.find(randomIndex) != lane.end());
 		lane.insert({ randomIndex, "animal" });
+		laneOpt[randomIndex] = "animal";
 	}
 
 	//Picking vehicle lane
@@ -108,19 +199,11 @@ void Game::initGameData(int l)
 			randomIndex = rand() % _numOfLane;
 		} while (lane.find(randomIndex) != lane.end());
 		lane.insert({ randomIndex, "vehicle" });
-	}
-
-	//Picking traffic lane
-	for (int i = 0; i < trafficCount; i++) {
-		int randomIndex;
-		do {
-			randomIndex = rand() % _numOfLane;
-		} while (lane.find(randomIndex) != lane.end());
-		lane.insert({ randomIndex, "traffic" });
+		laneOpt[randomIndex] = "vehicle";
 	}
 
 	for (int i = 0; i < _numOfLane; i++) {
-		if (lane[i] == "animal") 
+		if (lane[i] == "animal")
 			for (int j = 0; j < numOfObjs; j++) {
 				Animal* obj;
 				if (i % 2 == 0)
@@ -129,7 +212,9 @@ void Game::initGameData(int l)
 					obj = new Camel(0);
 				initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
 			}
-		else if (lane[i] == "vehicle") 
+		else if (lane[i] == "vehicle") {
+			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
+			trafficTimer.push_back({ laneTimer, laneTimer });
 			for (int j = 0; j < numOfObjs; j++) {
 				Vehicle* obj;
 				if (i % 2 == 0)
@@ -138,18 +223,6 @@ void Game::initGameData(int l)
 					obj = new Truck(0);
 				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
 			}
-		else if (lane[i] == "traffic") {
-			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
-			trafficLane.push_back({ vh.size(), laneTimer});
-			trafficTimer.push_back(laneTimer);
-			for (int j = 0; j < numOfObjs; j++) {
-				Vehicle* obj;
-				if (i % 2 == 0)
-					obj = new Car(0);
-				else
-					obj = new Truck(0);
-				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
-			}		
 		}
 		laneSpacing += 5;
 	}
@@ -158,6 +231,81 @@ void Game::initGameData(int l)
 	human->setVehicle(vh);
 	human->setAnimal(an);
 }
+
+void Game::initGameFromFile(string fileName) {
+	laneOpt = new string[5];
+	int rowSpacing = 0;
+	int laneSpacing = 0;
+	ifstream fin;
+	fin.open(fileName);
+	int mX, mY;
+	fin >> name;
+	fin >> level;
+	if (level == 1) {
+		numOfObjs = 2;
+		frame = 60;
+	}
+	else {
+		numOfObjs = 3;
+		frame = 45;
+	}
+
+	fin >> mX;
+	fin >> mY;
+	for (int i = 0; i < _numOfLane; i++) {
+		fin >> laneOpt[i];
+	}
+
+	for (int i = 0; i < _numOfLane; i++) {
+		if (laneOpt[i] == "animal")
+			for (int j = 0; j < numOfObjs; j++) {
+				Animal* obj;
+				if (i % 2 == 0)
+					obj = new Horse(0);
+				else
+					obj = new Camel(0);
+				initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
+			}
+		else if (laneOpt[i] == "vehicle") {
+			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
+			trafficTimer.push_back({ laneTimer, laneTimer });
+			for (int j = 0; j < numOfObjs; j++) {
+				Vehicle* obj;
+				if (i % 2 == 0)
+					obj = new Car(0);
+				else
+					obj = new Truck(0);
+				initLane(vh, obj, numOfObjs, rowSpacing, laneSpacing, j);
+			}
+		}
+		laneSpacing += 5;
+	}
+	for (int i = 0; i < vh.size(); i++) {
+		int temp;
+		fin >> temp;
+		vh[i]->setmX(temp);
+	}
+	for (int i = 0; i < an.size(); i++) {
+		int temp;
+		fin >> temp;
+		an[i]->setmX(temp);
+	}
+	for (int i = 0; i < trafficTimer.size(); i++) {
+		fin >> trafficTimer[i].first >> trafficTimer[i].second;
+	}
+	for (int i = 0; i < vh.size(); i++) {
+		int temp;
+		fin >> temp;
+		vh[i]->setMoving(temp);
+	}
+	human = new People(mX, mY);
+	human->setVehicle(vh);
+	human->setAnimal(an);
+
+	fin.close();
+}
+
+//******************************************//
 
 template <class T>
 void Game::DrawObj(vector<T*> v) {
@@ -195,7 +343,7 @@ void Game::drawBoardGame()
 			Common::gotoXY(left + j, top + box);
 			putchar(205);
 			Common::gotoXY(left + j, top + boxH + box);
-		putchar(205);
+			putchar(205);
 		}
 
 		for (int j = 0; j < boxH; j++) {
@@ -245,6 +393,37 @@ void Game::drawPeople() {
 	human->drawToScreen();
 }
 
+void Game::drawSquare(const int& left, const int& top, const int& width, const int& height) {
+	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
+
+	Common::gotoXY(left, top);
+	putchar(201);
+	for (int i = 1; i < width; i++) {
+		Common::gotoXY(left + i, top);
+		putchar(205);
+		Common::gotoXY(left + i, top + height);
+		putchar(205);
+	}
+	Common::gotoXY(left + width, top);
+	putchar(187);
+
+	Common::gotoXY(left, top + height);
+	putchar(200);
+	for (int i = 1; i < height; i++) {
+		Common::gotoXY(left, top + i);
+		putchar(186);
+		Common::gotoXY(left + width, top + i);
+		putchar(186);
+	}
+	Common::gotoXY(left + width, top + height);
+	putchar(188);
+}
+
+void Game::inputName() {
+	cout << "Enter your name: ";
+	cin >> name;
+}
+
 //******************************************//
 
 void Game::updateVehicle() {
@@ -256,14 +435,15 @@ void Game::updateVehicle() {
 
 void Game::setTraffic() {
 	int index = 0;
-	for (auto& it : trafficLane) {
-		if (it.second > 0)
-			it.second--;
+	for (int j = 0; j <= vh.size() - numOfObjs; j += numOfObjs) {
+		//int index = (vh[j]->getY() - 1 - TOP_GAMEBOARD) / 5;
+		if (trafficTimer[index].first > 0)
+			trafficTimer[index].first--;
 		else {
 			for (int i = 0; i < numOfObjs; i++) {
-				vh[it.first + i]->startORstop();
+				vh[j + i]->startORstop();
 				drawTraffic();
-				it.second = trafficTimer[index];
+				trafficTimer[index].first = trafficTimer[index].second;
 			}
 		}
 		index++;
@@ -271,14 +451,14 @@ void Game::setTraffic() {
 }
 
 void Game::drawTraffic() {
-	for (auto& it : trafficLane) {
-		if(vh[it.first]->getSpeed() > 0)
-			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[it.first]->getY() + 1);
+	for (int j = 0; j <= vh.size() - numOfObjs; j += numOfObjs) {
+		if (vh[j]->getSpeed() > 0)
+			Common::gotoXY(LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 1, vh[j]->getY() + 1);
 		else
-			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[it.first]->getY() + 1);
+			Common::gotoXY(LEFT_GAMEBOARD - 1, vh[j]->getY() + 1);
 
 
-		if (vh[it.first]->isMoving())
+		if (vh[j]->isMoving())
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
 		else
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_RED);
@@ -294,3 +474,223 @@ void Game::updateAnimal() {
 }
 
 //******************************************//
+
+void Game::saveGame() {
+	string dataName;
+	dataName = "Data\\" + name + ".txt";
+
+	ifstream fin;
+	fin.open("listData.txt");
+	vector<string> tempList;
+	while (!fin.eof()) {
+		string temp;
+		fin >> temp;
+		if (temp != dataName) {
+			tempList.push_back(temp);
+		}
+	}
+	tempList[tempList.size() - 1] = dataName;
+	fin.close();
+
+	ofstream fout;
+
+	fout.open("listData.txt");
+	for (int i = 0; i < tempList.size(); i++) {
+		fout << tempList[i] << endl;
+	}
+	fout.close();
+
+	fout.open(dataName);
+	fout << name << endl;
+	fout << level << endl;
+	fout << human->getCoords().first << " " << human->getCoords().second << endl;
+	saveLane(fout);
+	savePosVehicle(fout);
+	savePosAnimal(fout);
+	saveTraffic(fout);
+	fout.close();
+}
+
+void Game::savePosVehicle(ofstream& fout) {
+	for (int i = 0; i < vh.size(); i++) 
+		fout << vh[i]->getX() << " ";
+	
+	fout << endl;
+
+}
+
+void Game::savePosAnimal(ofstream& fout) {
+	for (int i = 0; i < an.size(); i++)
+		fout << an[i]->getX() << " ";
+
+	fout << endl;
+}
+
+void Game::saveLane(ofstream& fout) {
+	for (int i = 0; i < _numOfLane; i++) {
+		fout << laneOpt[i] << " ";
+	}
+	fout << endl;
+}
+
+void Game::saveTraffic(ofstream& fout) {
+	for (int i = 0; i < trafficTimer.size(); i++) {
+		fout << trafficTimer[i].first << " " << trafficTimer[i].second << " ";
+	}
+	fout << endl;
+	for (int i = 0; i < vh.size(); i++) {
+		fout << vh[i]->isMoving() << " ";
+	}
+	fout << endl;
+}
+
+//******************************************//
+
+void Game::renderPauseCurOpt(int left, int top, int width, int height) {
+	int pauseSlt = 0;
+	top += 2;
+
+	Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
+	cout << ">>";
+	Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
+	cout << "<<";
+
+	int c = -1;
+	while (!running) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:								//move up
+			if (pauseSlt == 0) break;
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
+			cout << "  ";
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
+			cout << "  ";
+			top -= 2;
+			pauseSlt--;
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
+			cout << ">>";
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
+			cout << "<<";
+			break;
+		case 5:								//move down
+			if (pauseSlt == options.size() - 1) break;
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
+			cout << "  ";
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
+			cout << "  ";
+			top += 2;
+			pauseSlt++;
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 3), top);
+			cout << ">>";
+			Common::gotoXY((int)(left + (width - options[pauseSlt].length()) / 2 - 1 + options[pauseSlt].length() + 2), top);
+			cout << "<<";
+			break;
+		case 6:								//enter
+			switch (pauseSlt) {
+			case 0:	
+				running = true;				//Continue
+				break;
+			case 1:							//Save
+				break;
+			case 2:							//Restart game
+				break;
+			case 3:							//Main menu
+				human->setAlive(false);
+				running = false;
+				return;
+			}
+			break;
+		}
+	}
+}
+
+void Game::drawPauseMenu(int left, int top, int width, int height, vector<string>& options) {
+
+	drawSquare(left, top, width, height);
+
+	for (int i = 0; i < options.size(); i++) {
+		Common::gotoXY((width - options[i].length()) / 2 + left, 2 + top + i * 2);
+		cout << options[i];
+	}
+}
+
+void Game::erasePauseMenu(int left, int top, int width, int height) {
+	for (int i = 0; i <= height; i++) 
+		for (int j = 0; j <= width; j++) {
+			Common::gotoXY(left + j, top + i);
+			putchar(' ');
+		}
+}
+
+//******************************************//
+
+int Game::askPlayer() {
+	int width = 30, height = 7;
+	int left = 65;
+	int top = 14;
+	Common::gotoXY(left, top);
+	for (int i = 0; i < 7; i++) {
+		Common::gotoXY(left, top+i);
+		cout << "                              ";
+	}
+	drawSquare(left, top, width, height);
+	Common::gotoXY(left + 3, top + 2);
+	cout << "Do you want to play again?";
+	Common::gotoXY(left + 8, top + 5);
+	cout << "Yes";
+	Common::gotoXY(left + 20, top + 5);
+	cout << "No";
+	int c, slt = 0;
+	arrowLeft(left + 8, top + 5, slt);
+
+	bool ask = true;
+	while (ask) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 3:			//move up
+			if (slt == 0) break;
+			slt--;
+			arrowLeft(left + 8, top + 5, slt);
+			break;
+		case 4:			//move down
+			if (slt == 2 - 1) break;
+			slt++;
+			arrowRight(left + 8, top + 5, slt);
+			break;
+		case 6:			//enter
+			switch (slt) {
+			case 0:
+				ask = false;
+				return 0;
+			case 1:
+				ask = false;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+void Game::arrowLeft(int left, int top, int slt) {
+	left -= 3;
+	Common::gotoXY(left + 12 * (slt + 1), top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt + 1) + 6, top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt), top);
+	cout << ">>";
+	Common::gotoXY(left + 12 * (slt) + 7, top);
+	cout << "<<";
+}
+
+void Game::arrowRight(int left, int top, int slt) {
+	left -= 3;
+	Common::gotoXY(left + 12 * (slt - 1), top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt - 1) + 7, top);
+	cout << "  ";
+	Common::gotoXY(left + 12 * (slt), top);
+	cout << ">>";
+	Common::gotoXY(left + 12 * (slt) + 6, top);
+	cout << "<<";
+}

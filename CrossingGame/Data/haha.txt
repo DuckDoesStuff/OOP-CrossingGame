@@ -1,0 +1,8 @@
+haha
+1
+62 17
+vehicle animal vehicle vehicle vehicle 
+83 17 83 17 74 5 82 16 
+56 106 
+1 65 0 64 4 68 61 62 
+1 1 1 1 1 1 0 0 

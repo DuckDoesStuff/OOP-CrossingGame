@@ -10,13 +10,16 @@
 class Menu {
 private:
 	int left = 69, top = 17;
-	int opt = 4;			//number of options
+	int opt = 4;	//number of options
+	int playOpt = 3; //play new game or continue game
 	int sett = 2;
 	int menuSlt = 0;
 	bool exitMenu = false;
 
 	string menuOptions[4] = { "Play", "Settings", "Leaderboard", "Exit" }; //selections
+	string playOptions[4] = { "New game", "Continue game", "Back"}; //selections
 	string settingsOptions[4] = { "Background music", "Back" }; //selections
+	vector<string> fileData;
 
 	Game* game;
 	thread t_game;
@@ -37,8 +40,8 @@ public:
 
 	//##################################################//
 
-	void ArrowUp(int);
-	void ArrowDown(int);
+	void ArrowUp(int, int, int);
+	void ArrowDown(int, int, int);
 
 	//##################################################//
 
@@ -54,6 +57,19 @@ public:
 
 	//##################################################//
 
+	void initPlayOpt();
+	void renderPlayOpt();
+	void renderPlayOptScreen();
+
+	//##################################################//
+
+	void renderContinueTexts(vector<string>, int, int);
+	void initContinueOpt();
+	void renderContinueOpt();
+	void renderContinueOptScreen();
+
+	//##################################################//
+
 	void soundHandle();
 	void playBg();
 	void stopBg();
@@ -65,6 +81,6 @@ public:
 	void loadSettings();
 
 	//##################################################//
-
-	void gameHandle();
+	
+	void loadFileData(string);
 };

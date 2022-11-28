@@ -11,8 +11,8 @@ void Common::setupConsole(int fontSize, int background, int text)
 	setConsoleTitle();
 	setConsoleColor(background, text);
 	disableMouseInput();
-	hideScrollBars();
-	hideCursor();
+hideScrollBars();
+hideCursor();
 }
 
 void Common::gotoXY(int left, int top)
@@ -108,54 +108,45 @@ void Common::clearConsole()
 	system("cls");
 }
 
-bool Common::pressedKey(int n)
-{
-	return GetAsyncKeyState(n);
+bool Common::pressedKey(int n) {
+	return ((GetAsyncKeyState(n) >> 0) & 1);
 }
 
 int Common::getConsoleInput()
 {
-	int c = -1;
+	char c = -1;
 	if (_kbhit()) c = _getch();
 	else return c;
 
-	if (c == 0 || c == 224)
+	switch (c)
 	{
-		switch (_getch())
-		{
-		case 72:				//lên
-			return 2;
-		case 75:				//trái
-			return 3;
-		case 77:				//phải
-			return 4;
-		case 80:				//xuống
-			return 5;
-		default:				//nút khác
-			return 1;
-		}
+	case 72:				//lên
+		return 2;
+	case 75:				//trái
+		return 3;
+	case 77:				//phải
+		return 4;
+	case 80:				//xuống
+		return 5;
+	case 27:				//esc
+		return 6;
 	}
-	else
-	{
-		if (c == 27)                  //esc
-			return 0;
-		else if (c == 87 || c == 119) //W, w
-			return 2;
-		else if (c == 65 || c == 97)  //A, a
-			return 3;
-		else if (c == 68 || c == 100) //D, d
-			return 4;
-		else if (c == 83 || c == 115) //S, s
-			return 5;
-		else if (c == 13)             //Enter
-			return 6;
-		else if (c == 74 || c == 106) //J, j
-			return 7;
-		else if (c == 75 || c == 107) //K, k
-			return 8;
-		else if (c == 76 || c == 108) //K, k
-			return 9;
-		else
-			return 0;                 //nút khác
+	c = toupper(c);
+	switch (c) {
+	case 13://Enter
+		return 6;
+	case 'W':
+		return 2;
+	case 'A':
+		return 3;
+	case 'D':
+		return 4;
+	case 'S':
+		return 5;
+	case 'P':
+		return 7;
+	default:
+		return c;
 	}
+	
 }

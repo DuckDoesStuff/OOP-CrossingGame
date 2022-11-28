@@ -38,5 +38,6 @@ public:
 	virtual bool checkPos();
 	virtual void updatePos();
 	virtual void speedUp();
+	virtual void setmX(int x) { mX = x; }
 	virtual bool isMoving() { return moving; }
 };
