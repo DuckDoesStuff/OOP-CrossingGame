@@ -1,0 +1,8 @@
+Duck
+1
+68 32
+vehicle animal vehicle vehicle vehicle 
+45 95 45 95 113 43 45 95 
+107 43 
+48 74 40 66 58 84 44 70 
+1 1 1 1 1 1 1 1 

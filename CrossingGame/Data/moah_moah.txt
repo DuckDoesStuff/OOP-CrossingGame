@@ -1,0 +1,8 @@
+Madagascar
+1
+70 32
+vehicle vehicle vehicle animal vehicle 
+52 102 106 36 52 102 52 102 
+100 36 
+27 60 36 69 28 61 54 87 
+1 1 1 1 1 1 1 1 

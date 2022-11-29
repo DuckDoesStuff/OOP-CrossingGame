@@ -4,6 +4,7 @@ Game::Game()
 {
 	srand((unsigned)time(0));
 	name = "";
+	filename = "";
 	level = 0;
 	human = nullptr;
 	numOfObjs = 0;
@@ -33,6 +34,7 @@ Game::~Game()
 //******************************************//
 
 void Game::runGame() {
+	inputName();
 	Common::clearConsole();
 	initGameData(1);
 	displayInfo();
@@ -41,7 +43,8 @@ void Game::runGame() {
 
 void Game::continueGame(string fileName) {
 	Common::clearConsole();
-	initGameFromFile(fileName);
+	filename = fileName;
+	initGameFromFile();
 	displayInfo();
 	gameHandle();
 }
@@ -67,12 +70,6 @@ void Game::gameHandle()
 					char c  = _getch();
 				t_game = thread(&Game::playGame, this);
 			}
-		}
-		if (Common::pressedKey(VK_ESCAPE)) {
-			saveGame();
-			human->setAlive(false);
-			running = false;
-			break;
 		}
 	}
 	if (t_game.joinable()) t_game.join();
@@ -232,12 +229,12 @@ void Game::initGameData(int l)
 	human->setAnimal(an);
 }
 
-void Game::initGameFromFile(string fileName) {
+void Game::initGameFromFile() {
 	laneOpt = new string[5];
 	int rowSpacing = 0;
 	int laneSpacing = 0;
 	ifstream fin;
-	fin.open(fileName);
+	fin.open(filename);
 	int mX, mY;
 	fin >> name;
 	fin >> level;
@@ -396,6 +393,13 @@ void Game::drawPeople() {
 void Game::drawSquare(const int& left, const int& top, const int& width, const int& height) {
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			Common::gotoXY(left + j, top + i);
+			putchar(' ');
+		}
+	}
+
 	Common::gotoXY(left, top);
 	putchar(201);
 	for (int i = 1; i < width; i++) {
@@ -420,8 +424,9 @@ void Game::drawSquare(const int& left, const int& top, const int& width, const i
 }
 
 void Game::inputName() {
+	Common::gotoXY(70, 20);
 	cout << "Enter your name: ";
-	cin >> name;
+	getline(cin, name);
 }
 
 //******************************************//
@@ -475,32 +480,119 @@ void Game::updateAnimal() {
 
 //******************************************//
 
-void Game::saveGame() {
-	string dataName;
-	dataName = "Data\\" + name + ".txt";
+bool Game::askToSave() {
+	int width = 30, height = 7;
+	int left = 65;
+	int top = 14;
 
-	ifstream fin;
-	fin.open("listData.txt");
-	vector<string> tempList;
-	while (!fin.eof()) {
-		string temp;
-		fin >> temp;
-		if (temp != dataName) {
-			tempList.push_back(temp);
+	drawSquare(left, top, width, height);
+	Common::gotoXY(left + 3, top + 2);
+	cout << "Do you want to save before";
+	Common::gotoXY(left + 10, top + 3);
+	cout << "you leave ?";
+	Common::gotoXY(left + 8, top + 5);
+	cout << "Yes";
+	Common::gotoXY(left + 20, top + 5);
+	cout << "No";
+	int c = 0, slt = 0;
+	arrowLeft(left + 8, top + 5, slt);
+	
+
+	while (true) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 3:					//move left
+			if (slt == 0) break;
+			slt--;
+			arrowLeft(left + 8, top + 5, slt);
+			break;
+		case 4:					//move right
+			if (slt == 1) break;
+			slt++;
+			arrowRight(left + 8, top + 5, slt);
+			break;
+		case 6:					//enter
+			return slt;
 		}
 	}
-	tempList[tempList.size() - 1] = dataName;
+	return 0;
+}
+
+string Game::inputSaveFile() {
+	int width = 30, height = 7;
+	int left = 65;
+	int top = 14;
+	drawSquare(left, top, width, height);
+	
+
+	ifstream fin("listData.txt");
+	vector<string> fileList;
+	while (!fin.eof()) {
+		string tmp;
+		getline(fin, tmp);
+		fileList.push_back(tmp);
+	}
 	fin.close();
 
-	ofstream fout;
+	string file;
+	Common::gotoXY(left + 2, top + 1);
+	cout << "Enter save file: (no space)";
 
-	fout.open("listData.txt");
-	for (int i = 0; i < tempList.size(); i++) {
-		fout << tempList[i] << endl;
+	//need to check for valid input
+	bool fileExist = true;
+	while (fileExist) {
+		Common::gotoXY(left + 2, top + 3);
+		cin >> file;
+		if (file.length() > 10)
+			file = file.substr(0, 10);
+		file = "Data\\" + file + ".txt";
+
+		fileExist = false;
+		for (int i = 0; i < fileList.size(); i++) {
+			if (file == fileList[i]) {
+				fileExist = true;
+				Common::gotoXY(left + 7, top + 2);
+				Common::setConsoleColor(BRIGHT_WHITE, RED);
+				cout << "File already exist!";
+				Common::gotoXY(left + 2, top + 3);
+				cout << "                         ";
+				Common::setConsoleColor(BRIGHT_WHITE, BLACK);
+				break;
+			}
+		}
+	}
+
+	return file;
+}
+
+void Game::saveGame() {
+	if (askToSave()) return;
+	//if opened from a save file then save and leave
+	//if not then ask user's to input file name
+
+
+	if (filename == "") 
+		filename = inputSaveFile();
+
+
+	ifstream fin("listData.txt");
+	vector<string> fileList;
+	fileList.push_back(filename);
+	while (!fin.eof() && fileList.size() < 8) {
+		string tmp;
+		getline(fin, tmp);
+		if (tmp == filename) continue;
+		fileList.push_back(tmp);
+	}
+	fin.close();
+
+	ofstream fout("listData.txt");
+	for (int i = 0; i < fileList.size(); i++) {
+		fout << fileList[i] << endl;
 	}
 	fout.close();
 
-	fout.open(dataName);
+	fout.open(filename);
 	fout << name << endl;
 	fout << level << endl;
 	fout << human->getCoords().first << " " << human->getCoords().second << endl;
@@ -510,6 +602,7 @@ void Game::saveGame() {
 	saveTraffic(fout);
 	fout.close();
 }
+
 
 void Game::savePosVehicle(ofstream& fout) {
 	for (int i = 0; i < vh.size(); i++) 
@@ -587,19 +680,18 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 			break;
 		case 6:								//enter
 			switch (pauseSlt) {
-			case 0:	
-				running = true;				//Continue
+			case 0:
+				running = true;				//Back to game
 				break;
-			case 1:							//Save
+			case 1:							//Settings
 				break;
-			case 2:							//Restart game
-				break;
-			case 3:							//Main menu
+			case 2:							//Main menu
 				human->setAlive(false);
+				saveGame();
 				running = false;
 				return;
+				break;
 			}
-			break;
 		}
 	}
 }
@@ -628,11 +720,6 @@ int Game::askPlayer() {
 	int width = 30, height = 7;
 	int left = 65;
 	int top = 14;
-	Common::gotoXY(left, top);
-	for (int i = 0; i < 7; i++) {
-		Common::gotoXY(left, top+i);
-		cout << "                              ";
-	}
 	drawSquare(left, top, width, height);
 	Common::gotoXY(left + 3, top + 2);
 	cout << "Do you want to play again?";

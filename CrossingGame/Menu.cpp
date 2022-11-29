@@ -175,7 +175,9 @@ void Menu::renderMenuCurOpt()
 				renderSettingScreen();
 				initMenu();
 				break;
-			case 2:
+			case 2:					// leader Board
+				RenderLeaderBoard();
+				initMenu();
 				break;
 			case 3:
 				exitMenu = true;
@@ -269,8 +271,6 @@ void Menu::renderPlayOpt() {
 				printTitle();
 
 				game = new Game();
-				Common::gotoXY(70, 20);
-				game->inputName();
 				game->runGame();
 
 				runGame = false;
@@ -310,7 +310,6 @@ void Menu::initContinueOpt() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
 	printTitle();
-	//fileData.clear();
 	loadFileData("listData.txt");
 	renderOptionsBox(fileData.size());
 	renderContinueTexts(fileData, left - 9, top + 1);
@@ -412,16 +411,18 @@ void Menu::loadSettings() {
 //##################################################//
 
 void Menu::loadFileData(string fileName) {
-	ifstream fin;
-	fin.open(fileName);
-	string temp;
+	ifstream fin(fileName);
 	vector<string> fileDataTemp;
 	fileData.clear();
+
 	while (!fin.eof()) {
+		string temp;
 		getline(fin, temp, '\n');
-		fileDataTemp.push_back(temp);
+		if (temp == "") break;
+		fileData.push_back(temp);
 	}
-	if (fileDataTemp.size() - 1 < 9) {
+
+	/*if (fileDataTemp.size() - 1 < 9) {
 		for (int i = 0; i < fileDataTemp.size() - 1; i++) {
 			fileData.push_back(fileDataTemp[i]);
 		}
@@ -430,7 +431,135 @@ void Menu::loadFileData(string fileName) {
 		for (int i = (fileDataTemp.size() - 9); i < fileDataTemp.size() - 1; i++) {
 			fileData.push_back(fileDataTemp[i]);
 		}
-	}
+	}*/
 	fileData.push_back("Back");
 	fin.close();
+}
+void Menu::initLeaderBoard() {
+	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
+	Common::clearConsole();
+	printTitle();
+	renderLeaderBox();
+	
+}
+void Menu::renderLeaderText()
+{
+	Toplayers();
+	int x = 70, y = 19;
+	Common::gotoXY(x + 1, y -2); cout << "NAME";
+	Common::gotoXY(x + 14, y-2 ); cout << "SCORE";
+	for (int i = 1; i < 19; i++)
+	{
+		Common::gotoXY(x+i, y - 1); putchar(196);
+	}
+	for (int i = 0; i < 7 && i < toplayers.size(); i ++)
+	{
+		Common::gotoXY(x + 1, y  + i);
+		cout << toplayers[i].name;
+		Common::gotoXY(x + 17, y + i);
+		cout << toplayers[i].score;
+
+	}
+
+
+}
+void Menu::renderLeaderBox()
+{
+	bool loadLeaderBoard = true;
+	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
+
+
+		int x = 67, y = 13;
+		Common::gotoXY(x, y); putchar(201);
+		Common::gotoXY(x + 25, y); putchar(187);
+		Common::gotoXY(x, y + 14); putchar(200);
+		Common::gotoXY(x + 25, y + 14); putchar(188);
+		for (int i = y + 1; i < y + 14; i++)
+		{
+			Common::gotoXY(x, i); putchar(186);
+			Common::gotoXY(25 + x, i); putchar(186);
+
+		}
+		for (int i = x + 1; i < x + 25; i++)
+		{
+			Common::gotoXY(i, y); putchar(205);
+			Common::gotoXY(i, y + 14); putchar(205);
+
+		}
+
+		Common::gotoXY(x + 4, y + 1); putchar(201);
+		Common::gotoXY(x + 5, y + 1); putchar(205);
+		Common::gotoXY(x + 20, y + 1); putchar(187);
+		Common::gotoXY(x + 19, y + 1); putchar(205);
+		Common::gotoXY(x + 4, y + 3); putchar(200);
+		Common::gotoXY(x + 5, y + 3); putchar(205);
+		Common::gotoXY(x + 20, y + 3); putchar(188);
+		Common::gotoXY(x + 19, y + 3); putchar(205);
+
+		Common::gotoXY(x + 6, y + 2); cout << "HIGHT SCRORES";
+		Common::gotoXY(x + 10, y + 13); cout << char(175)<<"EXIT"<<char(174);
+
+	
+}
+
+void Menu::RenderLeaderBoard() {
+	initLeaderBoard();
+
+	
+	bool loadLeaderBoard = true;
+	while (loadLeaderBoard)
+	{
+		int c = Common::getConsoleInput();
+		if (c == 6)
+		{
+			break;
+		}
+		renderLeaderBox();
+		renderLeaderText();
+	}
+}
+void swapPlayer(player& a, player& b)
+{
+	player temp = a;
+	a = b;
+	b = temp;
+}
+void selectionSort(vector<player> &a)
+{
+	int i, j, max;
+	for (i = 0; i < a.size() - 1; i++)
+	{
+		max = i;
+		for (j = i + 1; j < a.size(); j++)
+		{
+			if (a[j].score > a[max].score)
+				max = j;
+		}
+		swapPlayer(a[max], a[i]);
+	}
+}
+void Menu::Toplayers()
+{
+	toplayers.clear();
+	ifstream fin;
+	fin.open("listData.txt");
+
+	vector<string> tempList;
+
+	while (!fin.eof())
+	{
+		string temp;
+		getline(fin, temp);
+		tempList.push_back(temp);
+	}
+	for (int i = 0; i < tempList.size(); i++)
+	{
+		ifstream data(tempList[i]);
+		player temp;
+		getline(data, temp.name);
+		data >> temp.score;
+		toplayers.push_back(temp);
+		data.close();
+	}
+	selectionSort(toplayers);
 }

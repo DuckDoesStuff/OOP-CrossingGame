@@ -18,8 +18,9 @@ private:
 	int frame;
 	bool running;
 	string name;							//username
+	string filename;						//save filename
 	vector<pair<int, int>> trafficTimer;	//{timer}
-	vector<string> options = { "Back to game", "Save game", "Restart game", "Main menu" };
+	vector<string> options = { "Back to game", "Settings", "Back to menu"};
 	string* laneOpt;						//save lane
 
 	int numOfObjs;
@@ -36,7 +37,6 @@ public:
 
 	void runGame();
 	void continueGame(string);
-	void runGame(int, string);
 	void gameHandle();
 	void playGame();
 	void pauseGame();
@@ -47,7 +47,7 @@ public:
 	template <class T> 
 	void initLane(vector<T*>&, T*, int, int, int, int);
 	void initGameData(int);
-	void initGameFromFile(string);
+	void initGameFromFile();
 
 	//******************************************//
 
@@ -68,11 +68,15 @@ public:
 
 	//******************************************//
 	//save game
+	bool askToSave();
+	string inputSaveFile();
 	void saveGame();
+
 	void savePosVehicle(ofstream&);
 	void savePosAnimal(ofstream&);
 	void saveLane(ofstream&);
 	void saveTraffic(ofstream&);
+
 
 	//******************************************//
 

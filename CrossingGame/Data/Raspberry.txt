@@ -1,0 +1,8 @@
+Rasp
+1
+75 32
+vehicle vehicle vehicle vehicle animal 
+55 105 103 33 55 105 103 33 
+55 105 
+34 70 33 69 39 75 44 80 
+1 1 1 1 1 1 1 1 
