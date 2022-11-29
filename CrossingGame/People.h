@@ -27,7 +27,7 @@ public:
 	void setVehicle(vector<Vehicle*>&);
 	void setAnimal(vector<Animal*>&);
 
-	void setAnimal(vector<Animal*>& an);
+
 
 	//******************************************//
 
