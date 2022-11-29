@@ -20,7 +20,7 @@ private:
 	string name;							//username
 	string filename;						//save filename
 	vector<pair<int, int>> trafficTimer;	//{timer}
-	vector<string> options = { "Back to game", "Settings", "Main menu"};
+	vector<string> options = { "Back to game", "Settings", "Back to menu"};
 	string* laneOpt;						//save lane
 
 	int numOfObjs;

@@ -603,6 +603,7 @@ void Game::saveGame() {
 	fout.close();
 }
 
+
 void Game::savePosVehicle(ofstream& fout) {
 	for (int i = 0; i < vh.size(); i++) 
 		fout << vh[i]->getX() << " ";

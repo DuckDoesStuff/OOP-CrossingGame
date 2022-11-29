@@ -27,6 +27,8 @@ public:
 	void setVehicle(vector<Vehicle*>&);
 	void setAnimal(vector<Animal*>&);
 
+
+
 	//******************************************//
 
 	virtual void loadImage(int type);
