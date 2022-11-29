@@ -500,6 +500,7 @@ void Game::saveGame() {
 	}
 	fout.close();
 
+	
 	fout.open(dataName);
 	fout << name << endl;
 	fout << level << endl;
@@ -510,6 +511,7 @@ void Game::saveGame() {
 	saveTraffic(fout);
 	fout.close();
 }
+
 
 void Game::savePosVehicle(ofstream& fout) {
 	for (int i = 0; i < vh.size(); i++) 
