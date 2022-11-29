@@ -114,23 +114,25 @@ bool Common::pressedKey(int n) {
 
 int Common::getConsoleInput()
 {
-	char c = -1;
+	int c = -1;
 	if (_kbhit()) c = _getch();
 	else return c;
 
-	switch (c)
-	{
-	case 72:				//lên
-		return 2;
-	case 75:				//trái
-		return 3;
-	case 77:				//phải
-		return 4;
-	case 80:				//xuống
-		return 5;
-	case 27:				//esc
-		return 6;
+	if (c == 0 || c == 224) {
+		int c = _getch();
+		switch (c)
+		{
+		case 72:				//lên
+			return 2;
+		case 75:				//trái
+			return 3;
+		case 77:				//phải
+			return 4;
+		case 80:				//xuống
+			return 5;
+		}
 	}
+
 	c = toupper(c);
 	switch (c) {
 	case 13://Enter
@@ -143,7 +145,7 @@ int Common::getConsoleInput()
 		return 4;
 	case 'S':
 		return 5;
-	case 'P':
+	case 'P'://Pause
 		return 7;
 	default:
 		return c;
