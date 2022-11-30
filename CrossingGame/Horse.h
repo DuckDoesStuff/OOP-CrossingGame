@@ -12,6 +12,6 @@ public:
 
 	//******************************************//
 
-	bool checkPos();
+	int checkPos();
 	void updatePos();
 };

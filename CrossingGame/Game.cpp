@@ -26,6 +26,7 @@ Game::~Game()
 		delete an[i];
 		an[i] = nullptr;
 	}
+	
 	delete[]laneOpt;
 	laneOpt = nullptr;
 }
@@ -462,13 +463,14 @@ void Game::drawTraffic() {
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_GREEN);
 		else
 			Common::setConsoleColor(BRIGHT_WHITE, LIGHT_RED);
-		cout << "@";
+		cout << char(219);
 	}
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 }
 
 void Game::updateAnimal() {
-	for (int i = 0; i < an.size(); i++) {
+	for (int i = 0; i < an.size(); i++) 
+	{
 		an[i]->updatePos();
 	}
 }

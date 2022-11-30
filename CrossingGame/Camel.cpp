@@ -22,16 +22,16 @@ void Camel::loadImage(int type)
 	switch (type)
 	{
 	case 0:
-		file = "ASCII\\camel.txt";
+		file = "ASCII\\camel1.txt";
 		_height = 4;
 		_width = 13;
-		mSpeed = -1;
+		mSpeed = 1;
 		break;
 	case 1:
-		file = "ASCII\\camel.txt";
+		file = "ASCII\\camel2.txt";
 		_height = 4;
 		_width = 13;
-		mSpeed = -1;
+		mSpeed = 1;
 		break;
 	default:
 		break;
@@ -48,9 +48,9 @@ void Camel::loadImage(int type)
 
 //******************************************//
 
-bool Camel::checkPos() {
-	if ((mX + mSpeed + _width) > LEFT_GAMEBOARD) return true;
-	return false;
+int Camel::checkPos() {
+	if ((mX + mSpeed + _width) > LEFT_GAMEBOARD) return 1;
+	return 0;
 }
 
 void Camel::updatePos()
