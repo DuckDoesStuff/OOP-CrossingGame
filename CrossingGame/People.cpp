@@ -19,6 +19,10 @@ People::~People() {
 
 //******************************************//
 
+int People::getmY(){
+	return this->mY;
+}
+
 void People::setCoords(int x, int y) {
 	mX = x;
 	mY = y;
@@ -62,7 +66,7 @@ void People::loadImage(int type) {
 
 void People::dieAnimation() {
 	loadImage(2);
-	while (mY > TOP_GAMEBOARD) {
+	while (mY > TOP_GAMEBOARD+4) {
 		eraseFromScreen();
 		mY -= 1;
 		drawToScreen();

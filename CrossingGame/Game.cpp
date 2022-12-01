@@ -33,12 +33,26 @@ Game::~Game()
 
 //******************************************//
 
-void Game::runGame() {
-	inputName();
+bool Game::runGame(int lv) {
+	if(lv == 1)
+		inputName();
 	Common::clearConsole();
-	initGameData(1);
+	delete human;
+	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
+	initGameData(lv);
 	displayInfo();
 	gameHandle();
+	// if(human->isAlive()){
+	// 	delete human;
+	// 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);		
+	// 	initGameData(2);
+	// 	displayInfo();
+	// 	gameHandle();
+	// }
+	if(!human->isAlive())
+		return false;
+	else	
+		return true;
 }
 
 void Game::continueGame(string fileName) {
@@ -71,6 +85,10 @@ void Game::gameHandle()
 				t_game = thread(&Game::playGame, this);
 			}
 		}
+		if (human->getmY()==2){
+			running = false;
+			break;
+		}
 	}
 	if (t_game.joinable()) t_game.join();
 }
@@ -101,6 +119,7 @@ void Game::playGame() {
 				check = 1;
 			}
 			else {
+				human->setAlive(false);
 				break;
 			}
 
@@ -155,6 +174,9 @@ void Game::initLane(vector<T*>& v, T* obj, int numOfObjs, int rowSpacing, int la
 void Game::initGameData(int l)
 {
 	level = l;
+
+	deleteAn(an);
+	deleteVe(vh);
 
 	int animalCount = 0;
 	int vehicleCount = 0;
@@ -224,7 +246,6 @@ void Game::initGameData(int l)
 		laneSpacing += 5;
 	}
 
-	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	human->setVehicle(vh);
 	human->setAnimal(an);
 }
@@ -566,7 +587,10 @@ string Game::inputSaveFile() {
 }
 
 void Game::saveGame() {
-	if (askToSave()) return;
+	if (askToSave()) {
+		human->setAlive(false);
+		return;
+	}
 	//if opened from a save file then save and leave
 	//if not then ask user's to input file name
 
@@ -781,3 +805,20 @@ void Game::arrowRight(int left, int top, int slt) {
 	Common::gotoXY(left + 12 * (slt) + 6, top);
 	cout << "<<";
 }
+
+void Game::deleteVe(vector<Vehicle*>& vh){
+	for (int i = 0; i < vh.size(); i++) {
+		delete vh[i];
+		vh[i] = nullptr;
+	}
+	vh.clear();
+}
+void Game::deleteAn(vector<Animal*>& an){
+	for (int i = 0; i < an.size(); i++) {
+		delete an[i];
+		an[i] = nullptr;
+	}
+	an.clear();
+	
+}
+
