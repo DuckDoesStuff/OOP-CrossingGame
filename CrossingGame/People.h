@@ -27,10 +27,7 @@ public:
 	void setVehicle(vector<Vehicle*>&);
 	void setAnimal(vector<Animal*>&);
 
-<<<<<<< HEAD
-=======
 
->>>>>>> eca8e940b476821c3298817483cbe8855041c3be
 
 	//******************************************//
 

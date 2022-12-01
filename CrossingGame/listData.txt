@@ -2,10 +2,16 @@ Data\ahihi.txt
 Data\2.txt
 Data\meomeo.txt
 Data\olol.txt
-Data\1.txt
 Data\pop.txt
 Data\Duck.txt
 Data\d.txt
 Data\nhung.txt
 Data\lala.txt
 Data\Hi.txt
+Data\kki7.txt
+Data\uui.txt
+Data\1.txt
+Data\adaw.txt
+Data\f.txt
+Data\a.txt
+Data\g.txt

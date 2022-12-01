@@ -256,7 +256,6 @@ void Game::initGameFromFile(string fileName) {
 	for (int i = 0; i < _numOfLane; i++) {
 		fin >> laneOpt[i];
 	}
-
 	for (int i = 0; i < _numOfLane; i++) {
 		if (laneOpt[i] == "animal")
 			for (int j = 0; j < numOfObjs; j++) {

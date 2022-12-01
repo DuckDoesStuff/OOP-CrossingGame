@@ -1,0 +1,8 @@
+uui
+1
+68 32
+vehicle vehicle animal vehicle vehicle 
+34 84 4 54 4 54 34 84 
+34 84 
+73 88 60 75 62 77 62 77 
+1 1 1 1 1 1 1 1 

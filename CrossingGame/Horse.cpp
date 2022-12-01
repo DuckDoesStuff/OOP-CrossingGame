@@ -4,7 +4,6 @@ Horse::Horse(int type)
 {
 	loadImage(type);
 	mX = mY = 0;
-	mSpeed = 1;
 }
 
 Horse::Horse(int type, int x, int y)
@@ -35,6 +34,7 @@ void Horse::loadImage(int type)
 	}
 
 	ifstream fin(file);
+
 	string s;
 	image.clear();
 	while (!fin.eof()) {
