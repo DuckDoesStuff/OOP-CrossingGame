@@ -61,8 +61,9 @@ void Game::start(){
 }
 
 bool Game::runGame(int lv) {
-	//if(lv == 1)
 	
+	Common::clearConsole();
+
 	delete human;
 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	initGameData(lv);
@@ -81,6 +82,23 @@ void Game::continueGame(string fileName) {
 	initGameFromFile();
 	displayInfo();
 	gameHandle();
+	level++;
+	while (level <=5)
+	{
+		if(!runGame(level))
+				break;
+			level++;
+			
+			if (check == 1){
+				level = 1;
+				check = 0;
+				
+				drawBoardGame();
+				human->loadImage(1);
+				human->drawToScreen();
+			}
+	}
+	
 }
 
 void Game::gameHandle()
@@ -329,15 +347,37 @@ void Game::initGameFromFile() {
 	int mX, mY;
 	fin >> name;
 	fin >> level;
-	if (level == 1) {
+	switch (level)
+	{
+	case 1: {
 		numOfObjs = 2;
 		frame = 60;
+		break;
 	}
-	else {
+	case 2: {
+		numOfObjs = 3;
+		frame = 60;
+		break;
+	}
+	case 3: {
+		numOfObjs = 3;
+		frame = 50;
+		break;
+	}
+	case 4: {
+		numOfObjs = 3;
+		frame = 50;
+		break;
+	}
+	case 5: {
 		numOfObjs = 3;
 		frame = 45;
+		break;
 	}
 
+	default:
+		break;
+	} 
 	fin >> mX;
 	fin >> mY;
 	for (int i = 0; i < _numOfLane; i++) {
