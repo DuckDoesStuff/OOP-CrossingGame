@@ -35,9 +35,11 @@ public:
 	Game();
 	~Game();
 
+	// int check = 0 ;
+
 	//******************************************//
 
-	void runGame();
+	bool runGame(int );
 	void continueGame(string);
 	void gameHandle();
 	void playGame();
@@ -96,6 +98,10 @@ public:
 	int askPlayer();
 	void arrowLeft(int, int, int);
 	void arrowRight(int, int, int);
-	//***************************************//
+
+	//******************************************//
+
+	void deleteVe(vector<Vehicle*>& vh);
+	void deleteAn(vector<Animal*>& an);
 
 };
