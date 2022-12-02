@@ -33,10 +33,11 @@ public:
 	Game();
 	~Game();
 
-	// int check = 0 ;
+	int check = 0 ;
 
 	//******************************************//
 
+	void start();
 	bool runGame(int );
 	void continueGame(string);
 	void gameHandle();

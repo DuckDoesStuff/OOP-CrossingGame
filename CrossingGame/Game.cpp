@@ -33,22 +33,42 @@ Game::~Game()
 
 //******************************************//
 
-bool Game::runGame(int lv) {
-	if(lv == 1)
-		inputName();
+void Game::start(){
+	inputName();
 	Common::clearConsole();
+	int Lv = 1;
+	while(Lv <= 5)
+		{
+			if(!runGame(Lv))
+				break;
+			Lv++;
+			
+			if (check == 1){
+				Lv = 1;
+				check = 0;
+				
+				drawBoardGame();
+				human->loadImage(1);
+				human->drawToScreen();
+			}
+			// if (game->askcheck() == 1){
+			// 	Lv = 1;
+			// 	printTitle();
+				
+			// }
+
+		}
+}
+
+bool Game::runGame(int lv) {
+	//if(lv == 1)
+	
 	delete human;
 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	initGameData(lv);
 	displayInfo();
 	gameHandle();
-	// if(human->isAlive()){
-	// 	delete human;
-	// 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);		
-	// 	initGameData(2);
-	// 	displayInfo();
-	// 	gameHandle();
-	// }
+
 	if(!human->isAlive())
 		return false;
 	else	
@@ -100,10 +120,10 @@ void Game::playGame() {
 	DrawObj(vh);
 	DrawObj(an);
 
-	int a, b; //nhunnhun de tam de check cai hop ask hoi
-	a = human->getCoords().first; //nhunnhun de tam de check cai hop ask hoi
-	b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
-	int check = 0; //nhunnhun de tam de check cai hop ask hoi
+	// int a, b; //nhunnhun de tam de check cai hop ask hoi
+	// a = human->getCoords().first; //nhunnhun de tam de check cai hop ask hoi
+	// b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
+	// int check = 0; //nhunnhun de tam de check cai hop ask hoi
 
 	while (running) {
 		updateVehicle();
@@ -117,6 +137,8 @@ void Game::playGame() {
 			if (askPlayer() == 0) {
 				Common::clearConsole();
 				check = 1;
+				human->setAlive(true);
+				break;
 			}
 			else {
 				human->setAlive(false);
@@ -126,13 +148,13 @@ void Game::playGame() {
 		}
 
 		//nhunnhun de tam de check cai hop ask hoi
-		if (check == 1) {
-			drawBoardGame();
-			human->loadImage(1);
-			human->setCoords(a, b);
-			human->drawToScreen();
-			check = 0;
-		}
+		// if (check == 1) {
+		// 	drawBoardGame();
+		// 	human->loadImage(1);
+		// 	human->setCoords(a, b);
+		// 	human->drawToScreen();
+		// 	check = 0;
+		// }
 
 		Sleep(frame);
 	}
