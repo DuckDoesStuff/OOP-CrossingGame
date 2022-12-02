@@ -128,6 +128,7 @@ void Menu::ArrowDown(int left, int top, int slt) {
 }
 
 //##################################################//
+
 //Menu
 void Menu::initMenu() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
@@ -190,6 +191,7 @@ void Menu::renderMenuCurOpt()
 }
 
 //##################################################//
+
 //Settings
 void Menu::initSettings() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
@@ -236,6 +238,7 @@ void Menu::renderSettingScreen() {
 }
 
 //##################################################//
+
 //Play
 void Menu::initPlayOpt() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
@@ -295,6 +298,7 @@ void Menu::renderPlayOptScreen() {
 }
 
 //###############################################//
+
 //Continue
 void Menu::renderContinueTexts(vector<string> text, int left, int top) {
 	int width = 41;
@@ -435,6 +439,7 @@ void Menu::loadFileData(string fileName) {
 	fileData.push_back("Back");
 	fin.close();
 }
+
 void Menu::initLeaderBoard() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
@@ -442,6 +447,7 @@ void Menu::initLeaderBoard() {
 	renderLeaderBox();
 	
 }
+
 void Menu::renderLeaderText()
 {
 	Toplayers();
@@ -460,46 +466,42 @@ void Menu::renderLeaderText()
 		cout << toplayers[i].score;
 
 	}
-
-
 }
+
 void Menu::renderLeaderBox()
 {
 	bool loadLeaderBoard = true;
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 
+	int x = 67, y = 13;
+	Common::gotoXY(x, y); putchar(201);
+	Common::gotoXY(x + 25, y); putchar(187);
+	Common::gotoXY(x, y + 14); putchar(200);
+	Common::gotoXY(x + 25, y + 14); putchar(188);
+	for (int i = y + 1; i < y + 14; i++)
+	{
+		Common::gotoXY(x, i); putchar(186);
+		Common::gotoXY(25 + x, i); putchar(186);
 
-		int x = 67, y = 13;
-		Common::gotoXY(x, y); putchar(201);
-		Common::gotoXY(x + 25, y); putchar(187);
-		Common::gotoXY(x, y + 14); putchar(200);
-		Common::gotoXY(x + 25, y + 14); putchar(188);
-		for (int i = y + 1; i < y + 14; i++)
-		{
-			Common::gotoXY(x, i); putchar(186);
-			Common::gotoXY(25 + x, i); putchar(186);
+	}
+	for (int i = x + 1; i < x + 25; i++)
+	{
+		Common::gotoXY(i, y); putchar(205);
+		Common::gotoXY(i, y + 14); putchar(205);
 
-		}
-		for (int i = x + 1; i < x + 25; i++)
-		{
-			Common::gotoXY(i, y); putchar(205);
-			Common::gotoXY(i, y + 14); putchar(205);
+	}
 
-		}
+	Common::gotoXY(x + 4, y + 1); putchar(201);
+	Common::gotoXY(x + 5, y + 1); putchar(205);
+	Common::gotoXY(x + 20, y + 1); putchar(187);
+	Common::gotoXY(x + 19, y + 1); putchar(205);
+	Common::gotoXY(x + 4, y + 3); putchar(200);
+	Common::gotoXY(x + 5, y + 3); putchar(205);
+	Common::gotoXY(x + 20, y + 3); putchar(188);
+	Common::gotoXY(x + 19, y + 3); putchar(205);
 
-		Common::gotoXY(x + 4, y + 1); putchar(201);
-		Common::gotoXY(x + 5, y + 1); putchar(205);
-		Common::gotoXY(x + 20, y + 1); putchar(187);
-		Common::gotoXY(x + 19, y + 1); putchar(205);
-		Common::gotoXY(x + 4, y + 3); putchar(200);
-		Common::gotoXY(x + 5, y + 3); putchar(205);
-		Common::gotoXY(x + 20, y + 3); putchar(188);
-		Common::gotoXY(x + 19, y + 3); putchar(205);
-
-		Common::gotoXY(x + 6, y + 2); cout << "HIGHT SCRORES";
-		Common::gotoXY(x + 10, y + 13); cout << char(175)<<"EXIT"<<char(174);
-
-	
+	Common::gotoXY(x + 6, y + 2); cout << "HIGHT SCRORES";
+	Common::gotoXY(x + 10, y + 13); cout << char(175)<<"EXIT"<<char(174);
 }
 
 void Menu::RenderLeaderBoard() {
@@ -518,12 +520,14 @@ void Menu::RenderLeaderBoard() {
 		renderLeaderText();
 	}
 }
+
 void swapPlayer(player& a, player& b)
 {
 	player temp = a;
 	a = b;
 	b = temp;
 }
+
 void selectionSort(vector<player> &a)
 {
 	int i, j, max;
@@ -538,6 +542,7 @@ void selectionSort(vector<player> &a)
 		swapPlayer(a[max], a[i]);
 	}
 }
+
 void Menu::Toplayers()
 {
 	toplayers.clear();

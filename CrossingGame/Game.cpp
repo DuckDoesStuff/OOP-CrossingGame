@@ -22,12 +22,14 @@ Game::~Game()
 		delete vh[i];
 		vh[i] = nullptr;
 	}
+	vh.clear();
 
 	for (int i = 0; i < an.size(); i++) {
 		delete an[i];
 		an[i] = nullptr;
 	}
-	
+	an.clear();
+
 	delete[]laneOpt;
 	laneOpt = nullptr;
 }
@@ -56,7 +58,7 @@ void Game::gameHandle()
 	running = true;
 
 	while (human->isAlive()) {
-		if (Common::pressedKey(P)) {
+		if (Common::pressedKey(VK_ESCAPE)) {
 			if (running) {
 				running = false;
 				t_game.join();

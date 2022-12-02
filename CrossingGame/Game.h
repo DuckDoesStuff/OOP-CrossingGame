@@ -23,8 +23,6 @@ private:
 	vector<string> options = { "Back to game", "Settings", "Back to menu"};
 	string* laneOpt;						//save lane
 
-	string* laneOpt;//save lane
-
 	int numOfObjs;
 	People* human;
 	vector<Vehicle*> vh;

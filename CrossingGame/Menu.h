@@ -5,10 +5,12 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+
 struct player {
 	string name;
 	int score;
 };
+
 class Menu {
 private:
 	
