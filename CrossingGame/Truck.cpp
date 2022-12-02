@@ -30,7 +30,7 @@ void Truck::loadImage(int type)
 	case 1:
 		file = "ASCII\\truck2.txt";
 		_height = 4;
-		_width = 12;
+		_width = 13;
 		mSpeed = -1;
 		break;
 	default:

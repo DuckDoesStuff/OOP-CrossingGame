@@ -79,9 +79,9 @@ void Animal::eraseFromScreen()
 
 //******************************************//
 
-bool Animal::checkPos()
+int Animal::checkPos()
 {
-	return true;
+	return 0;
 }
 
 void Animal::updatePos()

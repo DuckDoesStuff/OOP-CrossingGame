@@ -23,12 +23,16 @@ private:
 	vector<string> options = { "Back to game", "Settings", "Back to menu"};
 	string* laneOpt;						//save lane
 
+	string* laneOpt;//save lane
+
 	int numOfObjs;
 	People* human;
 	vector<Vehicle*> vh;
 	vector<Animal*> an;
-	
+
 	thread t_game;
+
+
 public:
 	Game();
 	~Game();
@@ -44,7 +48,7 @@ public:
 
 	//******************************************//
 
-	template <class T> 
+	template <class T>
 	void initLane(vector<T*>&, T*, int, int, int, int);
 	void initGameData(int);
 	void initGameFromFile();
@@ -90,8 +94,10 @@ public:
 	void erasePauseMenu(int, int, int, int);
 
 	//******************************************//
-	
+
 	int askPlayer();
 	void arrowLeft(int, int, int);
 	void arrowRight(int, int, int);
+	//***************************************//
+
 };
