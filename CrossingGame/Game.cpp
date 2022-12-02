@@ -181,6 +181,54 @@ void Game::initGameData(int l)
 	int animalCount = 0;
 	int vehicleCount = 0;
 
+
+	switch (level)
+	{
+	case 1: {
+		numOfObjs = 2;
+		frame = 60;
+
+		animalCount = 1;
+		vehicleCount = 4;
+		break;
+	}
+	case 2: {
+		numOfObjs = 3;
+		frame = 60;
+
+		animalCount = 1;
+		vehicleCount = 4;
+		break;
+	}
+	case 3: {
+		numOfObjs = 3;
+		frame = 50;
+
+		animalCount = 2;
+		vehicleCount = 3;
+		break;
+	}
+	case 4: {
+		numOfObjs = 3;
+		frame = 50;
+
+		animalCount = 3;
+		vehicleCount = 2;
+		break;
+	}
+	case 5: {
+		numOfObjs = 3;
+		frame = 45;
+
+		animalCount = 2;
+		vehicleCount = 3;
+		break;
+	}
+
+	default:
+		break;
+	}
+	/*
 	if (level == 1) {
 		numOfObjs = 2;
 		frame = 60;
@@ -195,7 +243,7 @@ void Game::initGameData(int l)
 		animalCount = 2;
 		vehicleCount = 3;
 	}
-
+	*/
 	int rowSpacing = 0;
 	int laneSpacing = 0;
 	unordered_map<int, string> lane;
