@@ -36,22 +36,43 @@ Game::~Game()
 
 //******************************************//
 
-bool Game::runGame(int lv) {
-	if(lv == 1)
-		inputName();
+void Game::start(){
+	inputName();
 	Common::clearConsole();
+	int Lv = 1;
+	while(Lv <= 5)
+		{
+			if(!runGame(Lv))
+				break;
+			Lv++;
+			
+			if (check == 1){
+				Lv = 1;
+				check = 0;
+				
+				drawBoardGame();
+				human->loadImage(1);
+				human->drawToScreen();
+			}
+			// if (game->askcheck() == 1){
+			// 	Lv = 1;
+			// 	printTitle();
+				
+			// }
+
+		}
+}
+
+bool Game::runGame(int lv) {
+	
+	Common::clearConsole();
+
 	delete human;
 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	initGameData(lv);
 	displayInfo();
 	gameHandle();
-	// if(human->isAlive()){
-	// 	delete human;
-	// 	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);		
-	// 	initGameData(2);
-	// 	displayInfo();
-	// 	gameHandle();
-	// }
+
 	if(!human->isAlive())
 		return false;
 	else	
@@ -64,6 +85,23 @@ void Game::continueGame(string fileName) {
 	initGameFromFile();
 	displayInfo();
 	gameHandle();
+	level++;
+	while (level <=5)
+	{
+		if(!runGame(level))
+				break;
+			level++;
+			
+			if (check == 1){
+				level = 1;
+				check = 0;
+				
+				drawBoardGame();
+				human->loadImage(1);
+				human->drawToScreen();
+			}
+	}
+	
 }
 
 void Game::gameHandle()
@@ -103,10 +141,10 @@ void Game::playGame() {
 	DrawObj(vh);
 	DrawObj(an);
 
-	int a, b; //nhunnhun de tam de check cai hop ask hoi
-	a = human->getCoords().first; //nhunnhun de tam de check cai hop ask hoi
-	b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
-	int check = 0; //nhunnhun de tam de check cai hop ask hoi
+	// int a, b; //nhunnhun de tam de check cai hop ask hoi
+	// a = human->getCoords().first; //nhunnhun de tam de check cai hop ask hoi
+	// b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
+	// int check = 0; //nhunnhun de tam de check cai hop ask hoi
 
 	while (running) {
 		updateVehicle();
@@ -120,6 +158,8 @@ void Game::playGame() {
 			if (askPlayer() == 0) {
 				Common::clearConsole();
 				check = 1;
+				human->setAlive(true);
+				break;
 			}
 			else {
 				human->setAlive(false);
@@ -129,13 +169,13 @@ void Game::playGame() {
 		}
 
 		//nhunnhun de tam de check cai hop ask hoi
-		if (check == 1) {
-			drawBoardGame();
-			human->loadImage(1);
-			human->setCoords(a, b);
-			human->drawToScreen();
-			check = 0;
-		}
+		// if (check == 1) {
+		// 	drawBoardGame();
+		// 	human->loadImage(1);
+		// 	human->setCoords(a, b);
+		// 	human->drawToScreen();
+		// 	check = 0;
+		// }
 
 		Sleep(frame);
 	}
@@ -310,15 +350,37 @@ void Game::initGameFromFile() {
 	int mX, mY;
 	fin >> name;
 	fin >> level;
-	if (level == 1) {
+	switch (level)
+	{
+	case 1: {
 		numOfObjs = 2;
 		frame = 60;
+		break;
 	}
-	else {
+	case 2: {
+		numOfObjs = 3;
+		frame = 60;
+		break;
+	}
+	case 3: {
+		numOfObjs = 3;
+		frame = 50;
+		break;
+	}
+	case 4: {
+		numOfObjs = 3;
+		frame = 50;
+		break;
+	}
+	case 5: {
 		numOfObjs = 3;
 		frame = 45;
+		break;
 	}
 
+	default:
+		break;
+	} 
 	fin >> mX;
 	fin >> mY;
 	for (int i = 0; i < _numOfLane; i++) {

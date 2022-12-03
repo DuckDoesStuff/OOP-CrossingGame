@@ -273,23 +273,10 @@ void Menu::renderPlayOpt() {
 				Common::clearConsole();
 				printTitle();
 
-				// int Lv = 1;
+				
 				game = new Game();
-				// while (Lv <= 5)
-				for (int Lv = 1 ; Lv <= 5 ; Lv++)
-				{
-					if(!game->runGame(Lv))
-						break;
-					
-					
-					
-					// if (game->askcheck() == 1){
-					// 	Lv = 1;
-					// 	printTitle();
-						
-					// }
-
-				}
+				game->start();
+				
 				
 				runGame = false;
 				loadPlayOpt = false;
