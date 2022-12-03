@@ -275,7 +275,7 @@ void Menu::renderPlayOpt() {
 
 				
 				game = new Game();
-				game->start();
+				game->runGame();
 				
 				
 				runGame = false;

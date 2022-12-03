@@ -7,13 +7,12 @@
 #include <iostream>
 
 struct player {
-	string name;
-	int score;
+	string name = "";
+	int score = 0;
 };
 
 class Menu {
 private:
-	
 	int left = 69, top = 17;
 	int opt = 4;	//number of options
 	int playOpt = 3; //play new game or continue game
@@ -62,8 +61,6 @@ public:
 	void Toplayers();
 	void renderSettCurOpt();
 	void renderSettingScreen();
-
-	
 
 	//##################################################//
 

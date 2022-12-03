@@ -5,12 +5,15 @@ Game::Game()
 	srand((unsigned)time(0));
 	name = "";
 	filename = "";
-	level = 0;
-	human = nullptr;
+	level = 1;
+	human = new People;
 	numOfObjs = 0;
 	frame = 0;
 	laneOpt = nullptr;
-	running = true;
+	t_running = true;
+	pass = false;
+	gameResult = LOSE;
+	quit = false;
 }
 
 Game::~Game()
@@ -18,17 +21,8 @@ Game::~Game()
 	delete human;
 	human = nullptr;
 
-	for (int i = 0; i < vh.size(); i++) {
-		delete vh[i];
-		vh[i] = nullptr;
-	}
-	vh.clear();
-
-	for (int i = 0; i < an.size(); i++) {
-		delete an[i];
-		an[i] = nullptr;
-	}
-	an.clear();
+	deleteVe();
+	deleteAn();
 
 	delete[]laneOpt;
 	laneOpt = nullptr;
@@ -36,101 +30,96 @@ Game::~Game()
 
 //******************************************//
 
-void Game::start(){
+void Game::runGame() {
 	inputName();
-	Common::clearConsole();
-	int Lv = 1;
-	while(Lv <= 5)
-		{
-			if(!runGame(Lv))
-				break;
-			Lv++;
-			
-			if (check == 1){
-				Lv = 1;
-				check = 0;
-				
-				drawBoardGame();
-				human->loadImage(1);
-				human->drawToScreen();
-			}
-			// if (game->askcheck() == 1){
-			// 	Lv = 1;
-			// 	printTitle();
-				
-			// }
+	while (!quit) {
+		Common::clearConsole();
+		initGameData();
+		displayInfo();
+		gameHandle();
+	}
 
-		}
+	if (gameResult == WIN) {
+		//endGame screen
+		Common::clearConsole();
+		cout << "YAY";
+	}
 }
 
-bool Game::runGame(int lv) {
-	
-	Common::clearConsole();
-
-	delete human;
-	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
-	initGameData(lv);
-	displayInfo();
-	gameHandle();
-
-	if(!human->isAlive())
-		return false;
-	else	
-		return true;
-}
-
+//chua fix
 void Game::continueGame(string fileName) {
 	Common::clearConsole();
 	filename = fileName;
 	initGameFromFile();
-	displayInfo();
-	gameHandle();
-	level++;
-	while (level <=5)
-	{
-		if(!runGame(level))
-				break;
-			level++;
-			
-			if (check == 1){
-				level = 1;
-				check = 0;
-				
-				drawBoardGame();
-				human->loadImage(1);
-				human->drawToScreen();
-			}
+	while (!quit) {
+		Common::clearConsole();
+		displayInfo();
+		gameHandle();
+		initGameData();
 	}
-	
+
+	if (gameResult == WIN) {
+		//endGame screen
+		Common::clearConsole();
+		cout << "YAY";
+	}
 }
 
 void Game::gameHandle()
 {
 	t_game = thread(&Game::playGame, this);
-	running = true;
+	t_running = true;
 
-	while (human->isAlive()) {
+	while (!quit) {
 		if (Common::pressedKey(VK_ESCAPE)) {
-			if (running) {
-				running = false;
+			if (t_running) {
+				t_running = false;
 				t_game.join();
 
 				pauseGame();
 				t_game = thread(&Game::playGame, this);
 			}
 			else {
-				running = true;
+				t_running = true;
 
 				while (_kbhit())				//clear up buffer 
-					char c  = _getch();
+					char c = _getch();
 				t_game = thread(&Game::playGame, this);
 			}
 		}
-		if (human->getmY()==2){
-			running = false;
+
+		//player cross the street successfully
+		if (human->getmY() == 2) {
+			t_running = false;
+			pass = true;
+
+			if (level == 2) {
+				gameResult = WIN;
+				quit = true;
+				break;
+			}
+			level++;
+			break;
+		}
+
+
+		if (human->checkImpact()) {
+			human->setAlive(false);
+			t_running = false;
+			pass = false;
+			Sleep(frame);//to wait for thread to stop
+
+			human->dieAnimation();
+			if (askPlayer() == 0)
+				gameResult = REPLAY;
+			else {
+				quit = true;
+				gameResult = LOSE;
+			}
 			break;
 		}
 	}
+
 	if (t_game.joinable()) t_game.join();
 }
 
@@ -146,36 +135,10 @@ void Game::playGame() {
 	// b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
 	// int check = 0; //nhunnhun de tam de check cai hop ask hoi
 
-	while (running) {
+	while (t_running && human->isAlive()) {
 		updateVehicle();
 		updateAnimal();
 		human->move();
-
-		if (human->checkImpact()) {
-			human->dieAnimation();
-
-			//nhunnhun de tam de check cai hop ask hoi
-			if (askPlayer() == 0) {
-				Common::clearConsole();
-				check = 1;
-				human->setAlive(true);
-				break;
-			}
-			else {
-				human->setAlive(false);
-				break;
-			}
-
-		}
-
-		//nhunnhun de tam de check cai hop ask hoi
-		// if (check == 1) {
-		// 	drawBoardGame();
-		// 	human->loadImage(1);
-		// 	human->setCoords(a, b);
-		// 	human->drawToScreen();
-		// 	check = 0;
-		// }
 
 		Sleep(frame);
 	}
@@ -214,16 +177,18 @@ void Game::initLane(vector<T*>& v, T* obj, int numOfObjs, int rowSpacing, int la
 	v.push_back(obj);
 }
 
-void Game::initGameData(int l)
+void Game::initGameData()
 {
-	level = l;
-
-	deleteAn(an);
-	deleteVe(vh);
+	if (gameResult == REPLAY) {
+		level = 1;
+		gameResult = LOSE;
+	}
+	pass = false;
+	deleteAn();
+	deleteVe();
 
 	int animalCount = 0;
 	int vehicleCount = 0;
-
 
 	switch (level)
 	{
@@ -271,22 +236,7 @@ void Game::initGameData(int l)
 	default:
 		break;
 	}
-	/*
-	if (level == 1) {
-		numOfObjs = 2;
-		frame = 60;
 
-		animalCount = 1;
-		vehicleCount = 4;
-	}
-	else {
-		numOfObjs = 3;
-		frame = 45;
-
-		animalCount = 2;
-		vehicleCount = 3;
-	}
-	*/
 	int rowSpacing = 0;
 	int laneSpacing = 0;
 	unordered_map<int, string> lane;
@@ -336,7 +286,8 @@ void Game::initGameData(int l)
 		}
 		laneSpacing += 5;
 	}
-
+	delete human;
+	human = new People(LEFT_GAMEBOARD + WIDTH_GAMEBOARD / 2, HEIGHT_GAMEBOARD + 6);
 	human->setVehicle(vh);
 	human->setAnimal(an);
 }
@@ -740,6 +691,7 @@ void Game::saveGame() {
 	fout.close();
 }
 
+//******************************************//
 
 void Game::savePosVehicle(ofstream& fout) {
 	for (int i = 0; i < vh.size(); i++) 
@@ -786,7 +738,7 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 	cout << "<<";
 
 	int c = -1;
-	while (!running) {
+	while (!t_running) {
 		c = Common::getConsoleInput();
 		switch (c) {
 		case 2:								//move up
@@ -818,14 +770,15 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 		case 6:								//enter
 			switch (pauseSlt) {
 			case 0:
-				running = true;				//Back to game
+				t_running = true;				//Back to game
 				break;
 			case 1:							//Settings
 				break;
 			case 2:							//Main menu
 				human->setAlive(false);
 				saveGame();
-				running = false;
+				quit = true;
+				t_running = false;
 				return;
 				break;
 			}
@@ -877,22 +830,16 @@ int Game::askPlayer() {
 			arrowLeft(left + 8, top + 5, slt);
 			break;
 		case 4:			//move down
-			if (slt == 2 - 1) break;
+			if (slt == 1) break;
 			slt++;
 			arrowRight(left + 8, top + 5, slt);
 			break;
 		case 6:			//enter
-			switch (slt) {
-			case 0:
-				ask = false;
-				return 0;
-			case 1:
-				ask = false;
-				return 1;
-			}
+			ask = false;
+			break;
 		}
 	}
-	return 0;
+	return slt;
 }
 
 void Game::arrowLeft(int left, int top, int slt) {
@@ -919,19 +866,20 @@ void Game::arrowRight(int left, int top, int slt) {
 	cout << "<<";
 }
 
-void Game::deleteVe(vector<Vehicle*>& vh){
+//******************************************//
+
+void Game::deleteVe(){
 	for (int i = 0; i < vh.size(); i++) {
 		delete vh[i];
 		vh[i] = nullptr;
 	}
 	vh.clear();
 }
-void Game::deleteAn(vector<Animal*>& an){
+
+void Game::deleteAn(){
 	for (int i = 0; i < an.size(); i++) {
 		delete an[i];
 		an[i] = nullptr;
 	}
 	an.clear();
-	
 }
-

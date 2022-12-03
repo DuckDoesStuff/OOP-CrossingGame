@@ -10,13 +10,20 @@
 #include "Camel.h"
 #include "Horse.h"
 
+#define LOSE 0
+#define WIN 1
+#define REPLAY 2
+
 #define _numOfLane 5
 
 class Game {
 private:
 	int level;
 	int frame;
-	bool running;
+	bool t_running;
+	bool pass;
+	int gameResult;
+	bool quit;
 	string name;							//username
 	string filename;						//save filename
 	vector<pair<int, int>> trafficTimer;	//{timer}
@@ -29,18 +36,14 @@ private:
 	vector<Animal*> an;
 
 	thread t_game;
-
-
 public:
 	Game();
 	~Game();
 
-	int check = 0 ;
 
 	//******************************************//
 
-	void start();
-	bool runGame(int );
+	void runGame();
 	void continueGame(string);
 	void gameHandle();
 	void playGame();
@@ -51,7 +54,7 @@ public:
 
 	template <class T>
 	void initLane(vector<T*>&, T*, int, int, int, int);
-	void initGameData(int);
+	void initGameData();
 	void initGameFromFile();
 
 	//******************************************//
@@ -76,6 +79,8 @@ public:
 	bool askToSave();
 	string inputSaveFile();
 	void saveGame();
+
+	//******************************************//
 
 	void savePosVehicle(ofstream&);
 	void savePosAnimal(ofstream&);
@@ -102,7 +107,7 @@ public:
 
 	//******************************************//
 
-	void deleteVe(vector<Vehicle*>& vh);
-	void deleteAn(vector<Animal*>& an);
+	void deleteVe();
+	void deleteAn();
 
 };
