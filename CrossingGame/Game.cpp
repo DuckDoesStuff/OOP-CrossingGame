@@ -36,26 +36,21 @@ Game::~Game()
 void Game::start(){
 	inputName();
 	Common::clearConsole();
-	int Lv = 1;
-	while(Lv <= 5)
+	level = 1;
+	while(level <= 100)
 		{
-			if(!runGame(Lv))
+			if(!runGame(level))
 				break;
-			Lv++;
+			level++;
 			
 			if (check == 1){
-				Lv = 1;
+				level = 1;
 				check = 0;
 				
 				drawBoardGame();
 				human->loadImage(1);
 				human->drawToScreen();
 			}
-			// if (game->askcheck() == 1){
-			// 	Lv = 1;
-			// 	printTitle();
-				
-			// }
 
 		}
 }
@@ -82,8 +77,8 @@ void Game::continueGame(string fileName) {
 	initGameFromFile();
 	displayInfo();
 	gameHandle();
-	level++;
-	while (level <=5)
+	level = 1;
+	while (level <=100)
 	{
 		if(!runGame(level))
 				break;
@@ -224,6 +219,10 @@ void Game::initGameData(int l)
 
 	switch (level)
 	{
+	case 0: {
+		level++;
+		break;
+	}
 	case 1: {
 		numOfObjs = 2;
 		frame = 60;
@@ -244,11 +243,19 @@ void Game::initGameData(int l)
 		numOfObjs = 3;
 		frame = 50;
 
+		animalCount = 1;
+		vehicleCount = 4;
+		break;
+	}
+	case 4: {
+		numOfObjs = 3;
+		frame = 50;
+
 		animalCount = 2;
 		vehicleCount = 3;
 		break;
 	}
-	case 4: {
+	case 5: {
 		numOfObjs = 3;
 		frame = 50;
 
@@ -256,34 +263,55 @@ void Game::initGameData(int l)
 		vehicleCount = 2;
 		break;
 	}
-	case 5: {
+	case 6: {
+		numOfObjs = 4;
+		frame = 50;
+
+		animalCount = 2;
+		vehicleCount = 3;
+		break;
+	}
+	case 7: {
+		numOfObjs = 4;
+		frame = 50;
+
+		animalCount = 3;
+		vehicleCount = 2;
+		break;
+	}
+	case 8: {
+		numOfObjs = 2;
+		frame = 45;
+
+		animalCount = 2;
+		vehicleCount = 3;
+		break;
+	}
+	case 9: {
 		numOfObjs = 3;
 		frame = 45;
 
 		animalCount = 2;
 		vehicleCount = 3;
+		break;
+	}
+	case 10: {
+		numOfObjs = 3;
+		frame = 45;
+
+		animalCount = 3;
+		vehicleCount = 2;
 		break;
 	}
 
 	default:
+		numOfObjs = 3;
+		frame = 40;
+
+		animalCount = 3;
+		vehicleCount = 2;
 		break;
 	}
-	/*
-	if (level == 1) {
-		numOfObjs = 2;
-		frame = 60;
-
-		animalCount = 1;
-		vehicleCount = 4;
-	}
-	else {
-		numOfObjs = 3;
-		frame = 45;
-
-		animalCount = 2;
-		vehicleCount = 3;
-	}
-	*/
 	int rowSpacing = 0;
 	int laneSpacing = 0;
 	unordered_map<int, string> lane;
@@ -371,13 +399,40 @@ void Game::initGameFromFile() {
 	}
 	case 5: {
 		numOfObjs = 3;
+		frame = 50;
+		break;
+	}
+	case 6: {
+		numOfObjs = 4;
+		frame = 50;
+		break;
+	}
+	case 7: {
+		numOfObjs = 4;
+		frame = 50;
+		break;
+	}
+	case 8: {
+		numOfObjs = 2;
+		frame = 45;
+		break;
+	}
+	case 9: {
+		numOfObjs = 3;
+		frame = 45;
+		break;
+	}
+	case 10: {
+		numOfObjs = 3;
 		frame = 45;
 		break;
 	}
 
 	default:
+		numOfObjs = 3;
+		frame = 40;
 		break;
-	} 
+	}
 	fin >> mX;
 	fin >> mY;
 	for (int i = 0; i < _numOfLane; i++) {
