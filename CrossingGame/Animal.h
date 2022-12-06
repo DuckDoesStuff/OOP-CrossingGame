@@ -35,7 +35,7 @@ public:
 
 	//******************************************//
 
-	virtual bool checkPos();
+	virtual int checkPos();
 	virtual void updatePos();
 	virtual void speedUp();
 	virtual void setmX(int x) { mX = x; }

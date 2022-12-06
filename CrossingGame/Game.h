@@ -10,13 +10,20 @@
 #include "Camel.h"
 #include "Horse.h"
 
+#define LOSE 0
+#define WIN 1
+#define REPLAY 2
+
 #define _numOfLane 5
 
 class Game {
 private:
 	int level;
 	int frame;
-	bool running;
+	bool t_running;
+	bool pass;
+	int gameResult;
+	bool quit;
 	string name;							//username
 	string filename;						//save filename
 	vector<pair<int, int>> trafficTimer;	//{timer}
@@ -27,18 +34,16 @@ private:
 	People* human;
 	vector<Vehicle*> vh;
 	vector<Animal*> an;
-	
+
 	thread t_game;
 public:
 	Game();
 	~Game();
 
-	int check = 0 ;
 
 	//******************************************//
 
-	void start();
-	bool runGame(int );
+	void runGame();
 	void continueGame(string);
 	void gameHandle();
 	void playGame();
@@ -47,9 +52,9 @@ public:
 
 	//******************************************//
 
-	template <class T> 
+	template <class T>
 	void initLane(vector<T*>&, T*, int, int, int, int);
-	void initGameData(int);
+	void initGameData();
 	void initGameFromFile();
 
 	//******************************************//
@@ -75,6 +80,8 @@ public:
 	string inputSaveFile();
 	void saveGame();
 
+	//******************************************//
+
 	void savePosVehicle(ofstream&);
 	void savePosAnimal(ofstream&);
 	void saveLane(ofstream&);
@@ -93,14 +100,14 @@ public:
 	void erasePauseMenu(int, int, int, int);
 
 	//******************************************//
-	
+
 	int askPlayer();
 	void arrowLeft(int, int, int);
 	void arrowRight(int, int, int);
 
 	//******************************************//
 
-	void deleteVe(vector<Vehicle*>& vh);
-	void deleteAn(vector<Animal*>& an);
+	void deleteVe();
+	void deleteAn();
 
 };

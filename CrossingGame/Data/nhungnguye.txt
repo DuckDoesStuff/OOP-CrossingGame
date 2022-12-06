@@ -1,0 +1,8 @@
+
+1
+69 32
+vehicle vehicle vehicle animal vehicle 
+36 86 2 52 36 86 36 86 
+36 86 
+44 61 69 86 55 72 57 74 
+1 1 1 1 1 1 1 1 

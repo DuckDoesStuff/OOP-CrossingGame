@@ -3,14 +3,13 @@
 Camel::Camel(int type) {
 	loadImage(type);
 	mX = mY = 0;
-	mSpeed = -1;
+
 }
 
 Camel::Camel(int type, int x, int y) {
 	loadImage(type);
-	mX = x + LEFT_GAMEBOARD + WIDTH_GAMEBOARD;
+	mX = x + LEFT_GAMEBOARD;
 	mY = y + TOP_GAMEBOARD;
-	mSpeed = -1;
 }
 
 //******************************************//
@@ -21,24 +20,22 @@ void Camel::loadImage(int type)
 	string file;
 	switch (type)
 	{
-	case 0:
-		file = "ASCII\\camel.txt";
-		_height = 4;
-		_width = 13;
-		mSpeed = -1;
-		break;
 	case 1:
-		file = "ASCII\\camel.txt";
+		file = "ASCII\\camel2.txt";
 		_height = 4;
 		_width = 13;
 		mSpeed = -1;
 		break;
-	default:
-		break;
+	case 0:
+		file = "ASCII\\camel1.txt";
+		_height = 4;
+		_width = 13;
+		mSpeed = 1;
 	}
 	ifstream in(file);
 
 	string s;
+	image.clear();
 	while (!in.eof()) {
 		getline(in, s);
 		image.push_back(s);
@@ -48,24 +45,41 @@ void Camel::loadImage(int type)
 
 //******************************************//
 
-bool Camel::checkPos() {
-	if ((mX + mSpeed + _width) > LEFT_GAMEBOARD) return true;
-	return false;
+int Camel::checkPos() {
+	if ((mX + mSpeed) >= WIDTH_GAMEBOARD + LEFT_GAMEBOARD) return -1;
+
+	if ((mX + mSpeed + _width) <= LEFT_GAMEBOARD) return -2;
+
+
+	return 0;
 }
 
 void Camel::updatePos()
 {
 	if (!moving) return;
-	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
+
+	if (mX <= WIDTH_GAMEBOARD + LEFT_GAMEBOARD || mX >= LEFT_GAMEBOARD)
 		eraseFromScreen();
 
-	if (checkPos())
-		mX += mSpeed;
-	else
-		mX = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 1;
 
-	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD)
+	if (checkPos() == -2)
+	{
+
+		loadImage(0);
+
+	}
+	else if (checkPos() == -1)
+	{
+		loadImage(1);
+	}
+
+	mX += mSpeed;
+
+
+	if (mX <= WIDTH_GAMEBOARD + LEFT_GAMEBOARD || mX >= LEFT_GAMEBOARD)
+	{
 		drawToScreen();
+	}
 }
 
 

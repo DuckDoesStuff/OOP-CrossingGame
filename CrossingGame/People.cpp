@@ -66,7 +66,7 @@ void People::loadImage(int type) {
 
 void People::dieAnimation() {
 	loadImage(2);
-	while (mY > TOP_GAMEBOARD+4) {
+	while (mY > TOP_GAMEBOARD) {
 		eraseFromScreen();
 		mY -= 1;
 		drawToScreen();

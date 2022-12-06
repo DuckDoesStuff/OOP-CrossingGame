@@ -5,13 +5,14 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+
 struct player {
-	string name;
-	int score;
+	string name = "";
+	int score = 0;
 };
+
 class Menu {
 private:
-	
 	int left = 69, top = 17;
 	int opt = 4;	//number of options
 	int playOpt = 3; //play new game or continue game
@@ -19,13 +20,12 @@ private:
 	int menuSlt = 0;
 	bool exitMenu = false;
 
-	string menuOptions[4] = { "Play", "Settings", "Leaderboard", "Exit" }; //selections
-	string playOptions[4] = { "New game", "Continue game", "Back"}; //selections
-	string settingsOptions[4] = { "Background music", "Back" }; //selections
+	string menuOptions[4] = { "Play", "Settings", "Leaderboard", "Exit" }; 
+	string playOptions[4] = { "New game", "Continue game", "Back"}; 
+	string settingsOptions[4] = { "Background music", "Back" }; 
 	vector<string> fileData;
 	vector<player> toplayers;
 	Game* game;
-	thread t_game;
 	bool runGame = false;
 
 	thread t_sound;
@@ -60,8 +60,6 @@ public:
 	void Toplayers();
 	void renderSettCurOpt();
 	void renderSettingScreen();
-
-	
 
 	//##################################################//
 
