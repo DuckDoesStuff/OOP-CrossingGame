@@ -1,0 +1,8 @@
+anhtu
+1
+59 12
+vehicle vehicle animal vehicle vehicle 
+86 20 77 7 68 118 91 25 
+91 93 
+61 66 51 61 69 70 7 79 
+0 0 0 0 0 0 1 1 

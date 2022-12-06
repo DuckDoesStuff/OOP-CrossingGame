@@ -93,7 +93,7 @@ void Game::gameHandle()
 			t_running = false;
 			pass = true;
 
-			if (level == 2) {
+			if (level == 10) {
 				gameResult = WIN;
 				quit = true;
 				break;
@@ -102,12 +102,12 @@ void Game::gameHandle()
 			break;
 		}
 
-
 		if (human->checkImpact()) {
 			human->setAlive(false);
 			t_running = false;
 			pass = false;
-			Sleep(frame);//to wait for thread to stop
+
+			t_game.join();
 
 			human->dieAnimation();
 			if (askPlayer() == 0)
@@ -129,11 +129,6 @@ void Game::playGame() {
 	drawPeople();
 	DrawObj(vh);
 	DrawObj(an);
-
-	// int a, b; //nhunnhun de tam de check cai hop ask hoi
-	// a = human->getCoords().first; //nhunnhun de tam de check cai hop ask hoi
-	// b = human->getCoords().second; //nhunnhun de tam de check cai hop ask hoi
-	// int check = 0; //nhunnhun de tam de check cai hop ask hoi
 
 	while (t_running && human->isAlive()) {
 		updateVehicle();
@@ -190,51 +185,84 @@ void Game::initGameData()
 	int animalCount = 0;
 	int vehicleCount = 0;
 
-	switch (level)
-	{
-	case 1: {
-		numOfObjs = 2;
-		frame = 60;
+	switch (level) {
+		case 1: 
+			numOfObjs = 2;
+			frame = 60;
 
-		animalCount = 1;
-		vehicleCount = 4;
-		break;
-	}
-	case 2: {
-		numOfObjs = 3;
-		frame = 60;
+			animalCount = 1;
+			vehicleCount = 4;
+			break;
+		case 2: 
+			numOfObjs = 3;
+			frame = 60;
 
-		animalCount = 1;
-		vehicleCount = 4;
-		break;
-	}
-	case 3: {
-		numOfObjs = 3;
-		frame = 50;
+			animalCount = 1;
+			vehicleCount = 4;
+			break;
+		case 3: 
+			numOfObjs = 3;
+			frame = 50;
 
-		animalCount = 2;
-		vehicleCount = 3;
-		break;
-	}
-	case 4: {
-		numOfObjs = 3;
-		frame = 50;
+			animalCount = 1;
+			vehicleCount = 4;
+			break;
+		case 4: 
+			numOfObjs = 3;
+			frame = 50;
 
-		animalCount = 3;
-		vehicleCount = 2;
-		break;
-	}
-	case 5: {
-		numOfObjs = 3;
-		frame = 45;
+			animalCount = 2;
+			vehicleCount = 3;
+			break;
+		case 5: 
+			numOfObjs = 3;
+			frame = 50;
 
-		animalCount = 2;
-		vehicleCount = 3;
-		break;
-	}
+			animalCount = 3;
+			vehicleCount = 2;
+			break;
+		case 6: 
+			numOfObjs = 4;
+			frame = 50;
 
-	default:
-		break;
+			animalCount = 2;
+			vehicleCount = 3;
+			break;
+		case 7: 
+			numOfObjs = 4;
+			frame = 50;
+
+			animalCount = 3;
+			vehicleCount = 2;
+			break;
+		case 8: 
+			numOfObjs = 2;
+			frame = 45;
+
+			animalCount = 2;
+			vehicleCount = 3;
+			break;
+		case 9: 
+			numOfObjs = 3;
+			frame = 45;
+
+			animalCount = 2;
+			vehicleCount = 3;
+			break;
+		case 10: 
+			numOfObjs = 3;
+			frame = 45;
+
+			animalCount = 3;
+			vehicleCount = 2;
+			break;
+		default:
+			numOfObjs = 3;
+			frame = 40;
+
+			animalCount = 3;
+			vehicleCount = 2;
+			break;
 	}
 
 	int rowSpacing = 0;

@@ -1,0 +1,8 @@
+d
+1
+68 32
+vehicle vehicle vehicle animal vehicle 
+38 88 0 50 38 88 38 88 
+38 88 
+57 76 49 68 54 73 48 67 
+1 1 1 1 1 1 1 1 
