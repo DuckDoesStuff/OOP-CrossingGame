@@ -75,10 +75,10 @@ void Menu::renderOptionsBox(int n)
 	putchar(188);
 }
 
-void Menu::renderOptionsText(string text[], int left, int top)
+void Menu::renderOptionsText(vector<string>& text, int left, int top)
 {
 	int width = 41;
-	for (int i = 0; i < opt; i++) {
+	for (int i = 0; i < text.size(); i++) {
 		Common::gotoXY((width - text[i].length()) / 2 + left, top + i * 2);
 		std::cout << text[i];
 	}
@@ -134,7 +134,7 @@ void Menu::initMenu() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
 	printTitle();
-	renderOptionsBox(opt);
+	renderOptionsBox(menuOptions.size());
 	renderOptionsText(menuOptions, left - 9, top + 1);
 	renderArrowsOpt(menuSlt);
 }
@@ -162,7 +162,7 @@ void Menu::renderMenuCurOpt()
 			ArrowUp(left, top, menuSlt);
 			break;
 		case 5:								//move down
-			if (menuSlt == opt - 1) break;
+			if (menuSlt == menuOptions.size() - 1) break;
 			menuSlt++;
 			ArrowDown(left, top, menuSlt);
 			break;
@@ -197,7 +197,7 @@ void Menu::initSettings() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
 	printTitle();
-	renderOptionsBox(sett);
+	renderOptionsBox(settingsOptions.size());
 	renderOptionsText(settingsOptions, left - 9, top + 1);
 	renderArrowsOpt(0);
 }
@@ -214,7 +214,7 @@ void Menu::renderSettCurOpt() {
 			ArrowUp(left, top, slt);
 			break;
 		case 5:			//move down
-			if (slt == sett - 1) break;
+			if (slt == settingsOptions.size() - 1) break;
 			slt++;
 			ArrowDown(left, top, slt);
 			break;
@@ -244,7 +244,7 @@ void Menu::initPlayOpt() {
 	Common::setupConsole(18, BRIGHT_WHITE, BLACK);
 	Common::clearConsole();
 	printTitle();
-	renderOptionsBox(playOpt);
+	renderOptionsBox(playOptions.size());
 	renderOptionsText(playOptions, left - 9, top + 1);
 	renderArrowsOpt(0);
 }
@@ -261,7 +261,7 @@ void Menu::renderPlayOpt() {
 			ArrowUp(left, top, slt);
 			break;
 		case 5:			//move down
-			if (slt == playOpt - 1) break;
+			if (slt == playOptions.size() - 1) break;
 			slt++;
 			ArrowDown(left, top, slt);
 			break;
@@ -428,16 +428,6 @@ void Menu::loadFileData(string fileName) {
 		fileData.push_back(temp);
 	}
 
-	/*if (fileDataTemp.size() - 1 < 9) {
-		for (int i = 0; i < fileDataTemp.size() - 1; i++) {
-			fileData.push_back(fileDataTemp[i]);
-		}
-	}
-	else {
-		for (int i = (fileDataTemp.size() - 9); i < fileDataTemp.size() - 1; i++) {
-			fileData.push_back(fileDataTemp[i]);
-		}
-	}*/
 	fileData.push_back("Back");
 	fin.close();
 }
@@ -447,7 +437,7 @@ void Menu::initLeaderBoard() {
 	Common::clearConsole();
 	printTitle();
 	renderLeaderBox();
-	
+	renderLeaderText();
 }
 
 void Menu::renderLeaderText()
@@ -472,7 +462,6 @@ void Menu::renderLeaderText()
 
 void Menu::renderLeaderBox()
 {
-	bool loadLeaderBoard = true;
 	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 
 	int x = 67, y = 13;
@@ -508,18 +497,8 @@ void Menu::renderLeaderBox()
 
 void Menu::RenderLeaderBoard() {
 	initLeaderBoard();
-
-	
-	bool loadLeaderBoard = true;
-	while (loadLeaderBoard)
-	{
-		int c = Common::getConsoleInput();
-		if (c == 6)
-		{
-			break;
-		}
-		renderLeaderBox();
-		renderLeaderText();
+	while (true) {
+		if(Common::getConsoleInput() == 6) break;
 	}
 }
 

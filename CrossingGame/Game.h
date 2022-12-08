@@ -24,10 +24,11 @@ private:
 	bool pass;
 	int gameResult;
 	bool quit;
+
 	string name;							//username
 	string filename;						//save filename
 	vector<pair<int, int>> trafficTimer;	//{timer}
-	vector<string> options = { "Back to game", "Settings", "Back to menu"};
+	vector<string> options_pause = { "Back to game", "Back to menu"};
 	string* laneOpt;						//save lane
 
 	int numOfObjs;
@@ -96,8 +97,12 @@ public:
 	//******************************************//
 
 	void renderPauseCurOpt(int, int, int, int);
-	void drawPauseMenu(int, int, int, int, vector<string>&);
+	void drawPauseMenu(int, int, int, int);
 	void erasePauseMenu(int, int, int, int);
+
+	void renderSettingMenu(int, int, int, int);
+	void drawSettingMenu(int, int, int, int);
+	void eraseSettingMenu(int, int, int, int);
 
 	//******************************************//
 

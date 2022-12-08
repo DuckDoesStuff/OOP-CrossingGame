@@ -14,15 +14,12 @@ struct player {
 class Menu {
 private:
 	int left = 69, top = 17;
-	int opt = 4;	//number of options
-	int playOpt = 3; //play new game or continue game
-	int sett = 2;
 	int menuSlt = 0;
 	bool exitMenu = false;
 
-	string menuOptions[4] = { "Play", "Settings", "Leaderboard", "Exit" }; 
-	string playOptions[4] = { "New game", "Continue game", "Back"}; 
-	string settingsOptions[4] = { "Background music", "Back" }; 
+	vector<string> menuOptions = { "Play", "Settings", "Leaderboard", "Exit" }; 
+	vector<string> playOptions = { "New game", "Continue game", "Back"}; 
+	vector<string> settingsOptions = { "Background music", "Back" }; 
 	vector<string> fileData;
 	vector<player> toplayers;
 	Game* game;
@@ -38,7 +35,7 @@ public:
 
 	void printTitle();
 	void renderOptionsBox(int);
-	void renderOptionsText(string[], int, int);
+	void renderOptionsText(vector<string>&, int, int);
 	void renderArrowsOpt(const int&);
 
 	//##################################################//
