@@ -93,11 +93,11 @@ void Game::gameHandle()
 			t_running = false;
 			pass = true;
 
-			if (level == 10) {
-				gameResult = WIN;
-				quit = true;
-				break;
-			}
+			// if (level == 10) {
+			// 	gameResult = WIN;
+			// 	quit = true;
+			// 	break;
+			// }
 			level++;
 			break;
 		}
@@ -222,43 +222,43 @@ void Game::initGameData()
 			vehicleCount = 2;
 			break;
 		case 6: 
-			numOfObjs = 4;
-			frame = 50;
+			numOfObjs = 3;
+			frame = 45;
 
 			animalCount = 2;
 			vehicleCount = 3;
 			break;
 		case 7: 
-			numOfObjs = 4;
-			frame = 50;
+			numOfObjs = 3;
+			frame = 45;
 
 			animalCount = 3;
 			vehicleCount = 2;
 			break;
 		case 8: 
 			numOfObjs = 2;
-			frame = 45;
+			frame = 40;
 
 			animalCount = 2;
 			vehicleCount = 3;
 			break;
 		case 9: 
-			numOfObjs = 3;
-			frame = 45;
+			numOfObjs = 2;
+			frame = 40;
 
 			animalCount = 2;
 			vehicleCount = 3;
 			break;
 		case 10: 
 			numOfObjs = 3;
-			frame = 45;
+			frame = 40;
 
 			animalCount = 3;
 			vehicleCount = 2;
 			break;
 		default:
 			numOfObjs = 3;
-			frame = 40;
+			frame = 57-level;
 
 			animalCount = 3;
 			vehicleCount = 2;
@@ -353,11 +353,32 @@ void Game::initGameFromFile() {
 	}
 	case 5: {
 		numOfObjs = 3;
-		frame = 45;
+		frame = 50;
 		break;
 	}
-
+	case 6: 
+		numOfObjs = 3;
+		frame = 45;
+		break;
+	case 7: 
+		numOfObjs = 3;
+		frame = 45;
+		break;
+	case 8: 
+		numOfObjs = 2;
+		frame = 40;
+		break;
+	case 9: 
+		numOfObjs = 2;
+		frame = 40;
+		break;
+	case 10: 
+		numOfObjs = 3;
+		frame = 40;
+		break;
 	default:
+		numOfObjs = 3;
+		frame = 57-level;
 		break;
 	} 
 	fin >> mX;
