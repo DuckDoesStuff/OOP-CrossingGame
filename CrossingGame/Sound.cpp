@@ -20,10 +20,9 @@ void Sound::stopBg() {
 	mciSendString(L"stop theme", NULL, 0, NULL);
 }
 
-void Sound::setVolume(const int& v) {
-	volume = v;
+void Sound::setVolume() {
 	wstring cmd = L"setaudio theme volume to " + to_wstring(volume);
-	mciSendString(cmd.c_str(), NULL, 0, NULL);
+	mciSendString(cmd.c_str(), NULL, 0, 0);
 	//cmd = L"setaudio theme volume to " + to_wstring(volume);
 	//mciSendString(cmd.c_str(), NULL, 0, NULL);
 }
@@ -55,9 +54,10 @@ void Sound::saveSettings() {
 void Sound::runHandle() {
 	bool BgOff = false;
 	openSound();
-	setVolume(volume);
+	setVolume();
 	playBg();
 	while (sound_running) {
+		if (changeVolume) setVolume();
 		if (bg_theme == true && BgOff == true) {
 			playBg();
 			BgOff = false;

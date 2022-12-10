@@ -225,10 +225,11 @@ void Menu::renderSettCurOpt() {
 		case 6:			//enter
 			switch (slt) {
 			case 0:
-				sound->toggleTheme();		//toggle theme sound
+				renderVolume();
 				break;
 			case 1:
-				
+				sound->toggleTheme();
+				break;
 			case 2:
 				loadSett = false;
 				break;
@@ -241,6 +242,36 @@ void Menu::renderSettCurOpt() {
 void Menu::renderSettingScreen() {
 	initSettings();
 	renderSettCurOpt();
+}
+
+void Menu::renderVolume() {
+	Common::gotoXY(left + 3, top + 1);
+	cout << "             ";
+	bool render = true;
+	while (render) {
+		Common::gotoXY(left + 10, top + 1);
+		cout << sound->getVolume() << " ";
+		int c = Common::getConsoleInput();
+		wstring cmd;
+		switch (c)
+		{
+		case 6:
+			render = false;
+			break;
+		case 3:
+			sound->volumeDown();
+			break;
+		case 4:
+			sound->volumeUp();
+			break;
+		default:
+			break;
+		}
+	}
+	Common::gotoXY(left + 3, top + 1);
+	cout << "             ";
+	Common::gotoXY(left + 8, top + 1);
+	cout << "Volume";
 }
 
 //##################################################//

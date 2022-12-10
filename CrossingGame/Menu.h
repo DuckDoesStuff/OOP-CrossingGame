@@ -19,7 +19,7 @@ private:
 
 	vector<string> menuOptions = { "Play", "Settings", "Leaderboard", "Exit" }; 
 	vector<string> playOptions = { "New game", "Continue game", "Back"}; 
-	vector<string> settingsOptions = { "Background music", "Volume", "Back" }; 
+	vector<string> settingsOptions = { "Volume", "Background music", "Back" }; 
 	vector<string> fileData;
 	vector<player> toplayers;
 	Game* game;
@@ -57,6 +57,7 @@ public:
 	void Toplayers();
 	void renderSettCurOpt();
 	void renderSettingScreen();
+	void renderVolume();
 
 	//##################################################//
 
@@ -75,14 +76,8 @@ public:
 	
 	void loadFileData(string);
 
-
-
 	//##################################################//
 
 	void initLeaderBoard();
-
 	void renderLeaderText();
-	
-
-
 };

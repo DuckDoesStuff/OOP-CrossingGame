@@ -14,6 +14,7 @@ private:
 	bool vehicle_eff = true;
 	int volume = 100;
 
+	bool changeVolume = false;
 public:
 	Sound();
 	~Sound();
@@ -27,7 +28,19 @@ public:
 	void toggleSound() { sound_eff = !sound_eff; }
 	void toggleAnimal() { animal_eff = animal_eff; }
 	void toggleVehicle() { vehicle_eff = vehicle_eff; }
-	void setVolume(const int& v);
+
+	void volumeUp() { 
+		changeVolume = true;
+		volume = volume >= 100 ? 100 : volume + 5; 
+		changeVolume = false;
+	}
+	void volumeDown() {
+		changeVolume = true;
+		volume = volume <= 0 ? 0 : volume - 5;
+		changeVolume = false;
+	}
+	void setVolume();
+	int getVolume() { return volume; }
 
 	void loadSettings();
 	void saveSettings();
@@ -35,3 +48,4 @@ public:
 	void runHandle();
 	void stopHandle() { sound_running = false; }
 };
+
