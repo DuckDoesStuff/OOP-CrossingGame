@@ -3,13 +3,17 @@
 
 Menu::Menu() {
 	game = nullptr;
-	loadSettings();
+	sound = new Sound;
+	//loadSettings();
 }
 
 Menu::~Menu() {
-	saveSettings();
+	//saveSettings();
 	delete game;
 	game = nullptr;
+
+	delete sound;
+	sound = nullptr;
 }
 
 //##################################################//
@@ -141,7 +145,7 @@ void Menu::initMenu() {
 
 void Menu::renderMenuScreen()
 {
-	t_sound = thread(&Menu::soundHandle, this);
+	t_sound = thread(&Sound::runHandle, sound);
 
 	initMenu();
 	renderMenuCurOpt();
@@ -176,12 +180,12 @@ void Menu::renderMenuCurOpt()
 				renderSettingScreen();
 				initMenu();
 				break;
-			case 2:					// leader Board
+			case 2:					//Leaderboard
 				RenderLeaderBoard();
 				initMenu();
 				break;
 			case 3:
-				exitMenu = true;
+				sound->stopHandle();
 				Common::clearConsole();
 				return;
 				break;
@@ -221,9 +225,11 @@ void Menu::renderSettCurOpt() {
 		case 6:			//enter
 			switch (slt) {
 			case 0:
-				sound = !sound;
+				sound->toggleTheme();		//toggle theme sound
 				break;
 			case 1:
+				
+			case 2:
 				loadSett = false;
 				break;
 			}
@@ -274,7 +280,7 @@ void Menu::renderPlayOpt() {
 				printTitle();
 
 				
-				game = new Game();
+				game = new Game(sound);
 				game->runGame();
 				
 				
@@ -322,7 +328,8 @@ void Menu::initContinueOpt() {
 	renderArrowsOpt(0);
 }
 
-void Menu::renderContinueOpt() {
+void Menu::renderContinueOpt()
+{
 	int c, slt = 0;
 	bool loadContinueOpt = true;
 	while (loadContinueOpt) {
@@ -343,7 +350,7 @@ void Menu::renderContinueOpt() {
 				delete game;
 				runGame = true;
 
-				game = new Game();
+				game = new Game(sound);
 				game->continueGame(fileData[slt]);
 
 				runGame = false;
@@ -361,57 +368,6 @@ void Menu::renderContinueOpt() {
 void Menu::renderContinueOptScreen() {
 	initContinueOpt();
 	renderContinueOpt();
-}
-
-//###############################################//
-
-void Menu::soundHandle() {
-	bool BgOff = false;
-	mciSendString(L"open \"Sound/dumb_ways2die.mp3\" type mpegvideo alias mp3", NULL, 0, NULL);
-	setVolume(10);
-	playBg();
-	while (!exitMenu) {
-		if (sound == true && BgOff == true) {
-			playBg();
-			BgOff = false;
-		}
-		else if (sound == false && BgOff == false) {
-			stopBg();
-			BgOff = true;
-		}
-	}
-	stopBg();
-}
-
-void Menu::playBg() {
-	mciSendString(L"play mp3 from 0 repeat", NULL, 0, NULL);
-}
-
-void Menu::stopBg() {
-	mciSendString(L"stop mp3", NULL, 0, NULL);
-}
-
-void Menu::setVolume(int volume) {
-	wstring cmd = L"setaudio mp3 volume to " + to_wstring(volume);
-	mciSendString(cmd.c_str(), NULL, 0, NULL);
-}
-
-//##################################################//
-
-void Menu::saveSettings() {
-	ofstream out("settings.txt");
-
-	out << sound;
-
-	out.close();
-}
-
-void Menu::loadSettings() {
-	ifstream in("settings.txt");
-
-	in >> sound;
-
-	in.close();
 }
 
 //##################################################//

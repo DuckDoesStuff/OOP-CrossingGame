@@ -2,6 +2,7 @@
 
 #include "Common.h"
 #include "Game.h"
+#include "Sound.h"
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -15,18 +16,17 @@ class Menu {
 private:
 	int left = 69, top = 17;
 	int menuSlt = 0;
-	bool exitMenu = false;
 
 	vector<string> menuOptions = { "Play", "Settings", "Leaderboard", "Exit" }; 
 	vector<string> playOptions = { "New game", "Continue game", "Back"}; 
-	vector<string> settingsOptions = { "Background music", "Back" }; 
+	vector<string> settingsOptions = { "Background music", "Volume", "Back" }; 
 	vector<string> fileData;
 	vector<player> toplayers;
 	Game* game;
 	bool runGame = false;
 
 	thread t_sound;
-	bool sound = false;
+	Sound* sound;
 public:
 	Menu();
 	~Menu();
@@ -70,18 +70,6 @@ public:
 	void initContinueOpt();
 	void renderContinueOpt();
 	void renderContinueOptScreen();
-
-	//##################################################//
-
-	void soundHandle();
-	void playBg();
-	void stopBg();
-	void setVolume(int);
-
-	//##################################################//
-
-	void saveSettings();
-	void loadSettings();
 
 	//##################################################//
 	

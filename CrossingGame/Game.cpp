@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game(Sound* sound)
 {
 	srand((unsigned)time(0));
 	name = "";
@@ -14,6 +14,7 @@ Game::Game()
 	pass = false;
 	gameResult = LOSE;
 	quit = false;
+	this->sound = sound;
 }
 
 Game::~Game()
@@ -46,7 +47,6 @@ void Game::runGame() {
 	}
 }
 
-//chua fix
 void Game::continueGame(string fileName) {
 	Common::clearConsole();
 	filename = fileName;
@@ -65,9 +65,9 @@ void Game::continueGame(string fileName) {
 	}
 }
 
-void Game::gameHandle()
+void Game::playGame()
 {
-	t_game = thread(&Game::playGame, this);
+	t_game = thread(&Game::gameHandle, this);
 	t_running = true;
 
 	while (!quit) {
@@ -77,14 +77,14 @@ void Game::gameHandle()
 				t_game.join();
 
 				pauseGame();
-				t_game = thread(&Game::playGame, this);
+				t_game = thread(&Game::gameHandle, this);
 			}
 			else {
 				t_running = true;
 
 				while (_kbhit())				//clear up buffer 
 					char c = _getch();
-				t_game = thread(&Game::playGame, this);
+				t_game = thread(&Game::gameHandle, this);
 			}
 		}
 
@@ -123,7 +123,7 @@ void Game::gameHandle()
 	if (t_game.joinable()) t_game.join();
 }
 
-void Game::playGame() {
+void Game::gameHandle() {
 	drawBoardGame();
 	drawTraffic();
 	drawPeople();

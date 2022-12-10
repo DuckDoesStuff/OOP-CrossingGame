@@ -3,8 +3,9 @@
 #include <mutex>
 #include <unordered_map>
 #include "Common.h"
-#include "People.h"
+#include "Sound.h"
 
+#include "People.h"
 #include "Car.h"
 #include "Truck.h"
 #include "Camel.h"
@@ -37,8 +38,9 @@ private:
 	vector<Animal*> an;
 
 	thread t_game;
+	Sound* sound;
 public:
-	Game();
+	Game(Sound*);
 	~Game();
 
 
