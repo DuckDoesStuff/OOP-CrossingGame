@@ -106,8 +106,6 @@ public:
 	void arrowRight(int, int, int);
 
 	//******************************************//
-
-	void deleteVe();
-	void deleteAn();
+	void resetData();
 
 };
