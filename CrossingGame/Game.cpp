@@ -22,8 +22,7 @@ Game::~Game()
 	delete human;
 	human = nullptr;
 
-	deleteVe();
-	deleteAn();
+	resetData();
 
 	delete[]laneOpt;
 	laneOpt = nullptr;
@@ -179,8 +178,7 @@ void Game::initGameData()
 		gameResult = LOSE;
 	}
 	pass = false;
-	deleteAn();
-	deleteVe();
+	resetData();
 
 	int animalCount = 0;
 	int vehicleCount = 0;
@@ -329,37 +327,52 @@ void Game::initGameFromFile() {
 	int mX, mY;
 	fin >> name;
 	fin >> level;
-	switch (level)
-	{
-	case 1: {
+	switch (level) {
+	case 1:
 		numOfObjs = 2;
 		frame = 60;
 		break;
-	}
-	case 2: {
+	case 2:
 		numOfObjs = 3;
 		frame = 60;
 		break;
-	}
-	case 3: {
+	case 3:
 		numOfObjs = 3;
 		frame = 50;
 		break;
-	}
-	case 4: {
+	case 4:
 		numOfObjs = 3;
 		frame = 50;
 		break;
-	}
-	case 5: {
+	case 5:
+		numOfObjs = 3;
+		frame = 50;
+		break;
+	case 6:
+		numOfObjs = 4;
+		frame = 50;
+		break;
+	case 7:
+		numOfObjs = 4;
+		frame = 50;
+		break;
+	case 8:
+		numOfObjs = 2;
+		frame = 45;
+		break;
+	case 9:
 		numOfObjs = 3;
 		frame = 45;
 		break;
-	}
-
-	default:
+	case 10:
+		numOfObjs = 3;
+		frame = 45;
 		break;
-	} 
+	default:
+		numOfObjs = 3;
+		frame = 40;
+		break;
+	}
 	fin >> mX;
 	fin >> mY;
 	for (int i = 0; i < _numOfLane; i++) {
@@ -894,18 +907,18 @@ void Game::arrowRight(int left, int top, int slt) {
 
 //******************************************//
 
-void Game::deleteVe(){
+void Game::resetData() {
 	for (int i = 0; i < vh.size(); i++) {
 		delete vh[i];
 		vh[i] = nullptr;
 	}
 	vh.clear();
-}
 
-void Game::deleteAn(){
 	for (int i = 0; i < an.size(); i++) {
 		delete an[i];
 		an[i] = nullptr;
 	}
 	an.clear();
+
+	trafficTimer.clear();
 }
