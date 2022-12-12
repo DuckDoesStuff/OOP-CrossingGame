@@ -67,14 +67,13 @@ void Horse::updatePos()
 
 	if (checkPos() == -2)
 	{
-		
 		loadImage(0);
-		
+		sound->soundSelector = DUCK;
 	}
 	else if (checkPos() == -1)
 	{
-		
 		loadImage(1);
+		sound->soundSelector = DUCK;
 	}
 
 	mX += mSpeed;

@@ -66,11 +66,12 @@ void Camel::updatePos()
 	{
 
 		loadImage(0);
-
+		sound->soundSelector = CAMEL;
 	}
 	else if (checkPos() == -1)
 	{
 		loadImage(1);
+		sound->soundSelector = CAMEL;
 	}
 
 	mX += mSpeed;

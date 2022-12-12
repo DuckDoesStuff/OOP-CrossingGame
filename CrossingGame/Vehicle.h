@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Common.h"
+#include "Sound.h"
 #include <vector>
 #include <string>
 
@@ -10,6 +11,8 @@ protected:
 	vector<string> image;	//Lưu hình ảnh của obj
 	int _height, _width;
 	bool moving;
+
+	Sound* sound = Sound::getInstance();
 public:
 	Vehicle(); //Khởi tạo obj tại 0,0
 	~Vehicle();
@@ -32,7 +35,7 @@ public:
 	virtual void loadImage(int);
 	void drawToScreen();
 	void eraseFromScreen();
-	void startORstop() { moving = !moving; }
+	virtual void startORstop() { moving = !moving; }
 
 	//******************************************//
 

@@ -19,7 +19,7 @@ private:
 
 	vector<string> menuOptions = { "Play", "Settings", "Leaderboard", "Exit" }; 
 	vector<string> playOptions = { "New game", "Continue game", "Back"}; 
-	vector<string> settingsOptions = { "Volume", "Background music", "Back" }; 
+	vector<string> settingsOptions = { "Volume", "Background music","Vehicle sound", "Animal sound", "Moving sound", "Back" }; 
 	vector<string> fileData;
 	vector<player> toplayers;
 	Game* game;

@@ -59,3 +59,8 @@ void Car::updatePos()
 	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
 		drawToScreen();
 }
+
+void Car::startORstop() {
+	Vehicle::startORstop();
+	sound->soundSelector = CAR;
+}

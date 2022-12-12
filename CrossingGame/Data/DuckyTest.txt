@@ -1,8 +1,8 @@
-Duck
-2
-53 32
-vehicle vehicle vehicle animal vehicle 
-66 99 16 99 12 45 66 99 16 63 96 13 
-66 99 102 
-36 88 59 66 22 81 65 68 61 61 87 87 84 84 87 87 
-1 1 1 0 0 0 1 1 1 0 0 0 
+duckytest
+4
+59 32
+vehicle vehicle vehicle animal animal 
+30 63 96 8 41 74 55 88 5 
+116 111 110 116 111 98 
+52 59 42 57 56 75 
+1 1 1 1 1 1 0 0 0 

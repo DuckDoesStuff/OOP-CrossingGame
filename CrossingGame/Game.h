@@ -1,6 +1,5 @@
 #pragma once
 #include <thread>
-#include <mutex>
 #include <unordered_map>
 #include "Common.h"
 #include "Sound.h"
@@ -29,7 +28,8 @@ private:
 	string name;							//username
 	string filename;						//save filename
 	vector<pair<int, int>> trafficTimer;	//{timer}
-	vector<string> options_pause = { "Back to game", "Back to menu"};
+	vector<string> pauseOptions = { "Back to game", "Settings", "Back to menu"};
+	vector<string> settingsOptions = { "Volume", "Background music","Vehicle sound", "Animal sound", "Moving sound", "Back" };
 	string* laneOpt;						//save lane
 
 	int numOfObjs;
@@ -37,10 +37,15 @@ private:
 	vector<Vehicle*> vh;
 	vector<Animal*> an;
 
+	//Pause menu properties
+	int left = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 5;
+	int top = TOP_GAMEBOARD + 15;
+	int width = 30, height = 8;
+
 	thread t_game;
 	Sound* sound;
 public:
-	Game(Sound*);
+	Game();
 	~Game();
 
 
@@ -98,13 +103,14 @@ public:
 
 	//******************************************//
 
-	void renderPauseCurOpt(int, int, int, int);
-	void drawPauseMenu(int, int, int, int);
-	void erasePauseMenu(int, int, int, int);
+	void renderPauseMenu();
+	void erasePauseMenu();
 
-	void renderSettingMenu(int, int, int, int);
-	void drawSettingMenu(int, int, int, int);
-	void eraseSettingMenu(int, int, int, int);
+	//******************************************//
+
+	void renderSettingMenu();
+	void eraseSettingMenu();
+	void renderVolume();
 
 	//******************************************//
 

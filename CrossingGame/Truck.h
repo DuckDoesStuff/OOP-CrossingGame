@@ -14,4 +14,5 @@ public:
 
 	bool checkPos();
 	void updatePos();
+	void startORstop();
 };

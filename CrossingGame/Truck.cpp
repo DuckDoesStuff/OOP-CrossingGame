@@ -68,3 +68,8 @@ void Truck::updatePos()
 	if (mX < WIDTH_GAMEBOARD + LEFT_GAMEBOARD) 
 		drawToScreen();
 }
+
+void Truck::startORstop() {
+	Vehicle::startORstop();
+	sound->soundSelector = TRUCK;
+}

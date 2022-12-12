@@ -1,0 +1,8 @@
+haha
+4
+68 32
+vehicle animal animal vehicle vehicle 
+91 8 41 64 97 10 98 15 48 
+85 116 83 85 116 83 
+51 61 15 74 23 78 
+1 1 1 0 0 0 0 0 0 

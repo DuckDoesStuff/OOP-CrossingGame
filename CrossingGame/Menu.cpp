@@ -1,9 +1,10 @@
 #include "Menu.h"
 
+Sound* Sound::instance = nullptr;
 
 Menu::Menu() {
 	game = nullptr;
-	sound = new Sound;
+	sound = Sound::getInstance();
 	//loadSettings();
 }
 
@@ -231,6 +232,15 @@ void Menu::renderSettCurOpt() {
 				sound->toggleTheme();
 				break;
 			case 2:
+				sound->toggleVehicle();
+				break;
+			case 3:
+				sound->toggleAnimal();
+				break;
+			case 4:
+				sound->toggleMoving();
+				break;
+			default:				//back to menu
 				loadSett = false;
 				break;
 			}
@@ -311,7 +321,7 @@ void Menu::renderPlayOpt() {
 				printTitle();
 
 				
-				game = new Game(sound);
+				game = new Game();
 				game->runGame();
 				
 				
@@ -381,7 +391,7 @@ void Menu::renderContinueOpt()
 				delete game;
 				runGame = true;
 
-				game = new Game(sound);
+				game = new Game();
 				game->continueGame(fileData[slt]);
 
 				runGame = false;

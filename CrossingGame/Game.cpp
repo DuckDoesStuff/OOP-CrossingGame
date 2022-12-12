@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(Sound* sound)
+Game::Game()
 {
 	srand((unsigned)time(0));
 	name = "";
@@ -14,7 +14,7 @@ Game::Game(Sound* sound)
 	pass = false;
 	gameResult = LOSE;
 	quit = false;
-	this->sound = sound;
+	sound = Sound::getInstance();
 }
 
 Game::~Game()
@@ -48,6 +48,7 @@ void Game::runGame() {
 
 void Game::continueGame(string fileName) {
 	Common::clearConsole();
+
 	filename = fileName;
 	initGameFromFile();
 	while (!quit) {
@@ -64,9 +65,9 @@ void Game::continueGame(string fileName) {
 	}
 }
 
-void Game::playGame()
+void Game::gameHandle()
 {
-	t_game = thread(&Game::gameHandle, this);
+	t_game = thread(&Game::playGame, this);
 	t_running = true;
 
 	while (!quit) {
@@ -76,14 +77,14 @@ void Game::playGame()
 				t_game.join();
 
 				pauseGame();
-				t_game = thread(&Game::gameHandle, this);
+				t_game = thread(&Game::playGame, this);
 			}
 			else {
 				t_running = true;
 
 				while (_kbhit())				//clear up buffer 
 					char c = _getch();
-				t_game = thread(&Game::gameHandle, this);
+				t_game = thread(&Game::playGame, this);
 			}
 		}
 
@@ -122,7 +123,7 @@ void Game::playGame()
 	if (t_game.joinable()) t_game.join();
 }
 
-void Game::gameHandle() {
+void Game::playGame() {
 	drawBoardGame();
 	drawTraffic();
 	drawPeople();
@@ -134,18 +135,14 @@ void Game::gameHandle() {
 		updateAnimal();
 		human->move();
 
+
 		Sleep(frame);
 	}
 }
 
 void Game::pauseGame() {
-	int left = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 5;
-	int top = TOP_GAMEBOARD + 15;
-	int width = 30, height = 10;
-
-	drawPauseMenu(left, top, width, height);
-	renderPauseCurOpt(left, top, width, height);
-	erasePauseMenu(left, top, width, height);
+	renderPauseMenu();
+	erasePauseMenu();
 }
 
 void Game::displayInfo() {
@@ -769,13 +766,21 @@ void Game::saveTraffic(ofstream& fout) {
 
 //******************************************//
 
-void Game::renderPauseCurOpt(int left, int top, int width, int height) {
+void Game::renderPauseMenu() {
+	drawSquare(left, top, width, height);
+
+	for (int i = 0; i < pauseOptions.size(); i++) {
+		Common::gotoXY((width - pauseOptions[i].length()) / 2 + left, 2 + top + i * 2);
+		cout << pauseOptions[i];
+	}
+
 	int pauseSlt = 0;
+	int top = this->top;
 	top += 2;
 
-	Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 3), top);
+	Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 3), top);
 	cout << ">>";
-	Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 1 + options_pause[pauseSlt].length() + 2), top);
+	Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 1 + pauseOptions[pauseSlt].length() + 2), top);
 	cout << "<<";
 
 	int c = -1;
@@ -784,28 +789,28 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 		switch (c) {
 		case 2:								//move up
 			if (pauseSlt == 0) break;
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 3), top);
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 3), top);
 			cout << "  ";
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 1 + options_pause[pauseSlt].length() + 2), top);
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 1 + pauseOptions[pauseSlt].length() + 2), top);
 			cout << "  ";
 			top -= 2;
 			pauseSlt--;
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 3), top);
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 3), top);
 			cout << ">>";
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 1 + options_pause[pauseSlt].length() + 2), top);
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 1 + pauseOptions[pauseSlt].length() + 2), top);
 			cout << "<<";
 			break;
 		case 5:								//move down
-			if (pauseSlt == options_pause.size() - 1) break;
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 3), top);
+			if (pauseSlt == pauseOptions.size() - 1) break;
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 3), top);
 			cout << "  ";
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 1 + options_pause[pauseSlt].length() + 2), top);
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 1 + pauseOptions[pauseSlt].length() + 2), top);
 			cout << "  ";
 			top += 2;
 			pauseSlt++;
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 3), top);
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 3), top);
 			cout << ">>";
-			Common::gotoXY((int)(left + (width - options_pause[pauseSlt].length()) / 2 - 1 + options_pause[pauseSlt].length() + 2), top);
+			Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 1 + pauseOptions[pauseSlt].length() + 2), top);
 			cout << "<<";
 			break;
 		case 6:								//enter
@@ -813,7 +818,16 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 			case 0:
 				t_running = true;				//Back to game
 				break;
-			case 1:							//Main menu
+			case 1:							//Open sound settings
+				erasePauseMenu();
+				renderSettingMenu();
+				eraseSettingMenu();
+				Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 3), top);
+				cout << ">>";
+				Common::gotoXY((int)(left + (width - pauseOptions[pauseSlt].length()) / 2 - 1 + pauseOptions[pauseSlt].length() + 2), top);
+				cout << "<<";
+				break;
+			default:						//Main menu
 				human->setAlive(false);
 				saveGame();
 				quit = true;
@@ -825,22 +839,132 @@ void Game::renderPauseCurOpt(int left, int top, int width, int height) {
 	}
 }
 
-void Game::drawPauseMenu(int left, int top, int width, int height) {
-
-	drawSquare(left, top, width, height);
-
-	for (int i = 0; i < options_pause.size(); i++) {
-		Common::gotoXY((width - options_pause[i].length()) / 2 + left, 2 + top + i * 2);
-		cout << options_pause[i];
-	}
-}
-
-void Game::erasePauseMenu(int left, int top, int width, int height) {
+void Game::erasePauseMenu() {
 	for (int i = 0; i <= height; i++) 
 		for (int j = 0; j <= width; j++) {
 			Common::gotoXY(left + j, top + i);
 			putchar(' ');
 		}
+}
+
+//******************************************//
+
+void Game::renderSettingMenu() {
+	drawSquare(left, top, width, height + 6);
+
+	for (int i = 0; i < settingsOptions.size(); i++) {
+		Common::gotoXY((width - settingsOptions[i].length()) / 2 + left, 2 + top + i * 2);
+		cout << settingsOptions[i];
+	}
+
+	int pauseSlt = 0;
+	int top = this->top;
+	top += 2;
+
+	Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 3), top);
+	cout << ">>";
+	Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 1 + settingsOptions[pauseSlt].length() + 2), top);
+	cout << "<<";
+
+	int c = -1;
+	bool settingMenu = true;
+	while (settingMenu) {
+		c = Common::getConsoleInput();
+		switch (c) {
+		case 2:								//move up
+			if (pauseSlt == 0) break;
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 3), top);
+			cout << "  ";
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 1 + settingsOptions[pauseSlt].length() + 2), top);
+			cout << "  ";
+			top -= 2;
+			pauseSlt--;
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 3), top);
+			cout << ">>";
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 1 + settingsOptions[pauseSlt].length() + 2), top);
+			cout << "<<";
+			break;
+		case 5:								//move down
+			if (pauseSlt == settingsOptions.size() - 1) break;
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 3), top);
+			cout << "  ";
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 1 + settingsOptions[pauseSlt].length() + 2), top);
+			cout << "  ";
+			top += 2;
+			pauseSlt++;
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 3), top);
+			cout << ">>";
+			Common::gotoXY((int)(left + (width - settingsOptions[pauseSlt].length()) / 2 - 1 + settingsOptions[pauseSlt].length() + 2), top);
+			cout << "<<";
+			break;
+		case 6:								//enter
+			switch (pauseSlt) {
+			case 0:
+				renderVolume();
+				break;
+			case 1:
+				sound->toggleTheme();
+				break;
+			case 2:
+				sound->toggleVehicle();
+				break;
+			case 3:
+				sound->toggleAnimal();
+				break;
+			case 4:
+				sound->toggleMoving();
+				break;
+			default:
+				settingMenu = false;
+				break;
+			}
+		}
+	}
+}
+
+void Game::eraseSettingMenu() {
+	for (int i = 0; i <= height + 6; i++)
+		for (int j = 0; j <= width; j++) {
+			Common::gotoXY(left + j, top + i);
+			putchar(' ');
+		}
+
+	drawSquare(left, top, width, height);
+
+	for (int i = 0; i < pauseOptions.size(); i++) {
+		Common::gotoXY((width - pauseOptions[i].length()) / 2 + left, 2 + top + i * 2);
+		cout << pauseOptions[i];
+	}
+}
+
+void Game::renderVolume() {
+	Common::gotoXY(left + 12, top + 2);
+	cout << "      ";
+	bool render = true;
+	while (render) {
+		Common::gotoXY(left + 14, top + 2);
+		cout << sound->getVolume() << " ";
+		int c = Common::getConsoleInput();
+		wstring cmd;
+		switch (c)
+		{
+		case 6:
+			render = false;
+			break;
+		case 3:
+			sound->volumeDown();
+			break;
+		case 4:
+			sound->volumeUp();
+			break;
+		default:
+			break;
+		}
+	}
+	Common::gotoXY(left + 12, top + 2);
+	cout << "      ";
+	Common::gotoXY(left + 12, top + 2);
+	cout << "Volume";
 }
 
 //******************************************//
