@@ -93,11 +93,11 @@ void Game::gameHandle()
 			t_running = false;
 			pass = true;
 
-			if (level == 10) {
-				gameResult = WIN;
-				quit = true;
-				break;
-			}
+			// if (level == 10) {
+			// 	gameResult = WIN;
+			// 	quit = true;
+			// 	break;
+			// }
 			level++;
 			break;
 		}
@@ -217,43 +217,43 @@ void Game::initGameData()
 			vehicleCount = 2;
 			break;
 		case 6: 
-			numOfObjs = 4;
-			frame = 50;
+			numOfObjs = 3;
+			frame = 45;
 
 			animalCount = 2;
 			vehicleCount = 3;
 			break;
 		case 7: 
-			numOfObjs = 4;
-			frame = 50;
+			numOfObjs = 3;
+			frame = 45;
 
 			animalCount = 3;
 			vehicleCount = 2;
 			break;
 		case 8: 
 			numOfObjs = 2;
-			frame = 45;
+			frame = 40;
 
 			animalCount = 2;
 			vehicleCount = 3;
 			break;
 		case 9: 
-			numOfObjs = 3;
-			frame = 45;
+			numOfObjs = 2;
+			frame = 40;
 
 			animalCount = 2;
 			vehicleCount = 3;
 			break;
 		case 10: 
 			numOfObjs = 3;
-			frame = 45;
+			frame = 40;
 
 			animalCount = 3;
 			vehicleCount = 2;
 			break;
 		default:
 			numOfObjs = 3;
-			frame = 40;
+			frame = 57-level;
 
 			animalCount = 3;
 			vehicleCount = 2;
@@ -345,31 +345,31 @@ void Game::initGameFromFile() {
 		numOfObjs = 3;
 		frame = 50;
 		break;
-	case 6:
-		numOfObjs = 4;
-		frame = 50;
+	case 6: 
+		numOfObjs = 3;
+		frame = 45;
 		break;
-	case 7:
-		numOfObjs = 4;
-		frame = 50;
+	case 7: 
+		numOfObjs = 3;
+		frame = 45;
 		break;
-	case 8:
+	case 8: 
 		numOfObjs = 2;
-		frame = 45;
+		frame = 40;
 		break;
-	case 9:
-		numOfObjs = 3;
-		frame = 45;
+	case 9: 
+		numOfObjs = 2;
+		frame = 40;
 		break;
-	case 10:
-		numOfObjs = 3;
-		frame = 45;
-		break;
-	default:
+	case 10: 
 		numOfObjs = 3;
 		frame = 40;
 		break;
-	}
+	default:
+		numOfObjs = 3;
+		frame = 57-level;
+		break;
+	} 
 	fin >> mX;
 	fin >> mY;
 	for (int i = 0; i < _numOfLane; i++) {
@@ -770,7 +770,7 @@ void Game::renderPauseMenu() {
 	drawSquare(left, top, width, height);
 
 	for (int i = 0; i < pauseOptions.size(); i++) {
-		Common::gotoXY((width - pauseOptions[i].length()) / 2 + left, 2 + top + i * 2);
+		Common::gotoXY((int)((width - pauseOptions[i].length()) / 2 + left),(int)(2 + top + i * 2));
 		cout << pauseOptions[i];
 	}
 
@@ -853,7 +853,7 @@ void Game::renderSettingMenu() {
 	drawSquare(left, top, width, height + 6);
 
 	for (int i = 0; i < settingsOptions.size(); i++) {
-		Common::gotoXY((width - settingsOptions[i].length()) / 2 + left, 2 + top + i * 2);
+		Common::gotoXY((int)((width - settingsOptions[i].length()) / 2 + left), (int)(2 + top + i * 2));
 		cout << settingsOptions[i];
 	}
 
