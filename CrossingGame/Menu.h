@@ -62,6 +62,7 @@ public:
 	//##################################################//
 
 	void initPlayOpt();
+	bool validates(string username);
 	void renderPlayOpt();
 	void renderPlayOptScreen();
 

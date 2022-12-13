@@ -1,8 +1,8 @@
 d
-5
+1
 68 32
-animal animal vehicle vehicle vehicle 
-75 108 25 83 116 29 75 108 25 
-75 108 109 75 108 109 
-24 80 14 78 2 58 
-1 1 1 1 1 1 1 1 1 
+vehicle vehicle vehicle vehicle animal 
+55 105 0 50 44 94 103 33 
+55 105 
+2 80 61 78 47 58 38 74 74 74 62 62 63 63 71 71 63 63 69 69 
+1 1 0 0 0 0 1 1 

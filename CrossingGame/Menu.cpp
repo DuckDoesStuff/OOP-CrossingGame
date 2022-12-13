@@ -21,21 +21,84 @@ Menu::~Menu() {
 
 void Menu::printTitle()
 {
-	std::ifstream in("ASCII\\CrossRoad.txt");
+	int height = 8, left = 45, width = 57, top = 3;
+	/*Common::setConsoleColor(BRIGHT_WHITE, BLACK);
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			Common::gotoXY(left + j, top + i);
+			putchar(' ');
+		}
+	}
 
-	Common().setConsoleColor(BRIGHT_WHITE, LIGHT_BLUE);
+	Common::gotoXY(left, top);
+	putchar(201);
+	for (int i = 1; i < width; i++) {
+		Common::gotoXY(left + i, top);
+		putchar(205);
+		Common::gotoXY(left + i, top + height);
+		putchar(205);
+	}
+	Common::gotoXY(left + width, top);
+	putchar(187);
 
-	int left = 53, top = 4;
+	Common::gotoXY(left, top + height);
+	putchar(200);
+	for (int i = 1; i < height; i++) {
+		Common::gotoXY(left, top + i);
+		putchar(186);
+		Common::gotoXY(left + width, top + i);
+		putchar(186);
+	}
+	Common::gotoXY(left + width, top + height);
+	putchar(188);*/
+	Common::gotoXY(84, 10);
+	Common::setConsoleColor(BRIGHT_WHITE, AQUA);
+	cout <<char(167)<<"2022 From HCMUS.";
+
+	std::ifstream in("ASCII\\Cross.txt");
+	Common::setConsoleColor(BRIGHT_WHITE, GREEN);
+
+	left = 48; top = 4;
 	int i = 0;
 	while (!in.eof())
 	{
-		std::string s;
+		string s;
 		getline(in, s);
 		Common::gotoXY(left, top + i);
-		std::cout << s;
+		cout << s;
 		i++;
 	}
 	in.close();
+	std::ifstream inf("ASCII\\Road.txt");
+
+	Common().setConsoleColor(BRIGHT_WHITE, RED);
+	left = 76;
+	 i = 0;
+	while (!inf.eof())
+	{
+		string s;
+		getline(inf, s);
+		Common::gotoXY(left, top+i);
+		cout << s;
+		i++;
+	}
+	inf.close();
+	i = 0;
+	left = 104;
+	top = 0;
+	ifstream tra("ASCII\\trafficlight.txt");
+	Common::setConsoleColor(BRIGHT_WHITE, PURPLE);
+	while (!tra.eof())
+	{
+		string temp;
+		getline(tra, temp);
+		Common::gotoXY(left, top + i);
+		cout << temp;
+		i++;
+
+	}
+	tra.close();
+
 }
 
 void Menu::renderOptionsBox(int n)
@@ -295,6 +358,35 @@ void Menu::initPlayOpt() {
 	renderOptionsText(playOptions, left - 9, top + 1);
 	renderArrowsOpt(0);
 }
+bool Menu::validates(string username)
+{
+	int special = 0, l = username.length();
+	for (int i = 0; i < l; i++)
+	{
+		char s = username.at(i);
+
+		//no spaces allowed
+		if (s == ' ')
+			return 0;
+
+		//characters other than alphabets and numbers
+		if (isalnum(s))
+			continue;
+		else
+		{
+			//periods and underscore allowed but only one
+			if (s == '_' || s == '.')
+			{
+				special++;
+				if (special > 1)
+					return 0;
+			}
+			else
+				return 0;
+		}
+	}
+	return 1;
+}
 
 void Menu::renderPlayOpt() {
 	int c, slt = 0;
@@ -317,13 +409,15 @@ void Menu::renderPlayOpt() {
 			case 0:
 				delete game;
 				runGame = true;
-				Common::clearConsole();
-				printTitle();
+				game = new Game();
+				do {
+					Common::clearConsole();
+					printTitle();
+					game->inputName();
 
 				
-				game = new Game();
+				} while (!validates(game->getName())||game->getName().size()<3);
 				game->runGame();
-				
 				
 				runGame = false;
 				loadPlayOpt = false;
