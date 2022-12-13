@@ -1,5 +1,7 @@
 #include "Game.h"
-
+string Game::getName() {
+	return name;
+}
 Game::Game()
 {
 	srand((unsigned)time(0));
@@ -31,7 +33,7 @@ Game::~Game()
 //******************************************//
 
 void Game::runGame() {
-	inputName();
+
 	while (!quit) {
 		Common::clearConsole();
 		initGameData();
@@ -115,12 +117,76 @@ void Game::gameHandle()
 			else {
 				quit = true;
 				gameResult = LOSE;
+				if (level < 5)
+					Deathscreen();
+				else
+					Winscreen();
 			}
 			break;
 		}
 	}
 
 	if (t_game.joinable()) t_game.join();
+}
+void Game::Winscreen(){
+	Common::clearConsole();
+	ifstream fin("ASCII\\winScreen.txt");
+	int cnt = 0;
+	Common::setConsoleColor(BLACK, YELLOW);
+	while (!fin.eof())
+	{
+		string temp;
+		getline(fin, temp);
+		Common::gotoXY(40, 4 + cnt);
+		cout << temp;
+		cnt++;
+	}
+	fin.close();
+	bool ask = true;
+	int c;
+	while (ask) 
+	{
+		c = Common::getConsoleInput();
+		if (c == 6)
+			ask = false;
+	}
+
+}
+void Game::Deathscreen() {
+	int width = 60, height = 23;
+	int left = 35;
+	int top = 0;
+	Common::clearConsole();
+	vector<string> death;
+	ifstream fin("ASCII\\deathscreen.txt");
+	while (!fin.eof())
+	{
+		string temp;
+		getline(fin, temp);
+		death.push_back(temp);
+	}
+	fin.close();
+	Common::gotoXY(0, 0);
+	Common::setConsoleColor(BLACK, BRIGHT_WHITE);
+	for (int i = 0; i < death.size(); i++)
+	{
+		Common::gotoXY(left + 3, top + 2+i);
+		cout << death[i] << endl;
+	}
+	/*	drawSquare(left, top, width, height);
+	Common::gotoXY(left + 3, top + 2);
+	cout << "Do you want to play again?";
+	Common::gotoXY(left + 8, top + 5);
+	cout << "Yes";
+	Common::gotoXY(left + 20, top + 5);
+	cout << "No";*/
+	bool ask = true;
+	int c;
+	while (ask) {
+		c = Common::getConsoleInput();
+		if (c == 6)
+		ask = false;
+	}
 }
 
 void Game::playGame() {
@@ -503,8 +569,7 @@ void Game::drawPeople() {
 }
 
 void Game::drawSquare(const int& left, const int& top, const int& width, const int& height) {
-	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
-
+	Common::setConsoleColor( BRIGHT_WHITE, BLACK );
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			Common::gotoXY(left + j, top + i);
@@ -536,9 +601,52 @@ void Game::drawSquare(const int& left, const int& top, const int& width, const i
 }
 
 void Game::inputName() {
-	Common::gotoXY(70, 20);
+	name.clear();
+	Common::setConsoleColor(BRIGHT_WHITE, RED);
+	Common::gotoXY(60, 21);
+	cout <<"!) Can contain Number";
+	Common::gotoXY(60, 22);
+	cout<<"!) No special Characters";
+	Common::gotoXY(60, 23);
+	cout<< "!) Length must >3 and < 15";
+	Common::gotoXY(60, 24);
+	cout<< "!) Can have only 1[.] or [_]";
+
+	drawSquare(60, 18, 35, 2);
+	Common::gotoXY(62, 19);
+	char temp;
 	cout << "Enter your name: ";
-	getline(cin, name);
+	while (1)
+	{
+		temp = getch();
+		if ((int)temp == 13)
+			break;
+		if (name.size() >= 15)
+		{ 
+			if ((int)temp == 8)
+				name.erase(name.end() - 1);
+		}
+		else {
+
+			if ((int)temp == 8)
+				name.erase(name.end() - 1);
+
+			else {
+				name += temp;
+
+			}
+
+		}
+		for (int i = 0; i < 15; i++)
+		{
+			Common::gotoXY(79 + i, 19);
+			cout << " ";
+		}
+
+		Common::gotoXY(79, 19);
+		cout << name;
+	}
+	
 }
 
 //******************************************//

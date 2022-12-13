@@ -4,7 +4,9 @@
 #include <unordered_map>
 #include "Common.h"
 #include "People.h"
+#pragma warning( disable : 4996 ) 
 
+#include <conio.h> 
 #include "Car.h"
 #include "Truck.h"
 #include "Camel.h"
@@ -109,5 +111,9 @@ public:
 
 	void deleteVe();
 	void deleteAn();
-
+	//--------------
+	void Deathscreen();
+	void Winscreen();
+	//----------
+	string getName();
 };
