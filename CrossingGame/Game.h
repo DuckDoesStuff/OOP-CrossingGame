@@ -5,7 +5,7 @@
 #include "Sound.h"
 #include "People.h"
 #pragma warning( disable : 4996 ) 
-
+#include <cctype>
 #include <conio.h> 
 #include "Car.h"
 #include "Truck.h"

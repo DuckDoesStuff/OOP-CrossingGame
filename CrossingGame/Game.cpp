@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 string Game::getName() {
 	return name;
 }
@@ -117,7 +117,7 @@ void Game::gameHandle()
 			else {
 				quit = true;
 				gameResult = LOSE;
-				if (level < 5)
+				if (level < 8)
 					Deathscreen();
 				else
 					Winscreen();
@@ -130,6 +130,7 @@ void Game::gameHandle()
 }
 void Game::Winscreen(){
 	Common::clearConsole();
+	Common::fillConsole(BLACK);
 	ifstream fin("ASCII\\winScreen.txt");
 	int cnt = 0;
 	Common::setConsoleColor(BLACK, YELLOW);
@@ -137,54 +138,44 @@ void Game::Winscreen(){
 	{
 		string temp;
 		getline(fin, temp);
-		Common::gotoXY(40, 4 + cnt);
+		Common::gotoXY(15, 2 + cnt);
+		cout << temp;
+		cnt++;
+	}
+
+	drawSquare(63, 29, 40, 2);
+	Common::gotoXY(70, 30); cout << " Press anykey to continue!!";
+	fin.close();
+	bool ask = true;
+	int c;
+		c = Common::getConsoleInput();
+		while (ask) {
+			c = getch();
+
+			ask = false;
+		}
+
+}
+void Game::Deathscreen() {
+	Common::clearConsole();
+	Common::fillConsole(BLACK);
+	int cnt = 0;
+	ifstream fin("ASCII\\deathscreen.txt");
+	Common::setConsoleColor(BLACK, BRIGHT_WHITE);
+	while (!fin.eof())
+	{
+		string temp;
+		getline(fin, temp);
+		Common::gotoXY(1, 0 + cnt);
 		cout << temp;
 		cnt++;
 	}
 	fin.close();
 	bool ask = true;
 	int c;
-	while (ask) 
-	{
-		c = Common::getConsoleInput();
-		if (c == 6)
-			ask = false;
-	}
-
-}
-void Game::Deathscreen() {
-	int width = 60, height = 23;
-	int left = 35;
-	int top = 0;
-	Common::clearConsole();
-	vector<string> death;
-	ifstream fin("ASCII\\deathscreen.txt");
-	while (!fin.eof())
-	{
-		string temp;
-		getline(fin, temp);
-		death.push_back(temp);
-	}
-	fin.close();
-	Common::gotoXY(0, 0);
-	Common::setConsoleColor(BLACK, BRIGHT_WHITE);
-	for (int i = 0; i < death.size(); i++)
-	{
-		Common::gotoXY(left + 3, top + 2+i);
-		cout << death[i] << endl;
-	}
-	/*	drawSquare(left, top, width, height);
-	Common::gotoXY(left + 3, top + 2);
-	cout << "Do you want to play again?";
-	Common::gotoXY(left + 8, top + 5);
-	cout << "Yes";
-	Common::gotoXY(left + 20, top + 5);
-	cout << "No";*/
-	bool ask = true;
-	int c;
 	while (ask) {
-		c = Common::getConsoleInput();
-		if (c == 6)
+		c = getch();
+
 		ask = false;
 	}
 }
@@ -216,6 +207,7 @@ void Game::displayInfo() {
 	int top = TOP_GAMEBOARD - 5;
 
 	int width = 30, height = 10;
+
 
 	drawSquare(left, top, width, height);
 
@@ -579,7 +571,7 @@ void Game::drawPeople() {
 }
 
 void Game::drawSquare(const int& left, const int& top, const int& width, const int& height) {
-	Common::setConsoleColor( BRIGHT_WHITE, BLACK );
+	//Common::setConsoleColor( BRIGHT_WHITE, BLACK );
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			Common::gotoXY(left + j, top + i);
@@ -622,6 +614,7 @@ void Game::inputName() {
 	Common::gotoXY(60, 24);
 	cout<< "!) Can have only 1[.] or [_]";
 
+	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 	drawSquare(60, 18, 35, 2);
 	Common::gotoXY(62, 19);
 	char temp;
@@ -715,7 +708,7 @@ bool Game::askToSave() {
 	int width = 30, height = 7;
 	int left = 65;
 	int top = 14;
-
+	
 	drawSquare(left, top, width, height);
 	Common::gotoXY(left + 3, top + 2);
 	cout << "Do you want to save before";
@@ -748,7 +741,23 @@ bool Game::askToSave() {
 	}
 	return 0;
 }
+bool isValidFilename(const string& filename) {
+	// Kiểm tra xem tên file có bắt đầu bằng ký tự . (dấu chấm) hoặc ký tự trắng hay không
+	if (filename[0] == '.' || isspace(filename[0])) {
+		return false;
+	}
 
+	// Duyệt qua từng ký tự trong tên file
+	for (char c : filename) {
+		// Nếu tên file chứa ký tự đặc biệt, trả về false
+		if (!isalnum(c) && c != '.' && c != '_') {
+			return false;
+		}
+	}
+
+	// Nếu tên file không chứa ký tự đặc biệt, trả về true
+	return true;
+}
 string Game::inputSaveFile() {
 	int width = 30, height = 7;
 	int left = 65;
@@ -770,27 +779,43 @@ string Game::inputSaveFile() {
 	cout << "Enter save file: (no space)";
 
 	//need to check for valid input
-	bool fileExist = true;
-	while (fileExist) {
-		Common::gotoXY(left + 2, top + 3);
+	bool isnotValid = true;
+	while (isnotValid) {
+		
+		Common::gotoXY(left + 2, top + 2);
+		cout << ">>                       ";
+		Common::gotoXY(left + 5, top + 2);
 		cin >> file;
 		if (file.length() > 10)
 			file = file.substr(0, 10);
-		file = "Data\\" + file + ".txt";
 
-		fileExist = false;
+
+		if (!isValidFilename(file))
+		{
+			isnotValid = true;
+			Common::gotoXY(left + 7, top + 3);
+			Common::setConsoleColor(BRIGHT_WHITE, RED);
+			cout << "Invalid file name!!";
+			Common::setConsoleColor(BRIGHT_WHITE, BLACK);
+		}
+		else
+			isnotValid = false;
+
+		file = "Data\\" + file + ".txt";
 		for (int i = 0; i < fileList.size(); i++) {
-			if (file == fileList[i]) {
-				fileExist = true;
-				Common::gotoXY(left + 7, top + 2);
+			if (file == fileList[i]) 
+			{
+				isnotValid = true;
+				Common::gotoXY(left + 7, top + 3);
 				Common::setConsoleColor(BRIGHT_WHITE, RED);
 				cout << "File already exist!";
-				Common::gotoXY(left + 2, top + 3);
-				cout << "                         ";
+				Common::gotoXY(left + 7, top + 2);
+				cout << ">>                       ";
 				Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 				break;
 			}
 		}
+		
 	}
 
 	return file;
@@ -958,6 +983,7 @@ void Game::erasePauseMenu() {
 //******************************************//
 
 void Game::renderSettingMenu() {
+
 	drawSquare(left, top, width, height + 6);
 
 	for (int i = 0; i < settingsOptions.size(); i++) {
@@ -1037,6 +1063,7 @@ void Game::eraseSettingMenu() {
 			putchar(' ');
 		}
 
+
 	drawSquare(left, top, width, height);
 
 	for (int i = 0; i < pauseOptions.size(); i++) {
@@ -1081,6 +1108,7 @@ int Game::askPlayer() {
 	int width = 30, height = 7;
 	int left = 65;
 	int top = 14;
+
 	drawSquare(left, top, width, height);
 	Common::gotoXY(left + 3, top + 2);
 	cout << "Do you want to play again?";

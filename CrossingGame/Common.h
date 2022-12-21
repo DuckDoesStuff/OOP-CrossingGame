@@ -87,6 +87,7 @@ public:
 	static void setConsoleTitle();
 	static void disableMaximize();
 	static void setFontInfo(int sizeX, int sizeY);
+	static void fillConsole(int color);
 	static void clearConsole();
 	static bool pressedKey(int);
 	static int getConsoleInput();

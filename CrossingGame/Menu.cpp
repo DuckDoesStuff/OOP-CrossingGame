@@ -22,35 +22,7 @@ Menu::~Menu() {
 void Menu::printTitle()
 {
 	int height = 8, left = 45, width = 57, top = 3;
-	/*Common::setConsoleColor(BRIGHT_WHITE, BLACK);
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
-			Common::gotoXY(left + j, top + i);
-			putchar(' ');
-		}
-	}
-
-	Common::gotoXY(left, top);
-	putchar(201);
-	for (int i = 1; i < width; i++) {
-		Common::gotoXY(left + i, top);
-		putchar(205);
-		Common::gotoXY(left + i, top + height);
-		putchar(205);
-	}
-	Common::gotoXY(left + width, top);
-	putchar(187);
-
-	Common::gotoXY(left, top + height);
-	putchar(200);
-	for (int i = 1; i < height; i++) {
-		Common::gotoXY(left, top + i);
-		putchar(186);
-		Common::gotoXY(left + width, top + i);
-		putchar(186);
-	}
-	Common::gotoXY(left + width, top + height);
-	putchar(188);*/
+	
 	Common::gotoXY(84, 10);
 	Common::setConsoleColor(BRIGHT_WHITE, AQUA);
 	cout <<char(167)<<"2022 From HCMUS.";
@@ -87,7 +59,7 @@ void Menu::printTitle()
 	left = 104;
 	top = 0;
 	ifstream tra("ASCII\\trafficlight.txt");
-	Common::setConsoleColor(BRIGHT_WHITE, PURPLE);
+	Common::setConsoleColor(BRIGHT_WHITE, YELLOW);
 	while (!tra.eof())
 	{
 		string temp;
@@ -98,6 +70,7 @@ void Menu::printTitle()
 
 	}
 	tra.close();
+	Common::setConsoleColor(BRIGHT_WHITE, BLACK);
 
 }
 
@@ -414,8 +387,6 @@ void Menu::renderPlayOpt() {
 					Common::clearConsole();
 					printTitle();
 					game->inputName();
-
-				
 				} while (!validates(game->getName())||game->getName().size()<3);
 				game->runGame();
 				
@@ -536,7 +507,7 @@ void Menu::renderLeaderText()
 	Toplayers();
 	int x = 70, y = 19;
 	Common::gotoXY(x + 1, y -2); cout << "NAME";
-	Common::gotoXY(x + 14, y-2 ); cout << "SCORE";
+	Common::gotoXY(x + 14, y-2 ); cout << "LEVEL";
 	for (int i = 1; i < 19; i++)
 	{
 		Common::gotoXY(x+i, y - 1); putchar(196);
@@ -582,7 +553,7 @@ void Menu::renderLeaderBox()
 	Common::gotoXY(x + 20, y + 3); putchar(188);
 	Common::gotoXY(x + 19, y + 3); putchar(205);
 
-	Common::gotoXY(x + 6, y + 2); cout << "HIGHT SCRORES";
+	Common::gotoXY(x + 6, y + 2); cout << "  HIGHSCORE";
 	Common::gotoXY(x + 10, y + 13); cout << char(175)<<"EXIT"<<char(174);
 }
 

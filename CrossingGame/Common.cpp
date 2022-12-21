@@ -102,7 +102,26 @@ void Common::setFontInfo(int sizeX, int sizeY)
 	wcscpy_s(info.FaceName, L"Consolas");
 	SetCurrentConsoleFontEx(consoleOutput, FALSE, &info);
 }
+void Common::fillConsole(int color)
+{
+	setConsoleColor(color, color);
+	// current screen buffer size
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
+	CONSOLE_SCREEN_BUFFER_INFO scrBufferInfo;
+	GetConsoleScreenBufferInfo(hOut, &scrBufferInfo);
+
+	short scrBufferWidth = scrBufferInfo.dwSize.X;
+	short scrBufferHeight = scrBufferInfo.dwSize.Y;
+	for (int i = 0; i < scrBufferWidth; i++)
+	{
+		for (int j = 0; j < scrBufferHeight; j++)
+		{
+			gotoXY(i, j); cout << " ";
+		}
+	}
+
+}
 void Common::clearConsole()
 {
 	system("cls");

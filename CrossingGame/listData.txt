@@ -1,8 +1,8 @@
+Data\Fuongchodi.txt
+Data\ailoveyou(.txt
 Data\level6.txt
 Data\Fuonge.txt
 Data\FuongBanh.txt
 Data\Fuong.txt
 Data\haha.txt
 Data\testsave.txt
-Data\mm.txt
-Data\@!?.txt
