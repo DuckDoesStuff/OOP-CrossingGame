@@ -28,6 +28,8 @@ public:
 	int getY() { return mY; }
 	int getWidth() { return _width; }
 	int getHeight() { return _height; }
+	int getSpeed() { return mSpeed; }
+
 
 	//******************************************//
 
@@ -40,7 +42,9 @@ public:
 
 	virtual int checkPos();
 	virtual void updatePos();
-	virtual void speedUp();
-	virtual void setmX(int x) { mX = x; }
-	virtual bool isMoving() { return moving; }
+	virtual void setImage(int);
+	void speedUp();
+	void setmX(int x) { mX = x; }
+	void setSpeed(int x) { mSpeed = x; }
+	bool isMoving() { return moving; }
 };

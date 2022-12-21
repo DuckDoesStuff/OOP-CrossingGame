@@ -83,4 +83,7 @@ void Camel::updatePos()
 	}
 }
 
-
+void Camel::setImage(int i) {
+	image.clear();
+	loadImage(i);
+}

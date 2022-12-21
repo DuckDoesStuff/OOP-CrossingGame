@@ -14,5 +14,5 @@ public:
 
 	int checkPos();
 	void updatePos();
-
+	void setImage(int);
 };

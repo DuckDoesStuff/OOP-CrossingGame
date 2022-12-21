@@ -15,4 +15,5 @@ public:
 	bool checkPos();
 	void updatePos();
 	void startORstop();
+	void setImage(int);
 };

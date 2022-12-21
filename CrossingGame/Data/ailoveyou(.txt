@@ -1,8 +1,0 @@
-Fuongka
-1
-68 32
-vehicle vehicle vehicle animal vehicle 
-39 89 119 49 39 89 39 89 
-39 89 
-52 72 56 76 67 87 55 75 
-1 1 1 1 1 1 1 1 

@@ -1,8 +1,0 @@
-pop
-1
-68 32
-animal vehicle vehicle vehicle vehicle 
-12 62 26 76 12 62 26 76 
-26 76 
-74 81 76 83 81 88 57 64 
-1 1 1 1 1 1 1 1 

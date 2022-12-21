@@ -64,3 +64,8 @@ void Car::startORstop() {
 	Vehicle::startORstop();
 	sound->soundSelector = CAR;
 }
+
+void Car::setImage(int i) {
+	image.clear();
+	loadImage(i);
+}

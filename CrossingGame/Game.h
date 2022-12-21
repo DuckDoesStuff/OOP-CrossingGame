@@ -92,8 +92,8 @@ public:
 
 	//******************************************//
 
-	void savePosVehicle(ofstream&);
-	void savePosAnimal(ofstream&);
+	void saveVehicle(ofstream&);
+	void saveAnimal(ofstream&);
 	void saveLane(ofstream&);
 	void saveTraffic(ofstream&);
 

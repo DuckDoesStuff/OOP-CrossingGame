@@ -92,3 +92,7 @@ void Vehicle::speedUp() {
 	if (mSpeed > 0) mSpeed++;
 	else mSpeed--;
 }
+
+void Vehicle::setImage(int) {
+
+}

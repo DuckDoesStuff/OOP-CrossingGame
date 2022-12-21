@@ -1,8 +1,0 @@
-meomeo
-1
-68 32
-vehicle vehicle vehicle vehicle animal 
-19 69 19 69 19 69 19 69 
-19 69 
-74 74 87 87 76 76 66 66 
-1 1 1 1 1 1 1 1 

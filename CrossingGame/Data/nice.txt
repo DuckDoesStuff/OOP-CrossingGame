@@ -1,8 +1,0 @@
-duc
-1
-68 32
-animal vehicle vehicle vehicle vehicle 
-115 45 43 93 115 45 43 93 
-43 93 
-47 71 46 70 38 62 45 69 
-1 1 1 1 1 1 1 1 

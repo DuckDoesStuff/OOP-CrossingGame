@@ -1,8 +1,0 @@
-adaw
-1
-74 2
-vehicle animal vehicle vehicle vehicle 
-47 97 47 97 111 41 47 97 
-105 41 
-38 66 48 76 59 87 39 67 
-1 1 1 1 1 1 1 1 

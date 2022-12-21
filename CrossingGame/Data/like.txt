@@ -1,8 +1,0 @@
-i
-1
-68 32
-vehicle vehicle vehicle animal vehicle 
-19 69 19 69 19 69 19 69 
-19 69 
-64 64 79 79 71 71 65 65 
-1 1 1 1 1 1 1 1 

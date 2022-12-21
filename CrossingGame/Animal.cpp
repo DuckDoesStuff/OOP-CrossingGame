@@ -93,4 +93,6 @@ void Animal::speedUp() {
 	else mSpeed--;
 }
 
+void Animal::setImage(int i) {
 
+}

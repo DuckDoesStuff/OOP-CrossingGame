@@ -484,10 +484,10 @@ void Menu::loadFileData(string fileName) {
 	fileData.clear();
 
 	while (!fin.eof()) {
-		string temp;
-		getline(fin, temp, '\n');
-		if (temp == "") break;
-		fileData.push_back(temp);
+		string name;
+		getline(fin, name, '\n');
+		if (name == "") break;
+		fileData.push_back(name);
 	}
 
 	fileData.push_back("Back");
@@ -512,13 +512,15 @@ void Menu::renderLeaderText()
 	{
 		Common::gotoXY(x+i, y - 1); putchar(196);
 	}
-	for (int i = 0; i < 7 && i < toplayers.size(); i ++)
-	{
-		Common::gotoXY(x + 1, y  + i);
-		cout << toplayers[i].name;
-		Common::gotoXY(x + 17, y + i);
-		cout << toplayers[i].score;
 
+	int i = 0;
+	for (auto& it:toplayers)
+	{
+		if (it.name == "") continue;
+		Common::gotoXY(x + 1, y  + i);
+		cout << it.name;
+		Common::gotoXY(x + 17, y + i);
+		cout << it.score;
 	}
 }
 

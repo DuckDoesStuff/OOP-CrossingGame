@@ -84,3 +84,8 @@ void Horse::updatePos()
 		drawToScreen();
 	}
 }
+
+void Horse::setImage(int i) {
+	image.clear();
+	loadImage(i);
+}

@@ -41,8 +41,10 @@ public:
 
 	virtual bool checkPos();
 	virtual void updatePos();
-	virtual void speedUp();
-	virtual void setmX(int x) { mX = x; }
-	virtual bool isMoving() { return moving; }
-	virtual void setMoving(bool x) { moving = x; }
+	virtual void setImage(int);
+	void speedUp();
+	void setmX(int x) { mX = x; }
+	void setSpeed(int x) { mSpeed = x; }
+	bool isMoving() { return moving; }
+	void setMoving(bool x) { moving = x; }
 };

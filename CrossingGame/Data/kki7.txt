@@ -1,8 +1,0 @@
-kki7
-1
-68 32
-vehicle vehicle vehicle animal vehicle 
-35 85 4 54 34 84 34 84 
-118 54 
-53 68 60 75 69 84 48 63 
-1 1 1 1 1 1 1 1 

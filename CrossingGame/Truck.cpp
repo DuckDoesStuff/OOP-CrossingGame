@@ -73,3 +73,8 @@ void Truck::startORstop() {
 	Vehicle::startORstop();
 	sound->soundSelector = TRUCK;
 }
+
+void Truck::setImage(int i) {
+	image.clear();
+	loadImage(i);
+}

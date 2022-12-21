@@ -378,7 +378,14 @@ void Game::initGameFromFile() {
 	int rowSpacing = 0;
 	int laneSpacing = 0;
 	ifstream fin;
+
 	fin.open(filename);
+	if (!fin.is_open()) {
+		filename = "";
+		initGameData();
+		return;
+	}
+
 	int mX, mY;
 	fin >> name;
 	fin >> level;
@@ -457,16 +464,35 @@ void Game::initGameFromFile() {
 		}
 		laneSpacing += 5;
 	}
-	for (int i = 0; i < vh.size(); i++) {
-		int temp;
-		fin >> temp;
-		vh[i]->setmX(temp);
+	//Init vehicles
+	for (auto& it:vh) {
+		int coords;
+		fin >> coords;
+		it->setmX(coords);
 	}
-	for (int i = 0; i < an.size(); i++) {
-		int temp;
-		fin >> temp;
-		an[i]->setmX(temp);
+	for (auto& it:vh) {
+		int speed;
+		fin >> speed;
+		it->setSpeed(speed);
 	}
+
+	//Init animals
+	for (auto& it:an) {
+		int coords;
+		fin >> coords;
+		it->setmX(coords);
+	}
+	for (auto& it:an) {
+		int speed;
+		fin >> speed;
+		it->setSpeed(speed);
+		if (speed > 0)
+			it->setImage(0);
+		else
+			it->setImage(1);
+	}
+
+
 	for (int i = 0; i < trafficTimer.size(); i++) {
 		fin >> trafficTimer[i].first >> trafficTimer[i].second;
 	}
@@ -829,7 +855,6 @@ void Game::saveGame() {
 	//if opened from a save file then save and leave
 	//if not then ask user's to input file name
 
-
 	if (filename == "") 
 		filename = inputSaveFile();
 
@@ -840,8 +865,8 @@ void Game::saveGame() {
 	while (!fin.eof() && fileList.size() < 8) {
 		string tmp;
 		getline(fin, tmp);
-		if (tmp == filename) continue;
-		fileList.push_back(tmp);
+		if (tmp != filename)
+			fileList.push_back(tmp);
 	}
 	fin.close();
 
@@ -852,30 +877,42 @@ void Game::saveGame() {
 	fout.close();
 
 	fout.open(filename);
-	fout << name << endl;
+
+
+	if (name == "")
+		fout << "Unknown" << endl;
+	else
+		fout << name << endl;
 	fout << level << endl;
 	fout << human->getCoords().first << " " << human->getCoords().second << endl;
 	saveLane(fout);
-	savePosVehicle(fout);
-	savePosAnimal(fout);
+	saveVehicle(fout);
+	saveAnimal(fout);
 	saveTraffic(fout);
+
+
 	fout.close();
 }
 
 //******************************************//
 
-void Game::savePosVehicle(ofstream& fout) {
-	for (int i = 0; i < vh.size(); i++) 
-		fout << vh[i]->getX() << " ";
-	
+void Game::saveVehicle(ofstream& fout) {
+	for (auto& it:vh) 
+		fout << it->getX() << " ";
 	fout << endl;
 
+	for (auto& it : vh)
+		fout << it->getSpeed() << " ";
+	fout << endl;
 }
 
-void Game::savePosAnimal(ofstream& fout) {
-	for (int i = 0; i < an.size(); i++)
-		fout << an[i]->getX() << " ";
+void Game::saveAnimal(ofstream& fout) {
+	for (auto& it:an)
+		fout << it->getX() << " ";
+	fout << endl;
 
+	for (auto& it : an)
+		fout << it->getSpeed() << " ";
 	fout << endl;
 }
 

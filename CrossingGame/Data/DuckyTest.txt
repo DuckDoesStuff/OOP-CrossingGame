@@ -1,8 +1,0 @@
-duckytest
-4
-59 32
-vehicle vehicle vehicle animal animal 
-30 63 96 8 41 74 55 88 5 
-116 111 110 116 111 98 
-52 59 42 57 56 75 
-1 1 1 1 1 1 0 0 0 

@@ -1,8 +1,0 @@
-duck
-2
-48 32
-vehicle vehicle vehicle vehicle animal 
-37 70 103 115 28 61 77 110 27 2 35 68 
-77 110 91 
-41 81 53 87 19 70 39 80 
-0 0 0 0 0 0 1 1 1 0 0 0 
