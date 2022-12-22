@@ -55,7 +55,11 @@ public:
 
 	void runGame();
 	void continueGame(string);
+
 	void gameHandle();
+	void Deathscreen();
+	void Winscreen();
+
 	void playGame();
 	void pauseGame();
 	void displayInfo();
@@ -97,7 +101,6 @@ public:
 	void saveLane(ofstream&);
 	void saveTraffic(ofstream&);
 
-
 	//******************************************//
 
 	void setLevel(int n) { level = n; }
@@ -122,9 +125,5 @@ public:
 
 	//******************************************//
 	void resetData();
-	//--------------
-	void Deathscreen();
-	void Winscreen();
-	//----------
-	string getName();
+	string getName() { return name; }
 };

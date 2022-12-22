@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 struct player {
 	string name = "";
@@ -21,7 +22,7 @@ private:
 	vector<string> playOptions = { "New game", "Continue game", "Back"}; 
 	vector<string> settingsOptions = { "Volume", "Background music","Vehicle sound", "Animal sound", "Moving sound", "Back" }; 
 	vector<string> fileData;
-	vector<player> toplayers;
+	vector<player> topSeven;
 	Game* game;
 	bool runGame = false;
 
@@ -51,10 +52,15 @@ public:
 
 	//##################################################//
 
-	void initSettings();
+	void initLeaderBoard();
+	void renderLeaderText();
 	void renderLeaderBox();
-	void RenderLeaderBoard();
-	void Toplayers();
+	void renderLeaderBoard();
+	void topLeader();
+
+	//##################################################//
+
+	void initSettings();
 	void renderSettCurOpt();
 	void renderSettingScreen();
 	void renderVolume();
@@ -79,6 +85,4 @@ public:
 
 	//##################################################//
 
-	void initLeaderBoard();
-	void renderLeaderText();
 };

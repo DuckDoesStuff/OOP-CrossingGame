@@ -218,7 +218,7 @@ void Menu::renderMenuCurOpt()
 				initMenu();
 				break;
 			case 2:					//Leaderboard
-				RenderLeaderBoard();
+				renderLeaderBoard();
 				initMenu();
 				break;
 			case 3:
@@ -504,7 +504,7 @@ void Menu::initLeaderBoard() {
 
 void Menu::renderLeaderText()
 {
-	Toplayers();
+	topLeader();
 	int x = 70, y = 19;
 	Common::gotoXY(x + 1, y -2); cout << "NAME";
 	Common::gotoXY(x + 14, y-2 ); cout << "LEVEL";
@@ -514,13 +514,14 @@ void Menu::renderLeaderText()
 	}
 
 	int i = 0;
-	for (auto& it:toplayers)
+	for (auto& it:topSeven)
 	{
 		if (it.name == "") continue;
 		Common::gotoXY(x + 1, y  + i);
 		cout << it.name;
 		Common::gotoXY(x + 17, y + i);
 		cout << it.score;
+		i++;
 	}
 }
 
@@ -559,38 +560,16 @@ void Menu::renderLeaderBox()
 	Common::gotoXY(x + 10, y + 13); cout << char(175)<<"EXIT"<<char(174);
 }
 
-void Menu::RenderLeaderBoard() {
+void Menu::renderLeaderBoard() {
 	initLeaderBoard();
 	while (true) {
 		if(Common::getConsoleInput() == 6) break;
 	}
 }
 
-void swapPlayer(player& a, player& b)
+void Menu::topLeader()
 {
-	player temp = a;
-	a = b;
-	b = temp;
-}
-
-void selectionSort(vector<player> &a)
-{
-	int i, j, max;
-	for (i = 0; i < a.size() - 1; i++)
-	{
-		max = i;
-		for (j = i + 1; j < a.size(); j++)
-		{
-			if (a[j].score > a[max].score)
-				max = j;
-		}
-		swapPlayer(a[max], a[i]);
-	}
-}
-
-void Menu::Toplayers()
-{
-	toplayers.clear();
+	topSeven.clear();
 	ifstream fin;
 	fin.open("listData.txt");
 
@@ -608,8 +587,13 @@ void Menu::Toplayers()
 		player temp;
 		getline(data, temp.name);
 		data >> temp.score;
-		toplayers.push_back(temp);
+		topSeven.push_back(temp);
 		data.close();
 	}
-	selectionSort(toplayers);
+
+	sort(topSeven.begin(), topSeven.end(), 
+		[](player p1, player p2) {
+			return p1.score > p2.score;
+		}
+	);
 }

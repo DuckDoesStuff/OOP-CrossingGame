@@ -1,7 +1,4 @@
 ﻿#include "Game.h"
-string Game::getName() {
-	return name;
-}
 Game::Game()
 {
 	srand((unsigned)time(0));
@@ -730,6 +727,24 @@ void Game::updateAnimal() {
 
 //******************************************//
 
+bool isValidFilename(const string& filename) {
+	// Kiểm tra xem tên file có bắt đầu bằng ký tự . (dấu chấm) hoặc ký tự trắng hay không
+	if (filename[0] == '.' || isspace(filename[0])) {
+		return false;
+	}
+
+	// Duyệt qua từng ký tự trong tên file
+	for (char c : filename) {
+		// Nếu tên file chứa ký tự đặc biệt, trả về false
+		if (!isalnum(c) && c != '.' && c != '_') {
+			return false;
+		}
+	}
+
+	// Nếu tên file không chứa ký tự đặc biệt, trả về true
+	return true;
+}
+
 bool Game::askToSave() {
 	int width = 30, height = 7;
 	int left = 65;
@@ -767,23 +782,7 @@ bool Game::askToSave() {
 	}
 	return 0;
 }
-bool isValidFilename(const string& filename) {
-	// Kiểm tra xem tên file có bắt đầu bằng ký tự . (dấu chấm) hoặc ký tự trắng hay không
-	if (filename[0] == '.' || isspace(filename[0])) {
-		return false;
-	}
 
-	// Duyệt qua từng ký tự trong tên file
-	for (char c : filename) {
-		// Nếu tên file chứa ký tự đặc biệt, trả về false
-		if (!isalnum(c) && c != '.' && c != '_') {
-			return false;
-		}
-	}
-
-	// Nếu tên file không chứa ký tự đặc biệt, trả về true
-	return true;
-}
 string Game::inputSaveFile() {
 	int width = 30, height = 7;
 	int left = 65;
