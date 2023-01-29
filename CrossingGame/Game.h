@@ -10,7 +10,7 @@
 #include "Car.h"
 #include "Truck.h"
 #include "Camel.h"
-#include "Horse.h"
+#include "Duck.h"
 
 #define LOSE 0
 #define WIN 1
@@ -31,7 +31,7 @@ private:
 	string filename;						//save filename
 	vector<pair<int, int>> trafficTimer;	//{timer}
 	vector<string> pauseOptions = { "Back to game", "Settings", "Back to menu"};
-	vector<string> settingsOptions = { "Volume", "Background music","Vehicle sound", "Animal sound", "Moving sound", "Back" };
+	vector<string> settingsOptions = { "Volume", "Background music","Vehicle sound", "Animal sound", "Back" };
 	string* laneOpt;						//save lane
 
 	int numOfObjs;
@@ -43,7 +43,7 @@ private:
 	int left = WIDTH_GAMEBOARD + LEFT_GAMEBOARD + 5;
 	int top = TOP_GAMEBOARD + 15;
 	int width = 30, height = 8;
-
+		
 	thread t_game;
 	Sound* sound;
 public:

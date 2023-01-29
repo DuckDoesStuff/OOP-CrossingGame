@@ -203,7 +203,7 @@ void Game::displayInfo() {
 	int left = LEFT_GAMEBOARD + WIDTH_GAMEBOARD + 5;
 	int top = TOP_GAMEBOARD - 5;
 
-	int width = 30, height = 10;
+	int width = 30, height = 9;
 
 
 	drawSquare(left, top, width, height);
@@ -212,6 +212,16 @@ void Game::displayInfo() {
 	cout << "Player: " << name;
 	Common::gotoXY(left + 1, top + 2);
 	cout << "Level: " << level;
+
+	Common::gotoXY(left + 1, top + 4);
+	cout << "To move use W, A, S, D";
+	Common::gotoXY(left + 1, top + 5);
+	cout << "or arrow keys";
+
+	Common::gotoXY(left + 1, top + 7);
+	cout << "Press ESC to pause the game";
+	Common::gotoXY(left + 1, top + 8);
+	cout << "and open the pause menu";
 }
 
 //******************************************//
@@ -341,16 +351,18 @@ void Game::initGameData()
 	}
 
 	for (int i = 0; i < _numOfLane; i++) {
-		if (lane[i] == "animal")
+		if (lane[i] == "animal") {
 			for (int j = 0; j < numOfObjs; j++) {
 				Animal* obj;
 				if (i % 2 == 0)
-					obj = new Horse(0);
+					obj = new Duck(0);
 				else
 					obj = new Camel(0);
 				initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
 			}
+		}
 		else if (lane[i] == "vehicle") {
+			int randomX = rand() % 20;
 			int laneTimer = rand() % (frame - (frame + 30) + 1) + frame;
 			trafficTimer.push_back({ laneTimer, laneTimer });
 			for (int j = 0; j < numOfObjs; j++) {
@@ -442,7 +454,7 @@ void Game::initGameFromFile() {
 			for (int j = 0; j < numOfObjs; j++) {
 				Animal* obj;
 				if (i % 2 == 0)
-					obj = new Horse(0);
+					obj = new Duck(0);
 				else
 					obj = new Camel(0);
 				initLane(an, obj, numOfObjs, rowSpacing, laneSpacing, j);
@@ -1080,9 +1092,6 @@ void Game::renderSettingMenu() {
 				break;
 			case 3:
 				sound->toggleAnimal();
-				break;
-			case 4:
-				sound->toggleMoving();
 				break;
 			default:
 				settingMenu = false;

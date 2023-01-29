@@ -11,8 +11,8 @@ void Common::setupConsole(int fontSize, int background, int text)
 	setConsoleTitle();
 	setConsoleColor(background, text);
 	disableMouseInput();
-hideScrollBars();
-hideCursor();
+	hideScrollBars();
+	hideCursor();
 }
 
 void Common::gotoXY(int left, int top)
@@ -149,6 +149,8 @@ int Common::getConsoleInput()
 			return 4;
 		case 80:				//xuống
 			return 5;
+		default:
+			return c;
 		}
 	}
 

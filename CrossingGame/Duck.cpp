@@ -1,12 +1,12 @@
-#include "Horse.h"
+#include "Duck.h"
 #include "Game.h"
-Horse::Horse(int type)
+Duck::Duck(int type)
 {
 	loadImage(type);
 	mX = mY = 0;
 }
 
-Horse::Horse(int type, int x, int y)
+Duck::Duck(int type, int x, int y)
 {
 	loadImage(type);
 	mX = x + LEFT_GAMEBOARD;
@@ -16,7 +16,7 @@ Horse::Horse(int type, int x, int y)
 
 //******************************************//
 
-void Horse::loadImage(int type)
+void Duck::loadImage(int type)
 {
 	string file;
 	switch (type) {
@@ -47,7 +47,7 @@ void Horse::loadImage(int type)
 
 //******************************************//
 
-int Horse::checkPos()
+int Duck::checkPos()
 {
 	if ((mX + mSpeed) >= WIDTH_GAMEBOARD + LEFT_GAMEBOARD) return -1;
 
@@ -57,7 +57,7 @@ int Horse::checkPos()
 	return 0;
 }
 
-void Horse::updatePos()
+void Duck::updatePos()
 {
 	if (!moving) return;
 
@@ -85,7 +85,7 @@ void Horse::updatePos()
 	}
 }
 
-void Horse::setImage(int i) {
+void Duck::setImage(int i) {
 	image.clear();
 	loadImage(i);
 }

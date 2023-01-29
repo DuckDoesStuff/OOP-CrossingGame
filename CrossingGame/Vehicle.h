@@ -2,7 +2,6 @@
 #include "Common.h"
 #include "Sound.h"
 #include <vector>
-#include <string>
 
 class Vehicle {
 protected:

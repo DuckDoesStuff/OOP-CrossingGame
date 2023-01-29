@@ -45,7 +45,7 @@
     <ClCompile Include="Camel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Horse.cpp">
+    <ClCompile Include="Duck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
@@ -80,7 +80,7 @@
     <ClInclude Include="Camel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Horse.h">
+    <ClInclude Include="Duck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h">

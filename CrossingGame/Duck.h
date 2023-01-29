@@ -1,10 +1,10 @@
 #pragma once
 #include "Animal.h"
 
-class Horse :public Animal {
+class Duck :public Animal {
 public:
-	Horse(int);
-	Horse(int, int, int);
+	Duck(int);
+	Duck(int, int, int);
 
 	//******************************************//
 

@@ -131,7 +131,7 @@
     <ClCompile Include="Camel.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Common.cpp" />
-    <ClCompile Include="Horse.cpp" />
+    <ClCompile Include="Duck.cpp" />
     <ClCompile Include="People.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Truck.cpp" />
@@ -145,7 +145,7 @@
     <ClInclude Include="Camel.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Horse.h" />
+    <ClInclude Include="Duck.h" />
     <ClInclude Include="People.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Truck.h" />

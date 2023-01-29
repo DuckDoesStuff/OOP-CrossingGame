@@ -41,7 +41,6 @@ void Sound::loadSettings() {
 	ifstream in("settings.txt");
 
 	in >> bg_theme;
-	in >> move_eff;
 	in >> animal_eff;
 	in >> vehicle_eff;
 	in >> volume;
@@ -53,7 +52,6 @@ void Sound::saveSettings() {
 	ofstream out("settings.txt");
 
 	out << bg_theme << endl;
-	out << move_eff << endl;
 	out << animal_eff << endl;
 	out << vehicle_eff << endl;
 	out << volume;

@@ -2,8 +2,6 @@
 
 #include <Windows.h>
 #include <fstream>
-#include <thread>
-#include <queue>
 #include <conio.h>
 #include <iostream>
 #include <string>
@@ -75,7 +73,6 @@ class Common {
 private:
 	static HWND consoleWindow;
 	static HANDLE consoleOutput;
-	
 public:
 	static void setupConsole(int fontSize, int background, int text);
 	static void gotoXY(int, int);

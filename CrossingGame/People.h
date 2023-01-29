@@ -2,9 +2,7 @@
 #include "Common.h"
 #include "Vehicle.h"
 #include "Animal.h"
-#include <thread>
 #include <vector>
-#include <string>
 
 class People {
 protected:
@@ -14,6 +12,9 @@ protected:
 	bool alive;
 	vector<Vehicle*>* g_vh;
 	vector<Animal*>* g_an;
+
+	Sound* sound = Sound::getInstance();
+
 public:
 	People();
 	People(int, int);
@@ -31,12 +32,12 @@ public:
 
 	//******************************************//
 
-	virtual void loadImage(int type);
-	virtual void drawToScreen();
-	virtual void eraseFromScreen();
-	virtual void dieAnimation();
-	virtual void move();
-	virtual void setAlive(bool a) { alive = a; }
+	void loadImage(int type);
+	void drawToScreen();
+	void eraseFromScreen();
+	void dieAnimation();
+	void move();
+	void setAlive(bool a) { alive = a; }
 
 	//******************************************//
 

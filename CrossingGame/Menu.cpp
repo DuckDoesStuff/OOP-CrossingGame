@@ -273,9 +273,6 @@ void Menu::renderSettCurOpt() {
 			case 3:
 				sound->toggleAnimal();
 				break;
-			case 4:
-				sound->toggleMoving();
-				break;
 			default:				//back to menu
 				loadSett = false;
 				break;
